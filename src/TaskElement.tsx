@@ -6,9 +6,8 @@ type TaskElementType = Task & {
 }
 
 export const TaskElement = ({ id, title, isDone, onRemoveTask }:TaskElementType) => {
-	const RemoveTaskHandler = () => {
-		onRemoveTask(id)
-	}
+	const RemoveTaskHandler = () => { onRemoveTask(id) }
+
 	return (
 		<li >
 			<Button title="X" callBack={ RemoveTaskHandler }/>

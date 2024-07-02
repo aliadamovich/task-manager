@@ -15,7 +15,6 @@ function App() {
 		{ id: v1(), title: 'GraphQL', isDone: false },
 	]
 
-
 	return (
 			<div className='App'>
 			<TodoList tasks={tasks}/>
