@@ -1,0 +1,27 @@
+.error {
+	border: 1px solid red;
+}
+
+.errorMessage {
+	color: red;
+}
+
+.isDone {
+	opacity: 0.5;
+}
+
+.buttons {
+	display: flex;
+	gap: 8px;
+}
+
+.button {
+	border-radius: 8px;
+	padding: 8px;
+	border: 1px solid rgb(196, 194, 194);
+	cursor: pointer;
+}
+
+.active {
+	background-color: rgb(209, 246, 209);
+}

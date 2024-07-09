@@ -1,17 +1,19 @@
 import { Button } from "./Button"
-import { Task } from "./TodoList"
+import s from './TodoList.module.css';
+import { Task } from "./App";
 
 type TaskElementType = Task & {
-	onRemoveTask: (id: string) => void
+	removeTaskHandler: (taskId: string) => void
+	changeTaskStatusHandler: (taskId: string, status: boolean) => void
 }
 
-export const TaskElement = ({ id, title, isDone, onRemoveTask }:TaskElementType) => {
-	const RemoveTaskHandler = () => { onRemoveTask(id) }
+export const TaskElement = ({ id, title, isDone, removeTaskHandler, changeTaskStatusHandler }:TaskElementType) => {
+
 
 	return (
-		<li >
-			<Button title="X" callBack={ RemoveTaskHandler }/>
-			<input type="checkbox" checked={isDone} />
+		<li className={isDone ? s.isDone : ''}>
+			<Button title="X" onClick={() => { removeTaskHandler(id) } }/>
+			<input type="checkbox" checked={isDone} onChange={(e) => changeTaskStatusHandler(id, e.currentTarget.checked)} />
 			<span>{title}</span>
 		</li>
 	)

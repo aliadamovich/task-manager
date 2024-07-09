@@ -1,48 +1,47 @@
-import { ChangeEvent, KeyboardEvent, useRef, useState } from "react"
+import { ChangeEvent, KeyboardEvent, useState } from "react"
 import { Button } from "./Button"
 import { TaskElement } from "./TaskElement"
-import { v1 } from "uuid"
+import s from './TodoList.module.css';
+import { FilterValueType, Task } from "./App";
 
 export type TodoListProps = {
+	todoListId: string
 	tasks: Task[]
-}
-
-export type Task = {
-	id: string
+	filter: FilterValueType
 	title: string
-	isDone: boolean
+	addTask: (value: string, todoListId: string) => void
+	changeFilter: (filter: FilterValueType, todoListId: string) => void
+	removeTask: (taskId: string, todoListId: string) => void
+	changeTaskStatus: (taskId: string, status: boolean, todoListId: string) => void
+	removeTodoList: (todoListId: string) => void
 }
 
-export type FilterValueType = 'All' | 'Completed' | 'Active'
 
-export const TodoList = ({ tasks }: TodoListProps) => {
-
+export const TodoList = ({ tasks, filter, title, todoListId, addTask, changeFilter, removeTask, changeTaskStatus, removeTodoList }: TodoListProps) => {
 	//useState
-	const [filter, setFilter] = useState<FilterValueType>('All');
-	const [activeTasks, setActiveTasks] = useState(tasks);
 	const [taskValue, setTaskValue] = useState<string>('');
+	const [error, setError] = useState<null | string>(null);
 
-	//та же задача но с Ref
-	// const inputRef = useRef<HTMLInputElement>(null)
-
-	//удаление таски
-	const onRemoveTask = (id: string) => {
-		setActiveTasks(activeTasks.filter(t => t.id !== id))
-	}
-
-	//фильтрация таски
-	const filterringTasks = () => {
-		let filteredTasks = activeTasks;
-
-		if (filter === 'Completed') {
-			return filteredTasks = activeTasks.filter(t => t.isDone === true)
-		} else if (filter === 'Active') {
-			return filteredTasks = activeTasks.filter(t => t.isDone === false)
+	//добавление таски
+	const addTaskHandler = () => {
+		if (taskValue.trim()) {
+			addTask(taskValue.trim(), todoListId)
+			setTaskValue('')
+		} else {
+			setError('Field is required')
 		}
-		return filteredTasks;
 	}
-	const setFiltersOnClick = (filter: FilterValueType) => {
-		setFilter(filter)
+
+	//добавление таски по нажатию на Enter
+	const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+		setError(null)
+		if (e.key === 'Enter') {
+			addTaskHandler()
+		}
+	}
+	//удаление таски
+	const removeTaskHandler = (taskId: string) => {
+		removeTask(taskId, todoListId)
 	}
 
 	//изменения в инпуте
@@ -50,65 +49,51 @@ export const TodoList = ({ tasks }: TodoListProps) => {
 		setTaskValue(e.currentTarget.value)
 	}
 
-	//добавление новой таски
-	const onAddTask = () => {
-		
-		if ( taskValue.trim() !== '') {
-			let newTask = {
-				id: v1(),
-				title: taskValue,
-				isDone: false
-			}
-			const addedTasks = [newTask, ...activeTasks]
-			setActiveTasks(addedTasks)
-			setTaskValue('')
-		}
+	//смена статуса таски isDone
+	const changeTaskStatusHandler = (taskId: string, status: boolean) => {
+		changeTaskStatus(taskId, status, todoListId)
+	}
 
-		//решение этой же задачи с помощью Ref
-		// if (inputRef.current) {
-		// 	let newTask = {
-		// 		id: v1(),
-		// 		title: inputRef.current.value,
-		// 		isDone: false
-		// 	}
-		// 	setActiveTasks([newTask, ...activeTasks])
-		// 	inputRef.current.value = '';
-		// }
+	//удаление всего тудулиста
+	const removeTodoListHandler = () => {
+		removeTodoList(todoListId)
 	}
-	//добавление такси по нажатию на Enter
-	const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === 'Enter') {
-			onAddTask()
-		}
+
+	//фильтрация
+	const changeFilterHandler = (filter: FilterValueType) => {
+		changeFilter(filter, todoListId)
 	}
-	const mappedTasks = !filterringTasks().length 
+
+	const mappedTasks = !tasks.length 
 		? <div>No tasks</div>
-		: filterringTasks().map(t => <TaskElement {...t} key={t.id} onRemoveTask={onRemoveTask} />)
+		: tasks.map(t => <TaskElement {...t} key={t.id} removeTaskHandler={removeTaskHandler} changeTaskStatusHandler={changeTaskStatusHandler}/>)
 
-
-		const changeFilterAll = () => {
-			setFiltersOnClick('All')
-		}
 	return(
 		<div>
-			<h3></h3>
+			<h3>{title}
+				<Button title='X' onClick={removeTodoListHandler} />
+			</h3>
+			
 			<div>
-				<input value={taskValue} onChange={onChangeHandler} onKeyUp={onKeyPress}
+				<input value={taskValue} onChange={onChangeHandler} onKeyUp={onKeyPressHandler} className={error ? s.error : ''}
 					// ref={inputRef}
 				/>
-				<Button title="+" callBack={onAddTask}/>
+				<Button title="+" onClick={addTaskHandler}/>
+				{error && <div className={s.errorMessage}>{error}</div>}
 			</div>
 			<ul>
 				{ mappedTasks }
 			</ul>
-			<div>
-				<Button title="All" callBack={()=>setFiltersOnClick('All')} />
-				<Button title="Active" callBack={()=>setFiltersOnClick('Active')} />
-				<Button title="Completed" callBack={()=>setFiltersOnClick('Completed')} />
-
-				<button onClick={changeFilterAll}>all</button>
-				<button onClick={() => setFiltersOnClick('Active')}>active</button>
-				<button onClick={()=>setFiltersOnClick('Completed')}>completed</button>
+			<div className={s.buttons}>
+				<Button title="All" onClick={()=>changeFilterHandler('All')}
+				className={filter === 'All' ? `${s.active} ${s.button}` : s.button}
+				/>
+				<Button title="Active" onClick={() => changeFilterHandler('Active')}
+				className={filter === 'Active' ? `${s.active} ${s.button}` : s.button}
+				/>
+				<Button title="Completed" onClick={() => changeFilterHandler('Completed')}
+				className={filter === 'Completed' ? `${s.active} ${s.button}` : s.button}
+				/>
 			</div>
 		</div>
 	)
