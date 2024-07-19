@@ -8,4 +8,8 @@
   margin-right: 50px;
 }
 
+h1 {
+	display: flex;
+	gap: 20px;
+}
 
