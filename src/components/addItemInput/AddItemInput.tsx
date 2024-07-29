@@ -1,12 +1,15 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
 import { Button } from '../../Button'
 import s from './../../TodoList.module.css';
+import { IconButton, TextField } from '@mui/material';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 type AddItemInputType = {
 	addItem: (value: string) => void
+	label: string
 }
 
-export const AddItemInput = ({ addItem }: AddItemInputType) => {
+export const AddItemInput = ({ addItem, label }: AddItemInputType) => {
 
 	const [itemValue, setItemValue] = useState<string>('');
 	const [error, setError] = useState<null | string>(null);
@@ -35,15 +38,21 @@ export const AddItemInput = ({ addItem }: AddItemInputType) => {
 	}
 
 	return (
-		<div>
-			<input value={itemValue} 
+		<div style={{display: 'flex'}}>
+			<TextField 
+			label={label} variant="standard" color='secondary'
+			value={itemValue} 
 			onChange={onChangeHandler} 
 			onKeyUp={onKeyPressHandler} 
-			className={error ? s.error : ''}
-			// ref={inputRef}
+			helperText={error}
+			error={!!error}
+			fullWidth
+			// className={error ? s.error : ''}
 			/>
-			<Button title="+" onClick={addItemHandler} />
-			{error && <div className={s.errorMessage}>{error}</div>}
+			<IconButton title="+" onClick={addItemHandler} color="secondary">
+				<ControlPointIcon />
+			</IconButton>
+			{/* {error && <div className={s.errorMessage}>{error}</div>} */}
 		</div>
 	)
 }

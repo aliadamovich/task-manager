@@ -5,7 +5,7 @@ type AccordeopnType = {
 	isOpen: boolean
 }
 
-const AccordeonData = [
+export const AccordeonData = [
 	{
 		id: 1, title: 'Header 1', content: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime similique, corrupti impedit vero explicabo eveniet fuga. Eaque ea rerum harum atque velit nihil, aliquam earum, itaque molestiae unde, ad a'},
 		{id: 2, title: 'Header 2', content: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime similique,Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime similique,Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime similique,Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime similique, corrupti impedit vero explicabo eveniet fuga. Eaque ea rerum harum atque velit nihil, aliquam earum, itaque molestiae unde, ad a'},
@@ -26,7 +26,7 @@ export const Accordeon = () => {
 			<h2>Accordeon</h2>
 			{AccordeonData.map(a => {
 				return <AccBody key={a.id} isOpen={openId === a.id}>
-					<Title onClick={() => { onAccClick(a.id) }}>
+								<Title onClick={() => { onAccClick(a.id) }}>
 									<h3>{a.title}</h3>
 									<Icon>&gt;</Icon>
 								</Title>
@@ -43,7 +43,7 @@ export const Accordeon = () => {
 const StyledAccordeon = styled.div`
 	width: 500px;
 `
-const AccBody = styled.div<AccordeopnType>`
+export const AccBody = styled.div<AccordeopnType>`
 	width: 100%;
 	border-radius: 20px;
 	background-color: #e5e3e3;
@@ -62,13 +62,13 @@ const AccBody = styled.div<AccordeopnType>`
 `}
 `
 
-const Icon = styled.span`
+export const Icon = styled.span`
 	padding: 10px;
 	transform: rotate(90deg);
 	transition: all 0.3s ease 0s;
 `
 
-const Title = styled.div`
+export const Title = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -78,7 +78,7 @@ const Title = styled.div`
 	cursor: pointer;
 `
 
-const Content = styled.div`
+export const Content = styled.div`
 	display: none;
 	padding: 10px;
 `

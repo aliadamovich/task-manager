@@ -3,6 +3,8 @@ import './App.css';
 import { TodoList } from './TodoList';
 import { useState } from 'react';
 import { AddItemInput } from './components/addItemInput/AddItemInput';
+import Header from './components/layout/header/Header';
+import { Container, Grid } from '@mui/material';
 
 
 export type Task = {
@@ -28,10 +30,18 @@ function App() {
 	//массив с тудулистами
 	const todoList1 = v1();
 	const todoList2 = v1();
+	const todoList3 = v1();
+	const todoList4 = v1();
+	const todoList5 = v1();
+	const todoList6 = v1();
 
 	const [todoLists, setTodoLists] = useState<todoListsType[]>([
 		{ id: todoList1, title: 'What to learn:', filter: 'All'},
 		{ id: todoList2, title: 'What to buy:', filter: 'All'},
+		{ id: todoList3, title: 'What to read:', filter: 'All'},
+		{ id: todoList4, title: 'What to do:', filter: 'All'},
+		{ id: todoList5, title: 'What to clean:', filter: 'All'},
+		{ id: todoList6, title: 'Where to go:', filter: 'All'},
 	])
 
 	const [allTasks, setAllTasks] = useState<TaskStateType>({
@@ -45,8 +55,32 @@ function App() {
 		[todoList2]: [
 			{ id: v1(), title: 'Bread', isDone: false },
 			{ id: v1(), title: 'Milk', isDone: true },
+		],
+		[todoList3]: [
+			{ id: v1(), title: 'HTML&CSS', isDone: true },
+			{ id: v1(), title: 'JS', isDone: true },
+			{ id: v1(), title: 'ReactJS', isDone: false },
+			{ id: v1(), title: 'Rest API', isDone: false },
+			{ id: v1(), title: 'GraphQL', isDone: false }
+		],
+		[todoList4]: [
+			{ id: v1(), title: 'Bread', isDone: false },
+			{ id: v1(), title: 'Milk', isDone: true },
+		],
+		[todoList5]: [
+			{ id: v1(), title: 'HTML&CSS', isDone: true },
+			{ id: v1(), title: 'JS', isDone: true },
+			{ id: v1(), title: 'ReactJS', isDone: false },
+			{ id: v1(), title: 'Rest API', isDone: false },
+			{ id: v1(), title: 'GraphQL', isDone: false }
+		],
+		[todoList6]: [
+			{ id: v1(), title: 'Bread', isDone: false },
+			{ id: v1(), title: 'Milk', isDone: true },
 		]
 	})
+
+	//* tasks
 
 	//добавление новой таски
 	const addTask = (value: string, todoListId: string) => {
@@ -55,53 +89,51 @@ function App() {
 				title: value,
 				isDone: false
 			}
-
-		// const newTodoListArray = [newTask, ...allTasks[todoListId]];
-		// setAllTasks({ ...allTasks, [todoListId]: newTodoListArray })
-
 		setAllTasks({ ...allTasks, [todoListId]: [newTask, ...allTasks[todoListId]]})
 	}
 
 	//удаление таски
 	const removeTask = (taskId: string, todoListId: string) => {
-		// const newTodoListArray = allTasks[todoListId].filter(t => t.id !== taskId);
-		// setAllTasks({ ...allTasks, [todoListId]: newTodoListArray });
-
 		setAllTasks({...allTasks, [todoListId]: allTasks[todoListId].filter(t => t.id !== taskId)})
 	}
 
 	//смена статуса таски isDone
 	const changeTaskStatus = (taskId: string, status: boolean, todoListId: string) => {
-		// const newTodoListArray = allTasks[todoListId].map(task => task.id === taskId ? {...task, isDone: status} : task);
-		// setAllTasks({ ...allTasks, [todoListId]: newTodoListArray })
-
 		setAllTasks({ ...allTasks, [todoListId]: allTasks[todoListId].map(t => t.id === taskId ? {...t, isDone: status} : t)})
 	}
 
-	//удаление целиом тудулиста
-	const removeTodoList = (todolistId: string) => {
-		setTodoLists(todoLists.filter(tl => tl.id !== todolistId))
-		delete allTasks[todolistId]
-		setAllTasks({...allTasks})
+	//изменение названия таски
+	const changeTaskTitle = (value: string, taskId: string, todoListId: string) => {
+		setAllTasks({ ...allTasks, [todoListId]: allTasks[todoListId].map(t => t.id === taskId ? { ...t, title: value } : t) })
 	}
 
-	//изменение значения фильтра по клику и перерисовка массива todoLists
-	const changeFilter = (filterValue: FilterValueType, todoListId: string) => {
-		setTodoLists(todoLists.map(td => td.id === todoListId ? { ...td, filter: filterValue } : td))
-	}
+	//* todolists
 
 	//Создание нового тудулиста
-	const addTodoListHandler = (titleValue: string) => {
+	const addTodoList = (titleValue: string) => {
 		const newTodo: todoListsType = { id: v1(), title: titleValue, filter: 'All' }
 		setTodoLists([...todoLists, newTodo])
 		setAllTasks({...allTasks, [newTodo.id] : []})
 	}
 
-	const changeTitleValue = (value: string, taskId: string, todoListId: string) => {
-
-		setAllTasks({ ...allTasks, [todoListId]: allTasks[todoListId].map(t => t.id === taskId ? {...t, title: value} : t)})
-
+	//удаление целиком тудулиста
+	const removeTodoList = (todolistId: string) => {
+		setTodoLists(todoLists.filter(tl => tl.id !== todolistId))
+		delete allTasks[todolistId]
+		setAllTasks({ ...allTasks })
 	}
+
+	//изменение фильтра и перерисовка todoLists
+	const changeTodoFilter = (filterValue: FilterValueType, todoListId: string) => {
+		setTodoLists(todoLists.map(td => td.id === todoListId ? { ...td, filter: filterValue } : td))
+	}
+
+	//изменение названия тудулиста
+	const changeTodoTitle = (title: string, todoListId: string) => {
+		setTodoLists(todoLists.map(td => td.id === todoListId ? { ...td, title: title } : td))
+	}
+
+	//* UI
 
 	/* маппим все туду-листы, в каждый передаем фильтр чтобы свой filteredtasks создавался в каждой в завис-ти от значения фильтра */
 	const todolistComponent: Array<JSX.Element> = todoLists.map(tl => {
@@ -121,22 +153,32 @@ function App() {
 						filter={tl.filter}
 
 						addTask={addTask}
-						changeFilter={changeFilter}
+						changeFilter={changeTodoFilter}
 						removeTask={removeTask}
 						changeTaskStatus={changeTaskStatus}
 						removeTodoList={removeTodoList}
-						changeTitleValue={changeTitleValue}
+						changeTaskTitle={changeTaskTitle}
+						changeTodoTitle={changeTodoTitle}
 					/>
 	})
 
 
 	return (
-		<div className='App'>
-			<h1>Create new TodoList: <AddItemInput addItem={addTodoListHandler} /></h1>
-		
-			{ todolistComponent }
-		
-		</div>
+		<>
+			<Header />
+			<Container sx={{mt: '1rem'}}>
+				<div className='App'>
+					<div style={{ marginBottom: '2rem' }}>
+						<AddItemInput addItem={addTodoList} label='Add new TODO list' />
+					</div>
+
+					<Grid container spacing={5}>
+						{todolistComponent}
+					</Grid>
+
+				</div>
+			</Container>
+		</>
 	);
 }
 
