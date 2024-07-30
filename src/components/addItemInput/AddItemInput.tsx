@@ -38,22 +38,23 @@ export const AddItemInput = ({ addItem, label }: AddItemInputType) => {
 	}
 
 	return (
-		<div style={{display: 'flex'}}>
-			<TextField 
-			label={label} variant="standard" color='secondary'
-			value={itemValue} 
-			onChange={onChangeHandler} 
-			onKeyUp={onKeyPressHandler} 
-			helperText={error}
-			error={!!error}
-			fullWidth
-			// className={error ? s.error : ''}
-			/>
-			<IconButton title="+" onClick={addItemHandler} color="secondary">
-				<ControlPointIcon />
-			</IconButton>
-			{/* {error && <div className={s.errorMessage}>{error}</div>} */}
-		</div>
+		<div style={{ display: 'flex', width: '100%' }}>
+			
+				<TextField 
+				label={label} variant="standard" color='secondary'
+				// sx={{flexGrow: 1}}
+				value={itemValue} 
+				onChange={onChangeHandler} 
+				onKeyUp={onKeyPressHandler} 
+				helperText={error}
+				error={!!error}
+				fullWidth
+				/>
+				<IconButton title="+" onClick={addItemHandler} color="secondary">
+					<ControlPointIcon />
+				</IconButton>
+				</div>
+			
 	)
 }
 

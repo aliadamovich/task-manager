@@ -4,7 +4,10 @@ import { TodoList } from './TodoList';
 import { useState } from 'react';
 import { AddItemInput } from './components/addItemInput/AddItemInput';
 import Header from './components/layout/header/Header';
-import { Container, Grid } from '@mui/material';
+import { Container, createTheme, CssBaseline, Grid, ThemeProvider } from '@mui/material';
+import {Select} from './Select';
+import { blue, indigo } from '@mui/material/colors';
+import { FilterButton } from './FilterButton';
 
 
 export type Task = {
@@ -18,7 +21,7 @@ type todoListsType = {
 	filter: FilterValueType 
 }
 
-type TaskStateType = {
+export type TaskStateType = {
 	[todolistId: string]: Task[]
 }
 
@@ -162,23 +165,40 @@ function App() {
 					/>
 	})
 
+	const [isLight, setIsLight] = useState(true);
+
+
+  const theme = createTheme({
+
+		palette: {
+			primary: {
+				main: '#6DDAEF',
+			},
+			secondary: {
+				main: '#AE86A0', // Используйте однотонный цвет здесь
+			},
+			mode: isLight ? 'light' : 'dark',
+		},
+	});
 
 	return (
-		<>
-			<Header />
-			<Container sx={{mt: '1rem'}}>
-				<div className='App'>
-					<div style={{ marginBottom: '2rem' }}>
-						<AddItemInput addItem={addTodoList} label='Add new TODO list' />
-					</div>
-
-					<Grid container spacing={5}>
-						{todolistComponent}
-					</Grid>
-
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
+					<div className='App'>
+					<Header setIsLight={setIsLight} isLight={isLight}/>
+					<Container sx={{ mt: '1rem' }} fixed>
+						<Grid container sx={{ mb: '2rem' }}>
+							<AddItemInput addItem={addTodoList} label='Add new TODO list' />
+						</Grid>
+	
+						<Grid container spacing={5}>
+							{todolistComponent}
+						</Grid>
+				</Container>
+				<Select/>
+				<FilterButton filter={theme.palette.primary.dark}>All</FilterButton>
 				</div>
-			</Container>
-		</>
+				</ThemeProvider>
 	);
 }
 

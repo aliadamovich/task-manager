@@ -2,8 +2,8 @@ import { Button } from "./Button"
 import s from './TodoList.module.css';
 import { Task } from "./App";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
-import { Checkbox, IconButton } from "@mui/material";
-import ClearIcon from '@mui/icons-material/Clear';
+import { Checkbox, IconButton, ListItem } from "@mui/material";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 type TaskElementType = Task & {
 	removeTaskHandler: (taskId: string) => void
@@ -18,17 +18,22 @@ export const TaskElement = ({ id, title, isDone, removeTaskHandler, changeTaskSt
 	}
 
 	return (
-		<div className={isDone ? s.isDone : ''}>
-			<IconButton title='X' onClick={() => { removeTaskHandler(id) }}>
-				<ClearIcon fontSize="small" />
-			</IconButton>
+		<ListItem disablePadding 
+							sx={{ justifyContent: 'space-between', opacity: isDone ? 0.3 : 1 }}>
+			
 
-			<Checkbox 
-				checked={isDone}
-				size="small"
-				color="secondary"
-				onChange={(e) => changeTaskStatusHandler(id, e.currentTarget.checked)} />
-			<EditableSpan title={title} onChange={onChangeHandler}/>
-		</div>
+			<div>
+				<Checkbox 
+					checked={isDone}
+					size="small"
+					color="secondary"
+					onChange={(e) => changeTaskStatusHandler(id, e.currentTarget.checked)} />
+				<EditableSpan title={title} onChange={onChangeHandler}/>
+			</div>
+
+			<IconButton title='X' onClick={() => { removeTaskHandler(id) }}>
+				<DeleteOutlineIcon fontSize="small" />
+			</IconButton>
+		</ListItem>
 	)
 }

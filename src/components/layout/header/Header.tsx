@@ -2,8 +2,14 @@ import React from 'react'
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
+import Switch from '@mui/material/Switch';
 
-const Header = () => {
+type HeaderPropsTtype = {
+	setIsLight: (isLight: boolean) => void
+	isLight: boolean
+}
+
+const Header = ({ setIsLight, isLight }: HeaderPropsTtype) => {
 	return (
 		<AppBar color='secondary' position='static'>
 			<Toolbar>
@@ -29,6 +35,7 @@ const Header = () => {
 					<AccountCircle />
 				</IconButton>
 				
+				<Switch onChange={() => {setIsLight(!isLight)}} color='secondary'/>
 			</Toolbar>
 		</AppBar>
 	)
