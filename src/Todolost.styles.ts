@@ -14,3 +14,6 @@ export const getListItemSx = (isDone: boolean): SxProps => ({
 
 
 //в компоненте в sx прописываем этот объект либо функцию c вызываемым аргументом
+
+
+

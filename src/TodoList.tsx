@@ -25,7 +25,6 @@ export type TodoListProps = {
 
 
 export const TodoList = ({ tasks, filter, title, todoListId, addTask, changeFilter, removeTask, changeTaskStatus, removeTodoList, changeTaskTitle, changeTodoTitle }: TodoListProps) => {
-
 	const theme = useTheme();
 
 	const addTaskCallback = (value: string) => {
@@ -102,7 +101,7 @@ export const TodoList = ({ tasks, filter, title, todoListId, addTask, changeFilt
 				</List>
 				
 				<div className={s.buttons} style={{marginBottom: '20px'}}>
-					<Button 
+					<Button
 						size="small"
 						variant={filter === 'All' ? 'contained' : 'text'}
 						onClick={()=>changeFilterHandler('All')}>

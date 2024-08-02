@@ -1,9 +1,8 @@
 import React from 'react'
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, FormControlLabel, IconButton, Toolbar, Typography } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
-import Switch from '@mui/material/Switch';
-
+import {MaterialUISwitch} from './SwitchStyled'
 type HeaderPropsTtype = {
 	setIsLight: (isLight: boolean) => void
 	isLight: boolean
@@ -35,7 +34,11 @@ const Header = ({ setIsLight, isLight }: HeaderPropsTtype) => {
 					<AccountCircle />
 				</IconButton>
 				
-				<Switch onChange={() => {setIsLight(!isLight)}} color='secondary'/>
+				<FormControlLabel
+					control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
+					label=''
+					onChange={() => { setIsLight(!isLight) }}
+				/>
 			</Toolbar>
 		</AppBar>
 	)

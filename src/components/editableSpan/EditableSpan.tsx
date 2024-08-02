@@ -27,6 +27,11 @@ export const EditableSpan = ({ title, onChange }: EditableSpanType) => {
 		return (
 			editMode
 			? <TextField type="text" variant="standard" color="secondary" value={titleValue} onBlur={onBlurHandler} onChange={onInputChangeHandler} autoFocus/>
-			: <Typography variant='body1' component='span' onDoubleClick={onSpanClickHandler}>{title}</Typography> 
+			: <Typography 
+			variant='body1' 
+			component='span' 
+			onDoubleClick={onSpanClickHandler}
+					sx={{ flexGrow: 1, cursor: 'pointer'}}
+			>{title}</Typography> 
 		)
 }

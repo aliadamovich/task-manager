@@ -181,11 +181,25 @@ function App() {
 		},
 	});
 
+	//стейт для селекта (тренировка)
+	const [value, setValue] = useState('2')
+
+	const selectItems = [
+		{ value: '1', title: 'Minsk' },
+		{ value: '2', title: 'Moscow' },
+		{ value: '3', title: 'Kiev' },
+	];
+
+	const onChange = (val: string) => {
+		setValue(val)
+	}
+
 	return (
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 					<div className='App'>
 					<Header setIsLight={setIsLight} isLight={isLight}/>
+				<Select items={selectItems} initialValue={value} onChange={onChange} />
 					<Container sx={{ mt: '1rem' }} fixed>
 						<Grid container sx={{ mb: '2rem' }}>
 							<AddItemInput addItem={addTodoList} label='Add new TODO list' />
@@ -195,8 +209,7 @@ function App() {
 							{todolistComponent}
 						</Grid>
 				</Container>
-				<Select/>
-				<FilterButton filter={theme.palette.primary.dark}>All</FilterButton>
+				
 				</div>
 				</ThemeProvider>
 	);

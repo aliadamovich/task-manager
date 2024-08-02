@@ -1,6 +1,7 @@
 import React from 'react'
 import {styled} from '@mui/material/styles'
 import Button from '@mui/material/Button'
+import { ListItem } from '@mui/material';
 
 
 export const MenuButton = styled(Button)({
@@ -24,5 +25,20 @@ export const FilterButton = styled(Button)<FilterButtonPropsType>(({filter, them
 	background: filter || theme.palette.primary.main,
 }))
 
+type IsDoneType = {
+	isDone: boolean
+}
+export const StyledListItem = styled(ListItem)<IsDoneType>(({ isDone }) => ({
+  justifyContent: "space-between",
+  padding: 0,
+  opacity: isDone ? 0.3 : 1,
+	
 
-//в самой компоненте пропсываем bg как пропс
+  "&:hover": {
+    background: "#ededed6d",
+    borderRadius: "4px",
+    button: {
+      display: "block",
+    },
+  },
+}));

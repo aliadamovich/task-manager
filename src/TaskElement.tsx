@@ -4,6 +4,7 @@ import { Task } from "./App";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
 import { Checkbox, IconButton, ListItem } from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { StyledListItem } from "./FilterButton";
 
 type TaskElementType = Task & {
 	removeTaskHandler: (taskId: string) => void
@@ -18,11 +19,13 @@ export const TaskElement = ({ id, title, isDone, removeTaskHandler, changeTaskSt
 	}
 
 	return (
-		<ListItem disablePadding 
-							sx={{ justifyContent: 'space-between', opacity: isDone ? 0.3 : 1 }}>
+		// <ListItem disablePadding 
+		// 					sx={{ justifyContent: 'space-between', opacity: isDone ? 0.3 : 1 }}>
 			
+			<StyledListItem isDone={isDone}>
 
-			<div>
+			
+			<div style={{flexGrow: 1, display: 'flex', alignItems: 'center'}}>
 				<Checkbox 
 					checked={isDone}
 					size="small"
@@ -31,9 +34,11 @@ export const TaskElement = ({ id, title, isDone, removeTaskHandler, changeTaskSt
 				<EditableSpan title={title} onChange={onChangeHandler}/>
 			</div>
 
-			<IconButton title='X' onClick={() => { removeTaskHandler(id) }}>
+			<IconButton onClick={() => { removeTaskHandler(id) }} sx={{display: 'none', p: '2px'}}>
 				<DeleteOutlineIcon fontSize="small" />
 			</IconButton>
-		</ListItem>
+		{/* </ListItem> */}
+		</StyledListItem >
+
 	)
 }
