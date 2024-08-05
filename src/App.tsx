@@ -6,16 +6,14 @@ import { AddItemInput } from './components/addItemInput/AddItemInput';
 import Header from './components/layout/header/Header';
 import { Container, createTheme, CssBaseline, Grid, ThemeProvider } from '@mui/material';
 import {Select} from './Select';
-import { blue, indigo } from '@mui/material/colors';
-import { FilterButton } from './FilterButton';
-
 
 export type Task = {
 	id: string
 	title: string
 	isDone: boolean
 }
-type todoListsType = { 
+
+export type todoListsType = { 
 	id: string,
 	title: string
 	filter: FilterValueType 
