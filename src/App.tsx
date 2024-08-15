@@ -13,7 +13,7 @@ export type Task = {
 	isDone: boolean
 }
 
-export type todoListsType = { 
+export type TodoListsType = { 
 	id: string,
 	title: string
 	filter: FilterValueType 
@@ -22,6 +22,7 @@ export type todoListsType = {
 export type TaskStateType = {
 	[todolistId: string]: Task[]
 }
+
 
 
 export type FilterValueType = 'All' | 'Completed' | 'Active'
@@ -36,7 +37,7 @@ function App() {
 	const todoList5 = v1();
 	const todoList6 = v1();
 
-	const [todoLists, setTodoLists] = useState<todoListsType[]>([
+	const [todoLists, setTodoLists] = useState<TodoListsType[]>([
 		{ id: todoList1, title: 'What to learn:', filter: 'All'},
 		{ id: todoList2, title: 'What to buy:', filter: 'All'},
 		{ id: todoList3, title: 'What to read:', filter: 'All'},
@@ -112,7 +113,7 @@ function App() {
 
 	//Создание нового тудулиста
 	const addTodoList = (titleValue: string) => {
-		const newTodo: todoListsType = { id: v1(), title: titleValue, filter: 'All' }
+		const newTodo: TodoListsType = { id: v1(), title: titleValue, filter: 'All' }
 		setTodoLists([...todoLists, newTodo])
 		setAllTasks({...allTasks, [newTodo.id] : []})
 	}
@@ -126,7 +127,8 @@ function App() {
 
 	//изменение фильтра и перерисовка todoLists
 	const changeTodoFilter = (filterValue: FilterValueType, todoListId: string) => {
-		setTodoLists(todoLists.map(td => td.id === todoListId ? { ...td, filter: filterValue } : td))
+		const nextState: TodoListsType[] = todoLists.map(td => td.id === todoListId ? { ...td, filter: filterValue } : td)
+		setTodoLists(nextState)
 	}
 
 	//изменение названия тудулиста
@@ -197,7 +199,6 @@ function App() {
 				<CssBaseline />
 					<div className='App'>
 					<Header setIsLight={setIsLight} isLight={isLight}/>
-				<Select items={selectItems} initialValue={value} onChange={onChange} />
 					<Container sx={{ mt: '1rem' }} fixed>
 						<Grid container sx={{ mb: '2rem' }}>
 							<AddItemInput addItem={addTodoList} label='Add new TODO list' />
@@ -208,6 +209,7 @@ function App() {
 						</Grid>
 				</Container>
 				
+					{/* <Select items={selectItems} initialValue={value} onChange={onChange} /> */}
 				</div>
 				</ThemeProvider>
 	);
