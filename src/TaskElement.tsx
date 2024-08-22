@@ -1,8 +1,7 @@
-import { Task } from "./App";
+import { Task } from "./all_study_comp/App_old";
+import { Box, Checkbox } from "@mui/material";
+import { getListItemSx } from "./styles/Todolost.styles";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
-import { Checkbox, IconButton, ListItem } from "@mui/material";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { getListItemSx } from "./Todolost.styles";
 
 type TaskElementType = Task & {
 	removeTaskHandler: (taskId: string) => void
@@ -12,23 +11,22 @@ type TaskElementType = Task & {
 
 export const TaskElement = ({ id, title, isDone, removeTaskHandler, changeTaskStatusHandler, changeTitleValue }:TaskElementType) => {
 
+	const onInputChange = (value: string) => {
+		changeTitleValue(value, id)
+	}
+
+
 	return (
-		<ListItem disablePadding sx={getListItemSx(isDone)}>
+		<Box sx={getListItemSx(isDone)}>
 
-			<div style={{flexGrow: 1, display: 'flex', alignItems: 'center'}}>
-				<Checkbox checked={isDone} size="small" color="secondary"
-					onChange={(e) => changeTaskStatusHandler(id, e.currentTarget.checked)} 
-				/>
-				<EditableSpan title={title}
-					onChange={(value) => {changeTitleValue(value, id)}}
-				/>
-			</div>
+			<Checkbox checked={isDone} size="small" color="secondary" sx={{marginRight: '10px'}}
+				onChange={(e) => changeTaskStatusHandler(id, e.currentTarget.checked)} 
+			/>
+			<EditableSpan title={title} 
+				onChange={onInputChange}
+				removeItem={() => { removeTaskHandler(id) }}
+			/>
 
-			<IconButton onClick={() => { removeTaskHandler(id) }} sx={{display: 'none', p: '2px'}}>
-				<DeleteOutlineIcon fontSize="small" />
-			</IconButton>
-
-		 </ListItem>
-
+		 </Box>
 	)
 }

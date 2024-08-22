@@ -1,69 +1,70 @@
-import { ChangeEvent, KeyboardEvent, useState } from "react"
 import { TaskElement } from "./TaskElement"
-import s from './TodoList.module.css';
-import { FilterValueType, Task, TaskStateType } from "./App";
+import { FilterValueType, Task, TodoListsType } from "./all_study_comp/App_old";
 import { AddItemInput } from "./components/addItemInput/AddItemInput";
+import { Button, Chip, Divider, Grid, List, Paper } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { AppRootStateType } from "./store/store";
+import { addTaskAС, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from "./store/reducers/tasks-reducer";
+import { changeTodolistFilterAС, changeTodolistTitleAС, removeTodolistAС } from "./store/reducers/todolist-reducer";
+import { todolistTitleStyle } from "./styles/Todolost.styles";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
-import { Button, Chip, Divider, Grid, IconButton, List, Paper, Typography, useTheme } from "@mui/material";
-import ClearIcon from '@mui/icons-material/Clear';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { FilterButton, MenuButton } from "./FilterButton";
 
 export type TodoListProps = {
-	todoListId: string
-	tasks: Task[]
-	filter: FilterValueType
-	title: string
-	addTask: (value: string, todoListId: string) => void
-	changeFilter: (filter: FilterValueType, todoListId: string) => void
-	removeTask: (taskId: string, todoListId: string) => void
-	changeTaskStatus: (taskId: string, status: boolean, todoListId: string) => void
-	removeTodoList: (todoListId: string) => void
-	changeTaskTitle: (taskId: string, value: string, todoListId: string) => void
-	changeTodoTitle: (value: string, todoListId: string) => void
+	todolist: TodoListsType
 }
 
 
-export const TodoList = ({ tasks, filter, title, todoListId, addTask, changeFilter, removeTask, changeTaskStatus, removeTodoList, changeTaskTitle, changeTodoTitle }: TodoListProps) => {
-	const theme = useTheme();
+export const TodoList = ({ todolist }: TodoListProps) => {
+	const {id, filter, title} = todolist ;
+
+	let tasks = useSelector<AppRootStateType, Task[]>(state => state.tasks[id])
+	const dispatch = useDispatch();
 
 	const addTaskCallback = (value: string) => {
-		addTask(value, todoListId)
+		dispatch(addTaskAС(id, value))
 	}
 
 	//удаление таски
 	const removeTaskHandler = (taskId: string) => {
-		removeTask(taskId, todoListId)
+		dispatch(removeTaskAC(taskId, id))
 	}
 
 	//смена статуса таски isDone
 	const changeTaskStatusHandler = (taskId: string, status: boolean) => {
-		changeTaskStatus(taskId, status, todoListId)
+		dispatch(changeTaskStatusAC(id, taskId, status))
 	}
 
 	//изменение текста таски 
-	const changeTitleHandler = (value: string, id: string) => {
-		changeTaskTitle(value, id, todoListId)
+	const changeTitleHandler = (value: string, taskId: string) => {
+		dispatch(changeTaskTitleAC(id, taskId, value))
 	}
 
 	//удаление всего тудулиста
 	const removeTodoListHandler = () => {
-		removeTodoList(todoListId)
+		dispatch(removeTodolistAС(id))
 	}
 
 	//изменение названия тудулиста
 	const changeTodoTitleCallback = (newTitle: string) => {
-		changeTodoTitle(newTitle, todoListId)
+		dispatch(changeTodolistTitleAС(id, newTitle))
 	}
 
 	//фильтрация
 	const changeFilterHandler = (filter: FilterValueType) => {
-		changeFilter(filter, todoListId)
+		dispatch(changeTodolistFilterAС(id, filter))
 	}
-//создаю фиьтрующую функцию чтобы в разных местах разместить таски сделанные и невыполненные
-	const filteredTasks = (filter: boolean): JSX.Element[] => {
 
-			return tasks.filter(t => t.isDone === filter).map(t =>
+
+//создаю фиьтрующую функцию чтобы в разных местах разместить таски сделанные и невыполненные
+	const filteredTasks = (isDone: boolean): JSX.Element[] => {
+
+		if (filter === 'Completed') {
+			tasks = tasks.filter(t => t.isDone === true)
+		} else if (filter === 'Active') {
+			tasks = tasks.filter(t => t.isDone === false)
+		}
+
+			return tasks.filter(t => t.isDone === isDone).map(t =>
 				<TaskElement
 					{...t}
 					key={t.id}
@@ -76,49 +77,37 @@ export const TodoList = ({ tasks, filter, title, todoListId, addTask, changeFilt
 	return(
 		<Grid item xs={12} md={4} >
 			<Paper elevation={3} sx={{ padding: 2, display: 'flex', flexDirection: 'column', height: '100%'}}>
-				<h3 style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0 20px'}}>
-					<EditableSpan title={title} onChange={changeTodoTitleCallback}/>
-					<IconButton onClick={removeTodoListHandler}>
-						<DeleteOutlineIcon fontSize="small"/>
-					</IconButton>
-				</h3>
 
-				<Divider />
+				<h2 style={todolistTitleStyle}>
+					<EditableSpan title={title} onChange={changeTodoTitleCallback} removeItem={removeTodoListHandler}/>
+				</h2>
 
 				<List sx={{flex: '1 1 auto', mt: '10px'}}>
+
 					{filteredTasks(false).length === 0 
 						? <div>No tasks</div>
 						: filteredTasks(false)}
 
 					{filteredTasks(true).length > 0
 						&& <>
-								<Divider textAlign="right" sx={{m: '10px 0'}}>
-									<Chip label="Done" size="small" />
-								</Divider>
+								<Divider textAlign="right" sx={{m: '10px 0'}}><Chip label="Done" size="small" /></Divider>
 								{filteredTasks(true)}
 							</>
 					}
 				</List>
 				
-				<div className={s.buttons} style={{marginBottom: '20px'}}>
+				<div style={{ margin: '20px 0', display: 'flex', gap: '8px'}}>
 					<Button
-						size="small"
-						variant={filter === 'All' ? 'contained' : 'text'}
+						size="small" variant={filter === 'All' ? 'contained' : 'text'}
 						onClick={()=>changeFilterHandler('All')}>
 						All
 					</Button>
-					<Button 
-						size="small"
-						color="primary"
-						onClick={() => changeFilterHandler('Active')}
-						variant={filter === 'Active' ? 'contained' : 'text'}>
+					<Button size="small" color="primary" variant={filter === 'Active' ? 'contained' : 'text'}
+						onClick={() => changeFilterHandler('Active')}>
 						Active
 					</Button>
-					<Button
-						size="small"
-						color="secondary"
-						onClick={() => changeFilterHandler('Completed')}
-						variant={filter === 'Completed' ? 'contained' : 'text'}>
+					<Button size="small" color="secondary" variant={filter === 'Completed' ? 'contained' : 'text'}
+						onClick={() => changeFilterHandler('Completed')}> 
 						Completed
 					</Button>
 				</div>

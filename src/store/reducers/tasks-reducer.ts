@@ -1,6 +1,6 @@
 import { v1 } from "uuid";
 import { addTodolistActionType, removeTodolistActionType } from "./todolist-reducer";
-import { TaskStateType } from "../../App";
+import { TaskStateType } from "../../all_study_comp/App_old";
 
 //* Types
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC> 

@@ -1,5 +1,5 @@
 import type { Meta } from '@storybook/react';
-import { AccBody, Accordeon, AccordeonData, Content, Icon, Title } from './Accordeon';
+import { AccBody, Accordeon, AccordeonData, Content, Icon, Title } from '../all_study_comp/Accordeon';
 import React, { useState } from 'react'
 import { action } from '@storybook/addon-actions';
 

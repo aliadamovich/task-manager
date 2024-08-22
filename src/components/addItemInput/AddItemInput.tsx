@@ -1,5 +1,5 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
-import { Button } from '../../Button'
+import { Button } from '../../all_study_comp/Button'
 import s from './../../TodoList.module.css';
 import { IconButton, TextField } from '@mui/material';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';

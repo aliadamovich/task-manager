@@ -1,33 +1,71 @@
-import { TextField, Typography } from "@mui/material"
+import { IconButton, ListItem, TextField } from "@mui/material"
 import { useState } from "react"
-import { editableSpanSx } from "../../Todolost.styles"
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import {  ItemWithHoverStyle } from "../../styles/Todolost.styles";
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+
 
 type EditableSpanType = {
 	title: string
 	onChange: (newTitle: string) => void
+	removeItem: () => void
 }
 
-export const EditableSpan = ({ title, onChange }: EditableSpanType) => {
+export const EditableSpan = ({ title, onChange, removeItem }: EditableSpanType) => {
 	const [editMode, setEditMode] = useState(false)
 	const [titleValue, setTitleValue] = useState<string>('')
-
-	const onSpanClickHandler = () => {
-		setEditMode(true)
-		setTitleValue(title)
-	}
 
 	const onBlurHandler = () => {
 		setEditMode(false)
 		onChange(titleValue)
 	}
 
-		return (
-			editMode ?
-				<TextField type="text" variant="standard" color="secondary" autoFocus value={titleValue} 
-					onBlur={onBlurHandler} 
-					onChange={(e) => { setTitleValue(e.currentTarget.value) }} 
-				/>
-				:
-				<span onDoubleClick={onSpanClickHandler}>{title}</span>
-		)
+	const onEditButtonClick = () => {
+		setEditMode(true)
+		setTitleValue(title)
+	}
+
+	const onRemoveButtonClick = () => {
+		removeItem()
+	}
+
+	return (
+
+		<ListItem disablePadding sx={ItemWithHoverStyle}>
+			
+			{editMode ?
+				<>
+					<TextField type="text" variant="standard" color="secondary" autoFocus
+						value={titleValue}
+						onBlur={onBlurHandler}
+						onChange={(e) => { setTitleValue(e.currentTarget.value) }}
+					/>
+					<IconButton sx={{ display: 'block', p: '2px' }}
+						onClick={onEditButtonClick}
+					>
+						<BorderColorIcon fontSize="small" />
+					</IconButton>
+				</>
+			:
+				<>
+					<span>{title}</span>
+					<div style={{display: 'flex', gap: '7px'}}>
+						<IconButton sx={{ display: 'none', p: '2px' }}
+							onClick={onEditButtonClick}
+						>
+							<BorderColorIcon fontSize="small" />
+						</IconButton>
+	
+						<IconButton sx={{ display: 'none', p: '2px' }}
+							onClick={onRemoveButtonClick}
+						>
+							<DeleteOutlineIcon fontSize="small" />
+						</IconButton>
+					</div>
+				</>
+			}
+		
+		</ListItem>
+			
+	)
 }

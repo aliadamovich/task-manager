@@ -10,16 +10,8 @@ import {SxProps } from '@mui/material'
 //в компоненте в sx прописываем этот объект либо функцию c вызываемым аргументом
 
 export const getListItemSx = (isDone: boolean): SxProps => ({
-	justifyContent: 'space-between', 
 	opacity: isDone ? 0.3 : 1,
-
-	"&:hover": {
-    background: "#ededed6d",
-    borderRadius: "4px",
-    button: {
-      display: "block",
-    },
-  },
+	display: 'flex'
 }
 );
 //как пример того же самого функционала что и выше, но с помощью reusable component и styled()
@@ -41,22 +33,28 @@ export const getListItemSx = (isDone: boolean): SxProps => ({
 // }));
 
 
-export const editableSpanSx = (isHeader: boolean): SxProps => ({
-  flexGrow: 1,
-  cursor: "pointer",
-	// fontWeight: isHeader ? 500 : 400,
-	// fontSize: 
-});
+//стиль для заголовка тудулиста
+
 
 export const todolistTitleStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
   margin: "10px 0 20px",
   fontSize: "22px",
-	fontWeight: '500'
+	fontWeight: '500',
 };
 
 
+export const ItemWithHoverStyle = {
+  flexGrow: 1,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+	transition: "all 0.3s ease 0s",
 
-
+  "&:hover": {
+    background: "#ededed6d",
+    borderRadius: "4px",
+    button: {
+      display: "block",
+    },
+  },
+};

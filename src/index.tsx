@@ -1,9 +1,8 @@
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import AppWithRedux from './AppWithRedux';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-
+import App from './App';
+import { ColorModeProvider } from './styles/Theme';
 
 
 
@@ -12,7 +11,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
 	<Provider store={store}>
-		<AppWithRedux />
+		<ColorModeProvider>
+			<App />
+		</ColorModeProvider>
 	</Provider>
 );
 

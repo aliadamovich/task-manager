@@ -3,7 +3,7 @@ import { v1 } from "uuid";
 import { ChangeTodolistFilterActionType, ChangeTodolistTitleActionType, todolistReducer } from "./todolist-reducer";
 
 import { addTodolistAС, changeTodolistTitleAС, changeTodolistFilterAС, removeTodolistAС } from "./todolist-reducer";
-import { TodoListsType } from "../../App";
+import { TodoListsType } from "../../all_study_comp/App_old";
 
 let todolistId1: string;
 let todolistId2: string;

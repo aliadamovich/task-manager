@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button } from './Button'
+import { Button } from './all_study_comp/Button'
 import styled, { css } from 'styled-components'
 
 const modalData = [

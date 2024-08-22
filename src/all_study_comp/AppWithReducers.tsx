@@ -1,13 +1,11 @@
 import { v1 } from 'uuid';
-import './App.css';
-import { TodoList } from './TodoList';
+import { TodoList } from './TodoListOld';
 import { Reducer, useReducer, useState } from 'react';
-import { AddItemInput } from './components/addItemInput/AddItemInput';
-import Header from './components/layout/header/Header';
+import { AddItemInput } from '../components/addItemInput/AddItemInput';
+import Header from '../components/layout/header/Header';
 import { Container, createTheme, CssBaseline, Grid, ThemeProvider } from '@mui/material';
-import {Select} from './Select';
-import { ActionType, addTodolistAС, removeTodolistAС, changeTodolistTitleAС, todolistReducer, changeTodolistFilterAС } from './store/reducers/todolist-reducer';
-import { addTaskAС, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from './store/reducers/tasks-reducer';
+import { ActionType, addTodolistAС, removeTodolistAС, changeTodolistTitleAС, todolistReducer, changeTodolistFilterAС } from '../store/reducers/todolist-reducer';
+import { addTaskAС, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from '../store/reducers/tasks-reducer';
 
 
 export type Task = {
