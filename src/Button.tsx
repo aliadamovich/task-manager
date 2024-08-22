@@ -6,8 +6,6 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 
 export const Button = ({ title, onClick, className }: ButtonProps) => {
-	
-
 	const onClickHandler = () => {
 		onClick()
 	}

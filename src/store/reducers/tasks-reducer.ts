@@ -1,6 +1,6 @@
 import { v1 } from "uuid";
-import { TaskStateType } from "../App"
 import { addTodolistActionType, removeTodolistActionType } from "./todolist-reducer";
+import { TaskStateType } from "../../App";
 
 //* Types
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC> 
@@ -8,17 +8,12 @@ export type AddTaskActionType = ReturnType<typeof addTaskAС>;
 export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>; 
 export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>; 
 
-type ActionsType =
-  | RemoveTaskActionType
-  | AddTaskActionType
-  | ChangeTaskStatusActionType
-  | ChangeTaskTitleActionType
-  | addTodolistActionType
-  | removeTodolistActionType;
+type ActionsType = RemoveTaskActionType| AddTaskActionType| ChangeTaskStatusActionType| ChangeTaskTitleActionType| addTodolistActionType| removeTodolistActionType;
 
+const initialState: TaskStateType = {};
 
 //* Reducer
-export const tasksReducer = (tasks: TaskStateType, action: ActionsType): TaskStateType => {
+export const tasksReducer = (tasks = initialState, action: ActionsType): TaskStateType => {
 	switch (action.type) {
     case "REMOVE-TASK":
       return {
@@ -55,12 +50,12 @@ export const tasksReducer = (tasks: TaskStateType, action: ActionsType): TaskSta
 					return {...tasks, [action.payload.id]: []}
 
 					case "REMOVE-TODOLIST":
-					// 	let copyTasks = {...tasks}
-					// 	delete copyTasks[action.payload.id];
-					// return copyTasks;
+						let copyTasks = {...tasks}
+						delete copyTasks[action.payload.id];
+					return copyTasks;
 					//при деструктуризации рождается новый объект, поэтому можно удалить св-во через дестр-ю - присваиваем свойству 
-					const {[action.payload.id]: [], ...rest} = tasks;
-					return rest
+					// const {[action.payload.id]: [], ...rest} = tasks;
+					// return rest
     default:
       return tasks;
   }

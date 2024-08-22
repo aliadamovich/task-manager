@@ -1,5 +1,6 @@
 import { v1 } from "uuid";
-import { FilterValueType, TodoListsType } from "../App";
+import { FilterValueType, TodoListsType } from "../../AppWithReducers";
+// import { FilterValueType, TodoListsType } from "../../App";
 
 //* Types
 export type removeTodolistActionType = {
@@ -33,11 +34,12 @@ export type ChangeTodolistFilterActionType = {
   };
 };
 
-type ActionType = removeTodolistActionType | addTodolistActionType | ChangeTodolistTitleActionType | ChangeTodolistFilterActionType;
+export type ActionType = removeTodolistActionType | addTodolistActionType | ChangeTodolistTitleActionType | ChangeTodolistFilterActionType;
 
+const initialState: TodoListsType[] = [];
 
 //* Reducer
-export const todolistReducer = (todolists: TodoListsType[], action: ActionType): TodoListsType[] => {
+export const todolistReducer = (todolists = initialState, action: ActionType): TodoListsType[] => {
 	switch (action.type) {
     case "REMOVE-TODOLIST":
       return todolists.filter((tl) => tl.id !== action.payload.id);

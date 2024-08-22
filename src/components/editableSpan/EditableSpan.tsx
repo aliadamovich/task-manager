@@ -1,5 +1,6 @@
 import { TextField, Typography } from "@mui/material"
-import { ChangeEvent, useState } from "react"
+import { useState } from "react"
+import { editableSpanSx } from "../../Todolost.styles"
 
 type EditableSpanType = {
 	title: string
@@ -20,18 +21,13 @@ export const EditableSpan = ({ title, onChange }: EditableSpanType) => {
 		onChange(titleValue)
 	}
 
-	const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-		setTitleValue(e.currentTarget.value)
-	} 
-
 		return (
-			editMode
-			? <TextField type="text" variant="standard" color="secondary" value={titleValue} onBlur={onBlurHandler} onChange={onInputChangeHandler} autoFocus/>
-			: <Typography 
-			variant='body1' 
-			component='span' 
-			onDoubleClick={onSpanClickHandler}
-					sx={{ flexGrow: 1, cursor: 'pointer'}}
-			>{title}</Typography> 
+			editMode ?
+				<TextField type="text" variant="standard" color="secondary" autoFocus value={titleValue} 
+					onBlur={onBlurHandler} 
+					onChange={(e) => { setTitleValue(e.currentTarget.value) }} 
+				/>
+				:
+				<span onDoubleClick={onSpanClickHandler}>{title}</span>
 		)
 }
