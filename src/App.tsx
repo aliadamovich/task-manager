@@ -4,9 +4,10 @@ import { Container, Grid } from '@mui/material';
 import { addTodolistAС } from './store/reducers/todolist-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './store/store';
-import { TodoList } from './TodoList';
+import {TodoList}  from './TodoList';
 import { Sidebar } from './components/layout/sidebar/Sidebar';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import React from 'react';
 
 export type Task = {
 	id: string
@@ -37,7 +38,7 @@ function App() {
 		setSidebarOpen(newOpen);
 	};
 	//Создание нового тудулиста
-	const addTodoList = (titleValue: string) => { dispatch(addTodolistAС(titleValue))}
+	const addTodoList = useCallback((titleValue: string) => { dispatch(addTodolistAС(titleValue)) }, [dispatch])
 
 	//* UI
 	/* маппим все туду-листы, в каждый передаем фильтр чтобы свой filteredtasks создавался в каждой в завис-ти от значения фильтра */

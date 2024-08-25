@@ -1,6 +1,5 @@
 import { v1 } from "uuid";
 import { FilterValueType, TodoListsType } from "../../all_study_comp/AppWithReducers";
-// import { FilterValueType, TodoListsType } from "../../App";
 
 //* Types
 export type removeTodolistActionType = {

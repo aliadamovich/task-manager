@@ -8,46 +8,48 @@ import { addTaskAС, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from 
 import { changeTodolistFilterAС, changeTodolistTitleAС, removeTodolistAС } from "./store/reducers/todolist-reducer";
 import { todolistTitleStyle } from "./styles/Todolost.styles";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
+import React, { useCallback } from "react";
 
 export type TodoListProps = {
 	todolist: TodoListsType
 }
 
-
-export const TodoList = ({ todolist }: TodoListProps) => {
+ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 	const {id, filter, title} = todolist ;
 
 	let tasks = useSelector<AppRootStateType, Task[]>(state => state.tasks[id])
 	const dispatch = useDispatch();
 
-	const addTaskCallback = (value: string) => {
+	const addTaskCallback = useCallback((value: string) => {
 		dispatch(addTaskAС(id, value))
-	}
+	}, [id])
 
+	//*Tasks
 	//удаление таски
-	const removeTaskHandler = (taskId: string) => {
+	const removeTaskHandler = useCallback((taskId: string) => {
 		dispatch(removeTaskAC(taskId, id))
-	}
+	}, [id])
 
 	//смена статуса таски isDone
-	const changeTaskStatusHandler = (taskId: string, status: boolean) => {
+	const changeTaskStatusHandler = useCallback((taskId: string, status: boolean) => {
 		dispatch(changeTaskStatusAC(id, taskId, status))
-	}
+	}, [id])
 
-	//изменение текста таски 
-	const changeTitleHandler = (value: string, taskId: string) => {
+	//изменение названия таски 
+	const changeTitleHandler = useCallback((value: string, taskId: string) => {
 		dispatch(changeTaskTitleAC(id, taskId, value))
-	}
+	}, [id])
 
+	//* todolists
 	//удаление всего тудулиста
-	const removeTodoListHandler = () => {
+	const removeTodoListHandler = useCallback(() => {
 		dispatch(removeTodolistAС(id))
-	}
+	}, [id])
 
 	//изменение названия тудулиста
-	const changeTodoTitleCallback = (newTitle: string) => {
+	const changeTodoTitleCallback = useCallback((newTitle: string) => {
 		dispatch(changeTodolistTitleAС(id, newTitle))
-	}
+	}, [id])
 
 	//фильтрация
 	const changeFilterHandler = (filter: FilterValueType) => {
@@ -116,4 +118,6 @@ export const TodoList = ({ todolist }: TodoListProps) => {
 			</Paper>
 		</Grid>
 	)
-}
+})
+
+// export default React.memo(TodoList)

@@ -1,7 +1,8 @@
-import { Task } from "./all_study_comp/App_old";
 import { Box, Checkbox } from "@mui/material";
 import { getListItemSx } from "./styles/Todolost.styles";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
+import { Task } from "./App";
+import React, { useCallback } from "react";
 
 type TaskElementType = Task & {
 	removeTaskHandler: (taskId: string) => void
@@ -9,12 +10,15 @@ type TaskElementType = Task & {
 	changeTitleValue: (value: string, id: string) => void
 }
 
-export const TaskElement = ({ id, title, isDone, removeTaskHandler, changeTaskStatusHandler, changeTitleValue }:TaskElementType) => {
+export const TaskElement = React.memo(({ id, title, isDone, removeTaskHandler, changeTaskStatusHandler, changeTitleValue }:TaskElementType) => {
 
-	const onInputChange = (value: string) => {
+	const onInputChange = useCallback((value: string) => {
 		changeTitleValue(value, id)
-	}
+	}, [id])
 
+	const removeItemHandler = useCallback(() => {
+		removeTaskHandler(id)
+	}, [id])
 
 	return (
 		<Box sx={getListItemSx(isDone)}>
@@ -24,9 +28,9 @@ export const TaskElement = ({ id, title, isDone, removeTaskHandler, changeTaskSt
 			/>
 			<EditableSpan title={title} 
 				onChange={onInputChange}
-				removeItem={() => { removeTaskHandler(id) }}
+				removeItem={removeItemHandler}
 			/>
 
 		 </Box>
 	)
-}
+})
