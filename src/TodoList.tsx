@@ -1,79 +1,74 @@
-import { TaskElement } from "./TaskElement"
-import { FilterValueType, Task, TodoListsType } from "./all_study_comp/App_old";
+import { FilterValueType, TodoListsType } from "./all_study_comp/App_old";
 import { AddItemInput } from "./components/addItemInput/AddItemInput";
 import { Button, Chip, Divider, Grid, List, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType } from "./store/store";
-import { addTaskAС, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from "./store/reducers/tasks-reducer";
+import { addTaskAС } from "./store/reducers/tasks-reducer";
 import { changeTodolistFilterAС, changeTodolistTitleAС, removeTodolistAС } from "./store/reducers/todolist-reducer";
 import { todolistTitleStyle } from "./styles/Todolost.styles";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
+import { FilterButton } from "./components/FilterButton";
+import { TaskType } from "./App";
+import { Task } from "./Task";
+
 
 export type TodoListProps = {
 	todolist: TodoListsType
 }
 
- export const TodoList = React.memo(({ todolist }: TodoListProps) => {
+export const TodoList = React.memo(({ todolist }: TodoListProps) => {
+
 	const {id, filter, title} = todolist ;
 
-	let tasks = useSelector<AppRootStateType, Task[]>(state => state.tasks[id])
+	let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
 	const dispatch = useDispatch();
 
+	//*tasks
+	// добавление таски
 	const addTaskCallback = useCallback((value: string) => {
 		dispatch(addTaskAС(id, value))
-	}, [id])
+	}, [addTaskAС, id, dispatch])
 
-	//*Tasks
-	//удаление таски
-	const removeTaskHandler = useCallback((taskId: string) => {
-		dispatch(removeTaskAC(taskId, id))
-	}, [id])
-
-	//смена статуса таски isDone
-	const changeTaskStatusHandler = useCallback((taskId: string, status: boolean) => {
-		dispatch(changeTaskStatusAC(id, taskId, status))
-	}, [id])
-
-	//изменение названия таски 
-	const changeTitleHandler = useCallback((value: string, taskId: string) => {
-		dispatch(changeTaskTitleAC(id, taskId, value))
-	}, [id])
 
 	//* todolists
 	//удаление всего тудулиста
 	const removeTodoListHandler = useCallback(() => {
 		dispatch(removeTodolistAС(id))
-	}, [id])
+	}, [id, dispatch])
 
 	//изменение названия тудулиста
 	const changeTodoTitleCallback = useCallback((newTitle: string) => {
 		dispatch(changeTodolistTitleAС(id, newTitle))
-	}, [id])
+	}, [id, dispatch])
+
 
 	//фильтрация
 	const changeFilterHandler = (filter: FilterValueType) => {
 		dispatch(changeTodolistFilterAС(id, filter))
 	}
 
+	//функции для смены фильтра по наажтию на ryjgre
+	const onAllClickHandler = useCallback(() => changeFilterHandler('All'), [])
+	const onActiveClickHandler = useCallback(() => changeFilterHandler('Active'), [])
+	const onCompletedClickHandler = useCallback(() => changeFilterHandler('Completed'), [])
 
 //создаю фиьтрующую функцию чтобы в разных местах разместить таски сделанные и невыполненные
-	const filteredTasks = (isDone: boolean): JSX.Element[] => {
+	const filterTasks = (isDone: boolean): JSX.Element[] => {
+		let tasksForFilter = tasks;
 
 		if (filter === 'Completed') {
-			tasks = tasks.filter(t => t.isDone === true)
+			tasksForFilter = tasks.filter(t => t.isDone === true)
 		} else if (filter === 'Active') {
-			tasks = tasks.filter(t => t.isDone === false)
+			tasksForFilter = tasks.filter(t => t.isDone === false)
 		}
 
-			return tasks.filter(t => t.isDone === isDone).map(t =>
-				<TaskElement
+		return tasksForFilter.filter(t => t.isDone === isDone).map(t =>
+				<Task
 					{...t}
 					key={t.id}
-					removeTaskHandler={removeTaskHandler}
-					changeTaskStatusHandler={changeTaskStatusHandler}
-					changeTitleValue={changeTitleHandler}
-				/>)
+					todolistId={id}
+			/>)
 	}
 
 	return(
@@ -86,32 +81,23 @@ export type TodoListProps = {
 
 				<List sx={{flex: '1 1 auto', mt: '10px'}}>
 
-					{filteredTasks(false).length === 0 
+					{!filterTasks(false).length
 						? <div>No tasks</div>
-						: filteredTasks(false)}
+						: filterTasks(false)}
 
-					{filteredTasks(true).length > 0
+					{filterTasks(true).length > 0
 						&& <>
 								<Divider textAlign="right" sx={{m: '10px 0'}}><Chip label="Done" size="small" /></Divider>
-								{filteredTasks(true)}
+						{filterTasks(true)}
 							</>
 					}
+
 				</List>
 				
 				<div style={{ margin: '20px 0', display: 'flex', gap: '8px'}}>
-					<Button
-						size="small" variant={filter === 'All' ? 'contained' : 'text'}
-						onClick={()=>changeFilterHandler('All')}>
-						All
-					</Button>
-					<Button size="small" color="primary" variant={filter === 'Active' ? 'contained' : 'text'}
-						onClick={() => changeFilterHandler('Active')}>
-						Active
-					</Button>
-					<Button size="small" color="secondary" variant={filter === 'Completed' ? 'contained' : 'text'}
-						onClick={() => changeFilterHandler('Completed')}> 
-						Completed
-					</Button>
+					<FilterButton children="All" onClick={onAllClickHandler} variant={filter === 'All' ? 'contained' : 'text'}/>
+					<FilterButton children="Active" onClick={onActiveClickHandler} variant={filter === 'Active' ? 'contained' : 'text'}/>
+					<FilterButton children="Completed" onClick={onCompletedClickHandler} variant={filter === 'Completed' ? 'contained' : 'text'}/>
 				</div>
 
 				<AddItemInput addItem={addTaskCallback} label="Add new task" />
@@ -119,5 +105,3 @@ export type TodoListProps = {
 		</Grid>
 	)
 })
-
-// export default React.memo(TodoList)

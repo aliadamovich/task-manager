@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import { AppBar, FormControlLabel, IconButton, Toolbar, Typography, useTheme } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
-import {MaterialUISwitch} from '../../../styles/SwitchStyled'
-import {  ColorModeContext } from '../../../styles/Theme';
+import {MaterialUISwitch} from '../../styles/SwitchStyled'
+import {  ColorModeContext } from '../../styles/Theme';
 
 
 type HeaderPropsType = {

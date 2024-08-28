@@ -1,15 +1,14 @@
 import { AddItemInput } from './components/addItemInput/AddItemInput';
-import {Header} from './components/layout/header/Header';
 import { Container, Grid } from '@mui/material';
 import { addTodolistAС } from './store/reducers/todolist-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './store/store';
 import {TodoList}  from './TodoList';
-import { Sidebar } from './components/layout/sidebar/Sidebar';
 import { useCallback, useState } from 'react';
-import React from 'react';
+import { Header } from './layout/header/Header';
+import { Sidebar } from './layout/sidebar/Sidebar';
 
-export type Task = {
+export type TaskType = {
 	id: string
 	title: string
 	isDone: boolean
@@ -22,7 +21,7 @@ export type TodoListsType = {
 }
 
 export type TaskStateType = {
-	[todolistId: string]: Task[]
+	[todolistId: string]: TaskType[]
 }
 
 export type FilterValueType = 'All' | 'Completed' | 'Active'
@@ -37,7 +36,7 @@ function App() {
 	const toggleSidebar = (newOpen: boolean) => () => {
 		setSidebarOpen(newOpen);
 	};
-	//Создание нового тудулиста
+	//?Создание нового тудулиста
 	const addTodoList = useCallback((titleValue: string) => { dispatch(addTodolistAС(titleValue)) }, [dispatch])
 
 	//* UI

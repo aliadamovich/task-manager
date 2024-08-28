@@ -1,16 +1,16 @@
 import { Box, Checkbox } from "@mui/material";
 import { getListItemSx } from "./styles/Todolost.styles";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
-import { Task } from "./App";
+import { TaskType } from "./App";
 import React, { useCallback } from "react";
 
-type TaskElementType = Task & {
+type TaskElementType = TaskType & {
 	removeTaskHandler: (taskId: string) => void
 	changeTaskStatusHandler: (taskId: string, status: boolean) => void
 	changeTitleValue: (value: string, id: string) => void
 }
 
-export const TaskElement = React.memo(({ id, title, isDone, removeTaskHandler, changeTaskStatusHandler, changeTitleValue }:TaskElementType) => {
+export const TaskOld = React.memo(({ id, title, isDone, removeTaskHandler, changeTaskStatusHandler, changeTitleValue }:TaskElementType) => {
 
 	const onInputChange = useCallback((value: string) => {
 		changeTitleValue(value, id)
@@ -31,6 +31,6 @@ export const TaskElement = React.memo(({ id, title, isDone, removeTaskHandler, c
 				removeItem={removeItemHandler}
 			/>
 
-		 </Box>
+		</Box>
 	)
 })

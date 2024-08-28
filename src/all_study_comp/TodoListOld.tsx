@@ -1,5 +1,5 @@
 import { ChangeEvent, KeyboardEvent, useState } from "react"
-import { TaskElement } from "../TaskElement"
+import { TaskElement } from "../Task"
 import s from './TodoList.module.css';
 import { FilterValueType, Task, TaskStateType } from "./App_old";
 import { AddItemInput } from "../components/addItemInput/AddItemInput";

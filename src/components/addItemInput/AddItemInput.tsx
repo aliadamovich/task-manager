@@ -29,7 +29,7 @@ export const AddItemInput = React.memo(({ addItem, label }: AddItemInputType) =>
 
 	//добавление таски по нажатию на Enter
 	const onKeyPressHandler = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-		if (error !== null ) {
+		if (error ) {
 			setError(null)
 		}
 

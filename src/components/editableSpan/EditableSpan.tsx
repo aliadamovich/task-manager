@@ -1,7 +1,7 @@
 import { IconButton, ListItem, TextField } from "@mui/material"
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import {  ItemWithHoverStyle } from "../../styles/Todolost.styles";
+import { ItemWithHoverStyle } from "../../styles/Todolost.styles";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 
@@ -12,23 +12,22 @@ type EditableSpanType = {
 }
 
 export const EditableSpan = React.memo(({ title, onChange, removeItem }: EditableSpanType) => {
-	console.log('editable');
 	const [editMode, setEditMode] = useState(false)
 	const [titleValue, setTitleValue] = useState<string>('')
-
-	const onBlurHandler = useCallback(() => {
+	
+	const onBlurHandler = () => {
 		setEditMode(false)
 		onChange(titleValue)
-	}, [onChange])
+	}
 
-	const onEditButtonClick = useCallback(() => {
+	const onEditButtonClick = () => {
 		setEditMode(true)
 		setTitleValue(title)
-	}, [title])
+	}
 
-	const onRemoveButtonClick = useCallback(() => {
+	const onRemoveButtonClick = () => {
 		removeItem()
-	}, [removeItem])
+	}
 
 	return (
 
