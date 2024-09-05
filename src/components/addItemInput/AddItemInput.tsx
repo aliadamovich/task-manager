@@ -2,7 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
 import { IconButton, TextField } from '@mui/material';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
-type AddItemInputType = {
+export type AddItemInputType = {
 	addItem: (value: string) => void
 	label: string
 }
