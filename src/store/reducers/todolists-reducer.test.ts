@@ -1,13 +1,10 @@
-
 import { v1 } from "uuid";
-import { ChangeTodolistFilterActionType, ChangeTodolistTitleActionType, todolistReducer } from "./todolist-reducer";
-
+import { ChangeTodolistFilterActionType, ChangeTodolistTitleActionType, TodolistDomainType, todolistReducer } from "./todolist-reducer";
 import { addTodolistAС, changeTodolistTitleAС, changeTodolistFilterAС, removeTodolistAС } from "./todolist-reducer";
-import { TodoListsType } from "../../all_study_comp/App_old";
 
 let todolistId1: string;
 let todolistId2: string;
-let startState: TodoListsType[];
+let startState: TodolistDomainType[];
 
 
 beforeEach(() => {
@@ -16,8 +13,8 @@ beforeEach(() => {
 
    // 1. Стартовый state
   startState = [
-     { id: todolistId1, title: "What to learn", filter: "All" },
-     { id: todolistId2, title: "What to buy", filter: "All" },
+     { id: todolistId1, title: "What to learn", filter: "All", addedDate: '', order: 0, },
+     { id: todolistId2, title: "What to buy", filter: "All", addedDate: '', order: 0,  },
    ];
 })
 

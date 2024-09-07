@@ -1,25 +1,24 @@
-import { FilterValueType, TodoListsType } from "./all_study_comp/App_old";
 import { AddItemInput } from "./components/addItemInput/AddItemInput";
-import { Button, Chip, Divider, Grid, List, Paper } from "@mui/material";
+import { Chip, Divider, Grid, List, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType } from "./store/store";
 import { addTaskAС } from "./store/reducers/tasks-reducer";
-import { changeTodolistFilterAС, changeTodolistTitleAС, removeTodolistAС } from "./store/reducers/todolist-reducer";
+import { changeTodolistFilterAС, changeTodolistTitleAС, FilterValueType, removeTodolistAС, TodolistDomainType } from "./store/reducers/todolist-reducer";
 import { todolistTitleStyle } from "./styles/Todolost.styles";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { FilterButton } from "./components/FilterButton";
-import { TaskType } from "./App";
 import { Task } from "./Task";
+import { TaskStatuses, TaskType } from "./api/todolists-api";
 
 
 export type TodoListProps = {
-	todolist: TodoListsType
+	todolist: TodolistDomainType
 }
 
 export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 
-	const {id, filter, title} = todolist ;
+	const {id, filter, title, ...restProps} = todolist;
 
 	let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
 	const dispatch = useDispatch();
@@ -54,16 +53,16 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 	const onCompletedClickHandler = useCallback(() => changeFilterHandler('Completed'), [])
 
 //создаю фиьтрующую функцию чтобы в разных местах разместить таски сделанные и невыполненные
-	const filterTasks = (isDone: boolean): JSX.Element[] => {
+	const filterTasks = (status: 0 | 2): JSX.Element[] => {
 		let tasksForFilter = tasks;
 
 		if (filter === 'Completed') {
-			tasksForFilter = tasks.filter(t => t.isDone === true)
+			tasksForFilter = tasks.filter(t => t.status === TaskStatuses.Completed)
 		} else if (filter === 'Active') {
-			tasksForFilter = tasks.filter(t => t.isDone === false)
+			tasksForFilter = tasks.filter(t => t.status === TaskStatuses.New)
 		}
 
-		return tasksForFilter.filter(t => t.isDone === isDone).map(t =>
+		return tasksForFilter.filter(t => t.status === status).map(t =>
 				<Task
 					{...t}
 					key={t.id}
@@ -81,14 +80,14 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 
 				<List sx={{flex: '1 1 auto', mt: '10px'}}>
 
-					{!filterTasks(false).length
+					{!filterTasks(0).length
 						? <div>No tasks</div>
-						: filterTasks(false)}
+						: filterTasks(0)}
 
-					{filterTasks(true).length > 0
+					{filterTasks(2).length > 0
 						&& <>
 								<Divider textAlign="right" sx={{m: '10px 0'}}><Chip label="Done" size="small" /></Divider>
-						{filterTasks(true)}
+						{filterTasks(2)}
 							</>
 					}
 
@@ -105,3 +104,4 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 		</Grid>
 	)
 })
+

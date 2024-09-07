@@ -1,23 +1,21 @@
-import { ChangeEvent, KeyboardEvent, useState } from "react"
-import { TaskElement } from "../Task"
 import s from './TodoList.module.css';
-import { FilterValueType, Task, TaskStateType } from "./App_old";
 import { AddItemInput } from "../components/addItemInput/AddItemInput";
 import { EditableSpan } from "../components/editableSpan/EditableSpan";
-import { Button, Chip, Divider, Grid, IconButton, List, Paper, Typography, useTheme } from "@mui/material";
-import ClearIcon from '@mui/icons-material/Clear';
+import { Button, Chip, Divider, Grid, IconButton, List, Paper, useTheme } from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { FilterButton, MenuButton } from "./FilterButton";
+import { TaskOld } from "./Task_old";
+import { TaskStatuses, TaskType } from '../api/todolists-api';
+import { FilterValueType } from '../store/reducers/todolist-reducer';
 
 export type TodoListProps = {
 	todoListId: string
-	tasks: Task[]
+	tasks: TaskType[]
 	filter: FilterValueType
 	title: string
 	addTask: (value: string, todoListId: string) => void
 	changeFilter: (filter: FilterValueType, todoListId: string) => void
 	removeTask: (taskId: string, todoListId: string) => void
-	changeTaskStatus: (taskId: string, status: boolean, todoListId: string) => void
+	changeTaskStatus: (taskId: string, status: TaskStatuses, todoListId: string) => void
 	removeTodoList: (todoListId: string) => void
 	changeTaskTitle: (taskId: string, value: string, todoListId: string) => void
 	changeTodoTitle: (value: string, todoListId: string) => void
@@ -37,7 +35,7 @@ export const TodoListOld = ({ tasks, filter, title, todoListId, addTask, changeF
 	}
 
 	//смена статуса таски isDone
-	const changeTaskStatusHandler = (taskId: string, status: boolean) => {
+	const changeTaskStatusHandler = (taskId: string, status: TaskStatuses) => {
 		changeTaskStatus(taskId, status, todoListId)
 	}
 
@@ -61,10 +59,10 @@ export const TodoListOld = ({ tasks, filter, title, todoListId, addTask, changeF
 		changeFilter(filter, todoListId)
 	}
 //создаю фиьтрующую функцию чтобы в разных местах разместить таски сделанные и невыполненные
-	const filteredTasks = (filter: boolean): JSX.Element[] => {
+	const filteredTasks = (filter: 0 | 2): JSX.Element[] => {
 
-			return tasks.filter(t => t.isDone === filter).map(t =>
-				<TaskElement
+			return tasks.filter(t => t.status === filter).map(t =>
+				<TaskOld
 					{...t}
 					key={t.id}
 					removeTaskHandler={removeTaskHandler}
@@ -77,7 +75,7 @@ export const TodoListOld = ({ tasks, filter, title, todoListId, addTask, changeF
 		<Grid item xs={12} md={4} >
 			<Paper elevation={3} sx={{ padding: 2, display: 'flex', flexDirection: 'column', height: '100%'}}>
 				<h3 style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0 20px'}}>
-					<EditableSpan title={title} onChange={changeTodoTitleCallback}/>
+					<EditableSpan title={title} onChange={changeTodoTitleCallback} removeItem={removeTodoListHandler}/>
 					<IconButton onClick={removeTodoListHandler}>
 						<DeleteOutlineIcon fontSize="small"/>
 					</IconButton>
@@ -86,16 +84,16 @@ export const TodoListOld = ({ tasks, filter, title, todoListId, addTask, changeF
 				<Divider />
 
 				<List sx={{flex: '1 1 auto', mt: '10px'}}>
-					{filteredTasks(false).length === 0 
+					{filteredTasks(0).length === 0 
 						? <div>No tasks</div>
-						: filteredTasks(false)}
+						: filteredTasks(0)}
 
-					{filteredTasks(true).length > 0
+					{filteredTasks(2).length > 0
 						&& <>
 								<Divider textAlign="right" sx={{m: '10px 0'}}>
 									<Chip label="Done" size="small" />
 								</Divider>
-								{filteredTasks(true)}
+								{filteredTasks(2)}
 							</>
 					}
 				</List>

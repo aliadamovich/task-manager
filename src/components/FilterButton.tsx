@@ -7,7 +7,6 @@ type ButtonPropsType = ButtonProps & {
 }
 
 export const FilterButton = React.memo(({ children, onClick, variant }: ButtonPropsType) => {
-	console.log('filter');
 	return (
 		<Button
 			size="small" variant={variant}

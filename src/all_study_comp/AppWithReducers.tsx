@@ -4,28 +4,9 @@ import { AddItemInput } from '../components/addItemInput/AddItemInput';
 import { Container, createTheme, CssBaseline, Grid, ThemeProvider } from '@mui/material';
 import { ActionType, addTodolistAС, removeTodolistAС, changeTodolistTitleAС, todolistReducer, changeTodolistFilterAС } from '../store/reducers/todolist-reducer';
 import { addTaskAС, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from '../store/reducers/tasks-reducer';
-import { Header } from '../layout/header/Header';
-import { TodoList } from '../TodoList';
+import { TodoListOld } from './TodoListOld';
 
 
-export type Task = {
-	id: string
-	title: string
-	isDone: boolean
-}
-
-export type TodoListsType = { 
-	id: string,
-	title: string
-	filter: FilterValueType 
-}
-
-export type TaskStateType = {
-	[todolistId: string]: Task[]
-}
-
-
-export type FilterValueType = 'All' | 'Completed' | 'Active'
 
 function AppWithReducers() {
 
@@ -52,7 +33,7 @@ function AppWithReducers() {
 	//в типизации вставяем Reducer (импорт из React) + два параметра - тип стейта с которым работаем, второый - тип экшна с которым работаем)
 	//для большей читаемости стейт выносим в отдельную функцию и сначала прописываем пустой массив
 	// const [todoLists, dispatchToTodolists] = useReducer<Reducer<TodoListsType[], ActionType>>(todolistReducer, iTodoList, initTodolist)
-	const [todoLists, dispatchToTodolists] = useReducer<Reducer<TodoListsType[], ActionType>>(todolistReducer, initState, initTodolist)
+	const [todoLists, dispatchToTodolists] = useReducer<Reducer<TodoListsType[], ActionType>>(todolistReducer, initTodolist())
 
 	const [allTasks, dispatchToTasks] = useReducer(tasksReducer, {
 		[todoList1]: [
@@ -153,7 +134,7 @@ function AppWithReducers() {
 			filteredTasks = filteredTasks.filter(t => t.isDone === false)
 		}
 
-		return <TodoList key={tl.id}
+		return <TodoListOld key={tl.id}
 						todoListId={tl.id}
 						title={tl.title}
 						tasks={filteredTasks}
@@ -202,7 +183,7 @@ function AppWithReducers() {
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 					<div className='App'>
-					<Header setIsLight={setIsLight} isLight={isLight}/>
+					{/* <Header setIsLight={setIsLight} isLight={isLight}/> */}
 					<Container sx={{ mt: '1rem' }} fixed>
 						<Grid container sx={{ mb: '2rem' }}>
 							<AddItemInput addItem={addTodoList} label='Add new TODO list' />

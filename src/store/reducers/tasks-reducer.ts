@@ -1,6 +1,6 @@
 import { v1 } from "uuid";
 import { addTodolistActionType, removeTodolistActionType } from "./todolist-reducer";
-import { TaskStateType } from "../../all_study_comp/App_old";
+import { TaskPriorities, TaskStatuses, TaskType } from "../../api/todolists-api";
 
 //* Types
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC> 
@@ -10,56 +10,76 @@ export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>;
 
 type ActionsType = RemoveTaskActionType| AddTaskActionType| ChangeTaskStatusActionType| ChangeTaskTitleActionType| addTodolistActionType| removeTodolistActionType;
 
+export type TaskStateType = {
+  [todolistId: string]: TaskType[];
+};
+
 const initialState: TaskStateType = {};
 
 //* Reducer
 export const tasksReducer = (tasks = initialState, action: ActionsType): TaskStateType => {
-	switch (action.type) {
+  switch (action.type) {
     case "REMOVE-TASK":
       return {
         ...tasks,
         [action.payload.todolistId]: tasks[action.payload.todolistId].filter(
           (t) => t.id !== action.payload.taskId
-        )
-      }
+        ),
+      };
     case "ADD-TASK":
-			let newTask = {
+      let newTask = {
         id: v1(),
         title: action.payload.title,
-        isDone: false,
+				status: TaskStatuses.New, 
+        description: '',
+				priority: TaskPriorities.Low,
+				startDate: '',
+				deadline: '',
+				todoListId: action.payload.todolistId,
+				order: 0,
+				addedDate: ''
       };
       return {
         ...tasks,
-        [action.payload.todolistId]: [newTask, ...tasks[action.payload.todolistId]],
+        [action.payload.todolistId]: [
+          newTask,
+          ...tasks[action.payload.todolistId],
+        ],
       };
-			case "CHANGE-TASK-STATUS":
-				return {
-          ...tasks,
-          [action.payload.todolistId]: tasks[action.payload.todolistId].map(
-            (t) => (t.id === action.payload.taskId ? { ...t, isDone: action.payload.isDone } : t)
-          ),
-        };
-				case "CHANGE-TASK-TITLE":
-				return {
-          ...tasks,
-          [action.payload.todolistId]: tasks[action.payload.todolistId].map(
-            (t) => (t.id === action.payload.taskId ? { ...t, title: action.payload.title } : t)
-          ),
-        };
-				case "ADD-TODOLIST":
-					return {...tasks, [action.payload.id]: []}
+    case "CHANGE-TASK-STATUS":
+      return {
+        ...tasks,
+        [action.payload.todolistId]: tasks[action.payload.todolistId].map(
+          (t) =>
+            t.id === action.payload.taskId
+              ? { ...t, status: action.payload.status }
+              : t
+        ),
+      };
+    case "CHANGE-TASK-TITLE":
+      return {
+        ...tasks,
+        [action.payload.todolistId]: tasks[action.payload.todolistId].map(
+          (t) =>
+            t.id === action.payload.taskId
+              ? { ...t, title: action.payload.title }
+              : t
+        ),
+      };
+    case "ADD-TODOLIST":
+      return { ...tasks, [action.payload.id]: [] };
 
-					case "REMOVE-TODOLIST":
-						let copyTasks = {...tasks}
-						delete copyTasks[action.payload.id];
-					return copyTasks;
-					//при деструктуризации рождается новый объект, поэтому можно удалить св-во через дестр-ю - присваиваем свойству 
-					// const {[action.payload.id]: [], ...rest} = tasks;
-					// return rest
+    case "REMOVE-TODOLIST":
+      let copyTasks = { ...tasks };
+      delete copyTasks[action.payload.id];
+      return copyTasks;
+    //при деструктуризации рождается новый объект, поэтому можно удалить св-во через дестр-ю - присваиваем свойству
+    // const {[action.payload.id]: [], ...rest} = tasks;
+    // return rest
     default:
       return tasks;
   }
-}
+};
 
 //*Action Creators
 
@@ -79,12 +99,12 @@ export const addTaskAС = (id: string, title: string) => ({
   },
 } as const);
 
-export const changeTaskStatusAC = (todolistId: string, taskId: string, isDone: boolean) => ({
+export const changeTaskStatusAC = (todolistId: string, taskId: string, status: TaskStatuses) => ({
   type: "CHANGE-TASK-STATUS",
   payload: {
     todolistId: todolistId,
     taskId: taskId,
-    isDone: isDone,
+    status: status,
   },
 } as const);
 
