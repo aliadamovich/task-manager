@@ -1,15 +1,14 @@
 import { AddItemInput } from './components/addItemInput/AddItemInput';
 import { Container, Grid } from '@mui/material';
-import { addTodolistAС, TodolistDomainType } from './store/reducers/todolist-reducer';
+import { addTodolistAС, getTodolistsFromServerTC, TodolistDomainType } from './store/reducers/todolist-reducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRootStateType } from './store/store';
+import { AppRootStateType, useAppDispatch } from './store/store';
 import {TodoList}  from './TodoList';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Header } from './layout/header/Header';
 import { Sidebar } from './layout/sidebar/Sidebar';
 import React from 'react';
 import { TaskType } from './api/todolists-api';
-
 
 export type TaskStateType = {
 	[todolistId: string]: TaskType[]
@@ -19,7 +18,11 @@ function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	let todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists )
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
+
+	useEffect( () => {
+		dispatch(getTodolistsFromServerTC())
+	}, [])
 
 	//тоггл сайдбара
 	const toggleSidebar = (newOpen: boolean) => () => {

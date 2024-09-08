@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { ChangeTodolistFilterActionType, ChangeTodolistTitleActionType, TodolistDomainType, todolistReducer } from "./todolist-reducer";
+import { ChangeTodolistFilterActionType, ChangeTodolistTitleActionType, setTodolistsAC, TodolistDomainType, todolistReducer } from "./todolist-reducer";
 import { addTodolistAС, changeTodolistTitleAС, changeTodolistFilterAС, removeTodolistAС } from "./todolist-reducer";
 
 let todolistId1: string;
@@ -76,4 +76,20 @@ test("correct filter of todolist should be changed", () => {
 
   expect(endState[0].filter).toBe("All");
   expect(endState[1].filter).toBe("Completed");
+}); 
+
+test("todolists should be set to state", () => {
+
+  const endState = todolistReducer(
+    [],
+    setTodolistsAC([{
+      id: 'todolistId1',
+      title: "What to learn",
+      addedDate: "",
+      order: 0,
+    }])
+  );
+
+  expect(endState.length).toBe(1);
+  
 }); 

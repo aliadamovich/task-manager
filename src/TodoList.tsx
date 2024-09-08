@@ -1,12 +1,12 @@
 import { AddItemInput } from "./components/addItemInput/AddItemInput";
 import { Chip, Divider, Grid, List, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { AppRootStateType } from "./store/store";
-import { addTaskAС } from "./store/reducers/tasks-reducer";
+import { AppRootStateType, useAppDispatch } from "./store/store";
+import { addTaskAС, addTaskToServerTC, getTasksFromServerTC } from "./store/reducers/tasks-reducer";
 import { changeTodolistFilterAС, changeTodolistTitleAС, FilterValueType, removeTodolistAС, TodolistDomainType } from "./store/reducers/todolist-reducer";
 import { todolistTitleStyle } from "./styles/Todolost.styles";
 import { EditableSpan } from "./components/editableSpan/EditableSpan";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { FilterButton } from "./components/FilterButton";
 import { Task } from "./Task";
 import { TaskStatuses, TaskType } from "./api/todolists-api";
@@ -21,13 +21,16 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 	const {id, filter, title, ...restProps} = todolist;
 
 	let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
+
+	useEffect( () => {dispatch(getTasksFromServerTC(id))}, [])
 
 	//*tasks
 	// добавление таски
 	const addTaskCallback = useCallback((value: string) => {
-		dispatch(addTaskAС(id, value))
-	}, [addTaskAС, id, dispatch])
+		// dispatch(addTaskAС(id, value))
+		dispatch(addTaskToServerTC(id, value))
+	}, [addTaskToServerTC, id, dispatch])
 
 
 	//* todolists
@@ -61,13 +64,14 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 		} else if (filter === 'Active') {
 			tasksForFilter = tasks.filter(t => t.status === TaskStatuses.New)
 		}
-
+		if (tasksForFilter) {
 		return tasksForFilter.filter(t => t.status === status).map(t =>
 				<Task
 					{...t}
 					key={t.id}
 					todolistId={id}
 			/>)
+		} else return []
 	}
 
 	return(

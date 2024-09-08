@@ -1,5 +1,5 @@
 import { TaskPriorities, TaskStatuses } from "../../api/todolists-api";
-import { addTaskAС, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer, TaskStateType } from "./tasks-reducer";
+import { addTaskAС, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer, TaskStateType } from "./tasks-reducer";
 import { addTodolistAС, removeTodolistAС } from "./todolist-reducer";
 
 let startState: TaskStateType;
@@ -151,3 +151,72 @@ test('property with todolistId should be deleted', () => {
     expect(keys.length).toBe(1)
     expect(endState['todolistId2']).not.toBeDefined()
 })
+
+test("tasks should be set to state", () => {
+  const action = setTasksAC(
+    [
+      {
+        id: "4",
+        title: "bread",
+        status: TaskStatuses.New,
+        description: "",
+        priority: TaskPriorities.Low,
+        startDate: "",
+        deadline: "",
+        todoListId: "todolistId2",
+        order: 0,
+        addedDate: "",
+      },
+    ],
+    "todolistId2"
+  );
+
+  const endState = tasksReducer(
+		{
+		todolistId1:  [{
+         id: "1",
+         title: "CSS",
+         status: TaskStatuses.New,
+         description: "",
+         priority: TaskPriorities.Low,
+         startDate: "",
+         deadline: "",
+         todoListId: "todolistId1",
+         order: 0,
+         addedDate: "",
+       },
+       {
+         id: "2",
+         title: "JS",
+         status: TaskStatuses.Completed,
+         description: "",
+         priority: TaskPriorities.Low,
+         startDate: "",
+         deadline: "",
+         todoListId: "todolistId1",
+         order: 0,
+         addedDate: "",
+       },
+       {
+         id: "3",
+         title: "React",
+         status: TaskStatuses.New,
+         description: "",
+         priority: TaskPriorities.Low,
+         startDate: "",
+         deadline: "",
+         todoListId: "todolistId1",
+         order: 0,
+         addedDate: "",
+       }],
+		todolistId2: []
+			},
+			 action);
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(2);
+  expect(endState["todolistId1"].length).toBe(3);
+  expect(endState["todolistId2"].length).toBe(1);
+});
+
