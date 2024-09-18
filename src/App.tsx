@@ -9,7 +9,6 @@ import { Header } from './layout/header/Header';
 import { Sidebar } from './layout/sidebar/Sidebar';
 import React from 'react';
 import { TaskType } from './api/todolists-api';
-
 export type TaskStateType = {
 	[todolistId: string]: TaskType[]
 }
@@ -33,9 +32,7 @@ function App() {
 
 	//* UI
 	/* маппим все туду-листы, в каждый передаем фильтр чтобы свой filteredtasks создавался в каждой в завис-ти от значения фильтра */
-	const todolistComponent: Array<JSX.Element> = todolists.map(tl => {
-		return <TodoList key={tl.id} todolist={tl}/>
-	})
+	const todolistComponent: Array<JSX.Element> = todolists.map(tl => <TodoList key={tl.id} todolist={tl}/>)
 
 	return (
 
@@ -53,7 +50,6 @@ function App() {
 				</Grid>
 
 			</Container>
-
 		</div>
 
 	);

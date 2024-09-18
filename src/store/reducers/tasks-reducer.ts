@@ -52,9 +52,9 @@ export const tasksReducer = (
     case "ADD-TASK":
       return {
         ...tasks,
-        [action.payload.todolistId]: [
+        [action.payload.task.todoListId]: [
           action.payload.task,
-          ...tasks[action.payload.todolistId],
+          ...tasks[action.payload.task.todoListId],
         ],
       };
     case "CHANGE-TASK-STATUS":
@@ -90,7 +90,7 @@ export const tasksReducer = (
 
     case "SET-TODOLISTS":
       let copy = { ...tasks };
-      action.todolists.forEach((tl) => (copy[tl.id] = []));
+      action.todolists.forEach(tl => copy[tl.id] = []);
       return copy;
 
     case "SET-TASKS":
@@ -112,11 +112,10 @@ export const removeTaskAC = (taskId: string, todolistId: string) =>
     },
   }) as const;
 
-export const addTaskAС = (todolistId: string, task: TaskType) =>
+export const addTaskAС = ( task: TaskType) =>
   ({
     type: "ADD-TASK",
     payload: {
-      todolistId,
       task,
     },
   }) as const;
@@ -169,8 +168,8 @@ export const getTasksFromServerTC = (todolistId: string) => {
 //добавление такси на сервер + в стейт
 export const addTaskToServerTC = (todolistId: string, title: string) => {
   return (diapstch: Dispatch) => {
-    todolistsAPI.createTasks(todolistId, title).then((res) => {
-      diapstch(addTaskAС(todolistId, res.data.data.item));
+    todolistsAPI.createTask(todolistId, title).then((res) => {
+      diapstch(addTaskAС(res.data.data.item));
     });
   };
 };
@@ -178,7 +177,7 @@ export const addTaskToServerTC = (todolistId: string, title: string) => {
 //удаление таски с сервера + из стейта
 export const removeTaskFromServerTC = (todolistId: string, taskId: string) => {
   return (dispatch: Dispatch) => {
-    todolistsAPI.deleteTasks(todolistId, taskId).then((res) => {
+    todolistsAPI.deleteTask(todolistId, taskId).then((res) => {
       dispatch(removeTaskAC(taskId, todolistId));
     });
   };
@@ -190,7 +189,7 @@ export const updateTaskStatusTC = ( todolistId: string, taskId: string, status: 
     let allTasks = getState().tasks;
     let currentTask = allTasks[todolistId].find((t) => t.id === taskId);
     if (currentTask) {
-      todolistsAPI.updateTasks(todolistId, taskId, {
+      todolistsAPI.updateTask(todolistId, taskId, {
           description: currentTask.description,
           title: currentTask.title,
           status: status,

@@ -119,7 +119,7 @@ export const setTodolistsAC = (todolists: TodolistType[]) =>
 //*Thunk Creators
 
 export const getTodolistsFromServerTC = () => {
-
+ 
 	return (dispatch: Dispatch) => {
 		todolistsAPI.getTodolists().then((res) => {
       dispatch(setTodolistsAC(res.data));
