@@ -1,15 +1,15 @@
-import { AddItemInput } from "./components/addItemInput/AddItemInput";
+import { AddItemInput } from "../../../components/addItemInput/AddItemInput";
 import { Chip, Divider, Grid, List, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { AppRootStateType, useAppDispatch } from "./store/store";
-import { addTaskAС, addTaskToServerTC, getTasksFromServerTC } from "./store/reducers/tasks-reducer";
-import { changeTodolistFilterAС, changeTodolistTitleAС, FilterValueType, removeTodolistAС, TodolistDomainType } from "./store/reducers/todolist-reducer";
-import { todolistTitleStyle } from "./styles/Todolost.styles";
-import { EditableSpan } from "./components/editableSpan/EditableSpan";
+import { AppRootStateType, useAppDispatch } from "../../../store/store";
+import { addTaskAС, addTaskToServerTC, getTasksFromServerTC } from "../../../store/reducers/tasks-reducer";
+import { changeTodolistFilterAС, changeTodolistTitleTC, FilterValueType, removeTodolistTC, TodolistDomainType } from "../../../store/reducers/todolist-reducer";
+import { todolistTitleStyle } from "../../../styles/Todolost.styles";
+import { EditableSpan } from "../../../components/editableSpan/EditableSpan";
 import React, { useCallback, useEffect } from "react";
-import { FilterButton } from "./components/FilterButton";
-import { Task } from "./Task";
-import { TaskStatuses, TaskType } from "./api/todolists-api";
+import { FilterButton } from "../../../components/FilterButton";
+import { Task } from "./tasks/Task";
+import { TaskStatuses, TaskType } from "../../../api/todolists-api";
 
 
 export type TodoListProps = {
@@ -36,12 +36,12 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 	//* todolists
 	//удаление всего тудулиста
 	const removeTodoListHandler = useCallback(() => {
-		dispatch(removeTodolistAС(id))
+		dispatch(removeTodolistTC(id))
 	}, [id, dispatch])
 
 	//изменение названия тудулиста
 	const changeTodoTitleCallback = useCallback((newTitle: string) => {
-		dispatch(changeTodolistTitleAС(id, newTitle))
+		dispatch(changeTodolistTitleTC(id, newTitle))
 	}, [id, dispatch])
 
 
@@ -100,7 +100,7 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 				<div style={{ margin: '20px 0', display: 'flex', gap: '8px'}}>
 					<FilterButton children="All" onClick={onAllClickHandler} variant={filter === 'All' ? 'contained' : 'text'}/>
 					<FilterButton children="Active" onClick={onActiveClickHandler} variant={filter === 'Active' ? 'contained' : 'text'}/>
-					<FilterButton children="Completed" onClick={onCompletedClickHandler} variant={filter === 'Completed' ? 'contained' : 'text'}/>
+					<FilterButton children="Completed" onClick={onCompletedClickHandler} variant={filter === 'Completed' ? 'contained' : 'text'} color="secondary"/>
 				</div>
 
 				<AddItemInput addItem={addTaskCallback} label="Add new task" />

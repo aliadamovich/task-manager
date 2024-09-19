@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { AddItemInput } from "../components/addItemInput/AddItemInput";
 import { action } from "@storybook/addon-actions";
-import React, { ChangeEvent, useState } from "react";
-import { render } from "react-dom";
-import { Task } from "../Task";
+import { ChangeEvent, useState } from "react";
+import { Task } from "../layout/todolostsList/todolist/tasks/Task";
 import { ReduxStoreProviderDecorator } from "./ReduxStoreProviderDecorator";
 import { Box, Checkbox } from "@mui/material";
 import { EditableSpan } from "../components/editableSpan/EditableSpan";
 import { getListItemSx } from "../styles/Todolost.styles";
+import { TaskStatuses } from "../api/todolists-api";
 
 
 
@@ -25,7 +24,7 @@ const meta: Meta<typeof Task> = {
 	args: {
 		id: "taskId1",
 		title: "Learn Storybook",
-		isDone: false,
+		status: TaskStatuses.New,
 		todolistId: "todolistId1", // ID тудулиста, который существует в initialGlobalState
 	},
 };
@@ -35,14 +34,14 @@ type Story = StoryObj<typeof Task>;
 
 export const TaskIsNotDoneStory: Story = {
 	args: {
-		isDone: false,
+		status: TaskStatuses.New,
 	},
 };
 
 
 export const TaskIsDoneStory: Story = {
 	args: {
-		isDone: true,
+		status: TaskStatuses.Completed
 	},
 };
 

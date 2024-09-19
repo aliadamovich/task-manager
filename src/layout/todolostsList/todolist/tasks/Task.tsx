@@ -1,10 +1,10 @@
 import { Box, Checkbox } from "@mui/material";
-import { getListItemSx } from "./styles/Todolost.styles";
-import { EditableSpan } from "./components/editableSpan/EditableSpan";
+import { getListItemSx } from "../../../../styles/Todolost.styles";
+import { EditableSpan } from "../../../../components/editableSpan/EditableSpan";
 import React, { ChangeEvent, useCallback } from "react";
-import { changeTaskTitleAC, removeTaskFromServerTC, updateTaskStatusTC } from "./store/reducers/tasks-reducer";
-import { TaskStatuses, TaskType } from "./api/todolists-api";
-import { useAppDispatch } from "./store/store";
+import { changeTaskTitleAC, removeTaskFromServerTC, updateTaskStatusTC } from "../../../../store/reducers/tasks-reducer";
+import { TaskStatuses, TaskType } from "../../../../api/todolists-api";
+import { useAppDispatch } from "../../../../store/store";
 
 type TaskElementType = TaskType & {
 	todolistId: string

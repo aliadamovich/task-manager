@@ -23,13 +23,17 @@ export const ColorModeProvider = ({ children }: { children: React.ReactNode }) =
 	const theme = createTheme({
 		palette: {
 			primary: {
-				main: "#6DDAEF",
+				main: "#8bd5e4",
 			},
 			secondary: {
 				main: "#AE86A0",
 			},
 			// mode: isLight ? "light" : "dark",
 			mode
+		},
+		typography: {
+			fontFamily: "Montserrat, sans-serif",
+			fontSize: 14
 		},
 });
 	return (

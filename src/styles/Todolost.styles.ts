@@ -38,8 +38,8 @@ export const getListItemSx = (isDone: boolean): SxProps => ({
 
 export const todolistTitleStyle = {
   margin: "10px 0 20px",
-  fontSize: "22px",
-	fontWeight: '500',
+  fontSize: "24px",
+	fontWeight: '500'
 };
 
 
@@ -49,6 +49,7 @@ export const ItemWithHoverStyle = {
   alignItems: "center",
   justifyContent: "space-between",
 	transition: "all 0.3s ease 0s",
+	color: 'dark-grey',
 
   "&:hover": {
     background: "#ededed6d",
