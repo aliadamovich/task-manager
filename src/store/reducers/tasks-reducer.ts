@@ -1,15 +1,12 @@
 import { Dispatch } from "redux";
 import { v1 } from "uuid";
 import { addTodolistActionType, removeTodolistActionType,  setTodolistsActionType } from "./todolist-reducer";
-import {  TaskPriorities, TaskStatuses, TaskType, todolistsAPI, } from "../../api/todolists-api";
-import { AppRootStateType } from "../store";
+import {  TaskType, todolistsAPI, UpdateTaskType, } from "../../api/todolists-api";
+import { AppActionsType, AppRootStateType } from "../store";
 
 
 //* Reducer
-export const tasksReducer = (
-  tasks = initialState,
-  action: ActionsType
-): TaskStateType => {
+export const tasksReducer = (tasks = initialState,  action: TasksActionsType): TaskStateType => {
   switch (action.type) {
     case "REMOVE-TASK":
       return {
@@ -26,24 +23,11 @@ export const tasksReducer = (
           ...tasks[action.task.todoListId],
         ],
       };
-    case "CHANGE-TASK-STATUS":
+    case "UPDATE-TASK":
       return {
         ...tasks,
-        [action.todolistId]: tasks[action.todolistId].map(
-          (t) =>
-            t.id === action.taskId
-              ? { ...t, status: action.status }
-              : t
-        ),
-      };
-    case "CHANGE-TASK-TITLE":
-      return {
-        ...tasks,
-        [action.todolistId]: tasks[action.todolistId].map(
-          (t) =>
-            t.id === action.taskId
-              ? { ...t, title: action.title }
-              : t
+        [action.todolistId]: tasks[action.todolistId].map((t) =>
+          t.id === action.taskId ? { ...t, ...action.model} : t
         ),
       };
     case "ADD-TODOLIST":
@@ -59,7 +43,7 @@ export const tasksReducer = (
 
     case "SET-TODOLISTS":
       let copy = { ...tasks };
-      action.todolists.forEach(tl => copy[tl.id] = []);
+      action.todolists.forEach((tl) => (copy[tl.id] = []));
       return copy;
 
     case "SET-TASKS":
@@ -75,17 +59,15 @@ export const tasksReducer = (
 export const removeTaskAC = (taskId: string, todolistId: string) => ({type: "REMOVE-TASK", taskId, todolistId } as const);
 export const addTaskAС = ( task: TaskType) => ({ type: "ADD-TASK",task } as const);
 
-export const changeTaskStatusAC = ( todolistId: string, taskId: string, status: TaskStatuses) =>
-  ({ type: "CHANGE-TASK-STATUS", todolistId, taskId, status}) as const;
+export const updateTaskAC = ( todolistId: string, taskId: string, model: UpdateDomainTaskModelType) =>
+  ({ type: "UPDATE-TASK", todolistId, taskId, model}) as const;
 
-export const changeTaskTitleAC = (todolistId: string, taskId: string, title: string) =>
-  ({ type: "CHANGE-TASK-TITLE", todolistId, taskId, title }) as const;
 
 export const setTasksAC = (tasks: TaskType[], todolistId: string) => ({ type: "SET-TASKS", tasks, todolistId}) as const;
 
 //*Thunk Creators
 //получение всех тасок с сервера и отправка в стейт
-export const getTasksFromServerTC = (todolistId: string) => {
+export const getTasksTC = (todolistId: string) => {
   return (dispatch: Dispatch) => {
     todolistsAPI.getTasks(todolistId).then((res) => {
       dispatch(setTasksAC(res.data.items, todolistId));
@@ -94,7 +76,7 @@ export const getTasksFromServerTC = (todolistId: string) => {
 };
 
 //добавление таски на сервер + в стейт
-export const addTaskToServerTC = (todolistId: string, title: string) => {
+export const createTaskTC = (todolistId: string, title: string) => {
   return (dispatch: Dispatch) => {
     todolistsAPI.createTask(todolistId, title).then((res) => {
       dispatch(addTaskAС(res.data.data.item));
@@ -103,7 +85,7 @@ export const addTaskToServerTC = (todolistId: string, title: string) => {
 };
 
 //удаление таски с сервера + из стейта
-export const removeTaskFromServerTC = (todolistId: string, taskId: string) => {
+export const removeTaskTC = (todolistId: string, taskId: string) => {
   return (dispatch: Dispatch) => {
     todolistsAPI.deleteTask(todolistId, taskId).then((res) => {
       dispatch(removeTaskAC(taskId, todolistId));
@@ -111,26 +93,36 @@ export const removeTaskFromServerTC = (todolistId: string, taskId: string) => {
   };
 };
 
-//изменение статуса таски на сервере + в стейте
-export const updateTaskStatusTC = ( todolistId: string, taskId: string, status: TaskStatuses) => {
-  return (dispatch: Dispatch, getState: () => AppRootStateType) => {
-    let allTasks = getState().tasks;
-    let currentTask = allTasks[todolistId].find((t) => t.id === taskId);
-    if (currentTask) {
-      todolistsAPI.updateTask(todolistId, taskId, {
-          description: currentTask.description,
-          title: currentTask.title,
-          status: status,
-          priority: currentTask.priority,
-          startDate: currentTask.startDate,
-          deadline: currentTask.deadline,
-        })
-        .then(() => dispatch(changeTaskStatusAC(todolistId, taskId, status)));
-    }
-  };
+
+//спец тип для модели в которой все свойства необязатеьные, и мы передаем тоько одно - что делает 
+//изменения универсаьными и позволяет создать одну санку на все измпнения таски
+export type UpdateDomainTaskModelType = {
+  description?: string;
+  title?: string;
+  status?: number;
+  priority?: number;
+  startDate?: string;
+  deadline?: string;
 };
+//изменение любого свойства в таске
+export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateDomainTaskModelType) => {
+	return (dispatch: Dispatch, getState: () => AppRootStateType) => {
+	let allTasks = getState().tasks;
+	let task = allTasks[todolistId].find((t) => t.id === taskId);
+	if (!task) return;
 
-
+	const apiModel: UpdateTaskType = {
+		description: task.description,
+		title: task.title,
+		status: task?.status,
+		priority: task.priority,
+		startDate: task.startDate,
+		deadline: task.deadline,
+		...model //тк в model сидит одно свойство, мы его перезатрем в объекте а все остальные оставим как есть
+	};
+		todolistsAPI.updateTask(todolistId, taskId, apiModel).then(() => dispatch(updateTaskAC(todolistId, taskId, model)));
+	}
+}
 
 
 
@@ -139,11 +131,10 @@ export const updateTaskStatusTC = ( todolistId: string, taskId: string, status: 
 
 //* Types
 
-type ActionsType =
+export type TasksActionsType =
   | ReturnType<typeof removeTaskAC>
   | ReturnType<typeof addTaskAС>
-  | ReturnType<typeof changeTaskStatusAC>
-  | ReturnType<typeof changeTaskTitleAC>
+  | ReturnType<typeof updateTaskAC>
   | addTodolistActionType
   | removeTodolistActionType
   | setTodolistsActionType

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Header } from './layout/header/Header';
 import { Sidebar } from './layout/sidebar/Sidebar';
 import { TodolistsList } from './layout/todolostsList/TodolistsList';
+import { LinearProgress } from '@mui/material';
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -16,6 +17,7 @@ function App() {
 		<div className='App'>
 			<Header toggleSidebar={toggleSidebar}/>
 			<Sidebar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen}/>
+			{/* <LinearProgress /> */}
 			<TodolistsList />
 		</div>
 

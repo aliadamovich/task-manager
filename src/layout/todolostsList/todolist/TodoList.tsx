@@ -2,7 +2,7 @@ import { AddItemInput } from "../../../components/addItemInput/AddItemInput";
 import { Chip, Divider, Grid, List, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType, useAppDispatch } from "../../../store/store";
-import { addTaskAС, addTaskToServerTC, getTasksFromServerTC } from "../../../store/reducers/tasks-reducer";
+import { addTaskAС, createTaskTC, getTasksTC } from "../../../store/reducers/tasks-reducer";
 import { changeTodolistFilterAС, changeTodolistTitleTC, FilterValueType, removeTodolistTC, TodolistDomainType } from "../../../store/reducers/todolist-reducer";
 import { todolistTitleStyle } from "../../../styles/Todolost.styles";
 import { EditableSpan } from "../../../components/editableSpan/EditableSpan";
@@ -23,14 +23,14 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 	let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
 	const dispatch = useAppDispatch();
 
-	useEffect( () => {dispatch(getTasksFromServerTC(id))}, [])
+	useEffect( () => {dispatch(getTasksTC(id))}, [])
 
 	//*tasks
 	// добавление таски
 	const addTaskCallback = useCallback((value: string) => {
 		// dispatch(addTaskAС(id, value))
-		dispatch(addTaskToServerTC(id, value))
-	}, [addTaskToServerTC, id, dispatch])
+		dispatch(createTaskTC(id, value))
+	}, [createTaskTC, id, dispatch])
 
 
 	//* todolists

@@ -2,8 +2,8 @@ import { v1 } from 'uuid';
 import { Reducer, useReducer, useState } from 'react';
 import { AddItemInput } from '../components/addItemInput/AddItemInput';
 import { Container, createTheme, CssBaseline, Grid, ThemeProvider } from '@mui/material';
-import { ActionType, addTodolistAС, removeTodolistAС, changeTodolistTitleAС, todolistReducer, changeTodolistFilterAС } from '../store/reducers/todolist-reducer';
-import { addTaskAС, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from '../store/reducers/tasks-reducer';
+import { TodolistsActionType, addTodolistAС, removeTodolistAС, changeTodolistTitleAС, todolistReducer, changeTodolistFilterAС } from '../store/reducers/todolist-reducer';
+import { addTaskAС, updateTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from '../store/reducers/tasks-reducer';
 import { TodoListOld } from './TodoListOld';
 
 
@@ -33,7 +33,7 @@ function AppWithReducers() {
 	//в типизации вставяем Reducer (импорт из React) + два параметра - тип стейта с которым работаем, второый - тип экшна с которым работаем)
 	//для большей читаемости стейт выносим в отдельную функцию и сначала прописываем пустой массив
 	// const [todoLists, dispatchToTodolists] = useReducer<Reducer<TodoListsType[], ActionType>>(todolistReducer, iTodoList, initTodolist)
-	const [todoLists, dispatchToTodolists] = useReducer<Reducer<TodoListsType[], ActionType>>(todolistReducer, initTodolist())
+	const [todoLists, dispatchToTodolists] = useReducer<Reducer<TodoListsType[], TodolistsActionType>>(todolistReducer, initTodolist())
 
 	const [allTasks, dispatchToTasks] = useReducer(tasksReducer, {
 		[todoList1]: [
@@ -85,7 +85,7 @@ function AppWithReducers() {
 
 	//смена статуса таски isDone
 	const changeTaskStatus = (taskId: string, status: boolean, todoListId: string) => {
-		dispatchToTasks(changeTaskStatusAC(todoListId, taskId, status))
+		dispatchToTasks(updateTaskAC(todoListId, taskId, status))
 	}
 
 	//изменение названия таски
