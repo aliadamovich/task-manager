@@ -1,3 +1,4 @@
+import { RequestStatusType } from './../store/reducers/app-reducer';
 import axios, { AxiosResponse } from "axios";
 
 const settings = {
@@ -20,11 +21,7 @@ export const todolistsAPI = {
   },
 
   createTodolist(title: string) {
-    return instance.post<
-      ResponseType<{ item: TodolistType }>,
-      AxiosResponse<ResponseType<{ item: TodolistType }>>,
-      { title: string }
-    >("todo-lists", {
+    return instance.post<ResponseType<{ item: TodolistType }>, AxiosResponse<ResponseType<{ item: TodolistType }>>,{ title: string }>("todo-lists", {
       title: title,
     });
   },
@@ -96,6 +93,10 @@ export type TaskType = {
   addedDate: string;
 };
 
+export type TaskDomainType = TaskType & {
+	taskEntityStatus: RequestStatusType
+}
+
 export enum TaskStatuses {
   New = 0,
   inProgress = 1,
@@ -125,3 +126,9 @@ export type UpdateTaskType = {
   startDate: string;
   deadline: string;
 };
+
+//* enum
+export enum ResultCode {
+	'Success' = 0,
+	'Error' = 1
+}

@@ -9,7 +9,7 @@ import { EditableSpan } from "../../../components/editableSpan/EditableSpan";
 import React, { useCallback, useEffect } from "react";
 import { FilterButton } from "../../../components/FilterButton";
 import { Task } from "./tasks/Task";
-import { TaskStatuses, TaskType } from "../../../api/todolists-api";
+import { TaskDomainType, TaskStatuses, TaskType } from "../../../api/todolists-api";
 
 
 export type TodoListProps = {
@@ -18,9 +18,9 @@ export type TodoListProps = {
 
 export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 
-	const {id, filter, title, ...restProps} = todolist;
+	const {id, filter, title, entityStatus, ...restProps} = todolist;
 
-	let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
+	let tasks = useSelector<AppRootStateType, TaskDomainType[]>(state => state.tasks[id])
 	const dispatch = useAppDispatch();
 
 	useEffect( () => {dispatch(getTasksTC(id))}, [])
@@ -74,12 +74,12 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 		} else return []
 	}
 
-	return(
-		<Grid item xs={12} md={4} >
+	return (
+		<Grid item xs={12} md={6} >
 			<Paper elevation={3} sx={{ padding: 2, display: 'flex', flexDirection: 'column', height: '100%'}}>
 
 				<h2 style={todolistTitleStyle}>
-					<EditableSpan title={title} onChange={changeTodoTitleCallback} removeItem={removeTodoListHandler}/>
+					<EditableSpan title={title} onChange={changeTodoTitleCallback} removeItem={removeTodoListHandler} disabled={entityStatus === 'loading'}/>
 				</h2>
 
 				<List sx={{flex: '1 1 auto', mt: '10px'}}>
@@ -103,7 +103,7 @@ export const TodoList = React.memo(({ todolist }: TodoListProps) => {
 					<FilterButton children="Completed" onClick={onCompletedClickHandler} variant={filter === 'Completed' ? 'contained' : 'text'} color="secondary"/>
 				</div>
 
-				<AddItemInput addItem={addTaskCallback} label="Add new task" />
+				<AddItemInput addItem={addTaskCallback} label="Add new task" disabled={entityStatus === 'loading'}/>
 			</Paper>
 		</Grid>
 	)

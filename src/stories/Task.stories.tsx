@@ -5,7 +5,7 @@ import { Task } from "../layout/todolostsList/todolist/tasks/Task";
 import { ReduxStoreProviderDecorator } from "./ReduxStoreProviderDecorator";
 import { Box, Checkbox } from "@mui/material";
 import { EditableSpan } from "../components/editableSpan/EditableSpan";
-import { getListItemSx } from "../styles/Todolost.styles";
+import { TaskEditableSpanBoxSX } from "../styles/Todolost.styles";
 import { TaskStatuses } from "../api/todolists-api";
 
 
@@ -57,7 +57,7 @@ export const TaskIsDoneStory: Story = {
 		action('Task title changed')(newTitle);
 	}
 	 return (
-		 <Box sx={getListItemSx(task.isDone)}>
+		 <Box sx={TaskEditableSpanBoxSX(task.isDone)}>
 			 <Checkbox checked={task.isDone} size="small" color="secondary" sx={{ marginRight: '10px' }}
 				 onChange={changeTaskStatus}
 			 />

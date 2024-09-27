@@ -9,9 +9,10 @@ type EditableSpanType = {
 	title: string
 	onChange: (newTitle: string) => void
 	removeItem: () => void
+	disabled?: boolean
 }
 
-export const EditableSpan = React.memo(({ title, onChange, removeItem }: EditableSpanType) => {
+export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem }: EditableSpanType) => {
 	const [editMode, setEditMode] = useState(false)
 	const [titleValue, setTitleValue] = useState<string>('')
 	
@@ -37,31 +38,33 @@ export const EditableSpan = React.memo(({ title, onChange, removeItem }: Editabl
 				<>
 					<TextField type="text" variant="standard" color="secondary" autoFocus
 						value={titleValue}
+						sx={{width: '100%'}}
 						onBlur={onBlurHandler}
 						onChange={(e) => { setTitleValue(e.currentTarget.value) }}
 					/>
 					<IconButton sx={{ display: 'block', p: '2px' }}
-						onClick={onEditButtonClick}
 					>
 						<BorderColorIcon fontSize="small" />
 					</IconButton>
 				</>
 			:
 				<>
-					<span>{title}</span>
-					<div style={{display: 'flex', gap: '7px'}}>
-						<IconButton sx={{ display: 'none', p: '2px' }}
-							onClick={onEditButtonClick}
-						>
-							<BorderColorIcon fontSize="small" />
-						</IconButton>
-	
-						<IconButton sx={{ display: 'none', p: '2px' }}
-							onClick={onRemoveButtonClick}
-						>
-							<DeleteOutlineIcon fontSize="small" />
-						</IconButton>
-					</div>
+					<span style={{ wordBreak: 'break-word' }}>{title}</span>
+						<div style={{flex: '0 0 auto', padding: '0 2px'}}>
+							<IconButton 
+								onClick={onEditButtonClick}
+								disabled={disabled}
+							>
+								<BorderColorIcon fontSize="small" />
+							</IconButton>
+		
+							<IconButton 
+								onClick={onRemoveButtonClick}
+								disabled={disabled}
+							>
+								<DeleteOutlineIcon fontSize="small" />
+							</IconButton>
+						</div>
 				</>
 			}
 		

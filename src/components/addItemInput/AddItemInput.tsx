@@ -5,9 +5,10 @@ import ControlPointIcon from '@mui/icons-material/ControlPoint';
 export type AddItemInputType = {
 	addItem: (value: string) => void
 	label: string
+	disabled?: boolean
 }
 
-export const AddItemInput = React.memo(({ addItem, label }: AddItemInputType) => {
+export const AddItemInput = React.memo(({ addItem, label, disabled }: AddItemInputType) => {
 
 	const [itemValue, setItemValue] = useState<string>('');
 	const [error, setError] = useState<null | string>(null);
@@ -48,9 +49,10 @@ export const AddItemInput = React.memo(({ addItem, label }: AddItemInputType) =>
 				onKeyUp={onKeyPressHandler} 
 				helperText={error}
 				error={!!error}
+				disabled={disabled}
 				fullWidth
 			/>
-			<IconButton title="+" onClick={addItemHandler} color="secondary">
+			<IconButton title="+" onClick={addItemHandler} color="secondary" disabled={disabled}>
 				<ControlPointIcon />
 			</IconButton>
 			</div>

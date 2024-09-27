@@ -1,9 +1,10 @@
-import { TypedUseSelectorHook, useDispatch } from "react-redux";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { TasksActionsType, tasksReducer } from "./reducers/tasks-reducer";
 import { todolistReducer, TodolistsActionType } from "./reducers/todolist-reducer";
 import { applyMiddleware, combineReducers, legacy_createStore as createStore, UnknownAction } from "redux";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { thunk, ThunkAction, ThunkDispatch } from "redux-thunk";
+import { appReducer } from "./reducers/app-reducer";
 
 //* types
 // определить автоматически тип всего объекта состояния
@@ -23,6 +24,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateTy
 const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolists: todolistReducer,
+	app: appReducer
 });
 
 //* store
@@ -35,11 +37,8 @@ export const store = createStore(rootReducer, composeWithDevTools(applyMiddlewar
 // export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppDispatch = useDispatch<AppDispatch>;
 
-
-
-
-//!типизация селектора - посмотреть потом
-// export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector;
+//кастомный хук для селектора
+export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector;
 
 
 

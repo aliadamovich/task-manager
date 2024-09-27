@@ -1,16 +1,16 @@
 import { Box, Checkbox } from "@mui/material";
-import { getListItemSx } from "../../../../styles/Todolost.styles";
+import { TaskEditableSpanBoxSX } from "../../../../styles/Todolost.styles";
 import { EditableSpan } from "../../../../components/editableSpan/EditableSpan";
 import React, { ChangeEvent, useCallback } from "react";
 import { removeTaskTC, updateTaskTC } from "../../../../store/reducers/tasks-reducer";
-import { TaskStatuses, TaskType } from "../../../../api/todolists-api";
+import { TaskDomainType, TaskStatuses, TaskType } from "../../../../api/todolists-api";
 import { useAppDispatch } from "../../../../store/store";
 
-type TaskElementType = TaskType & {
+type TaskElementType = TaskDomainType & {
 	todolistId: string
 }
 
-export const Task = React.memo(({ id, title, status, todolistId}: TaskElementType) => {
+export const Task = React.memo(({ id, title, status, taskEntityStatus, todolistId}: TaskElementType) => {
 
 	const dispatch = useAppDispatch()
 
@@ -28,13 +28,15 @@ export const Task = React.memo(({ id, title, status, todolistId}: TaskElementTyp
 	}, [todolistId, dispatch])
 
 	return (
-		<Box sx={getListItemSx(status === TaskStatuses.Completed ? true : false)}>
+		<Box sx={TaskEditableSpanBoxSX(status === TaskStatuses.Completed ? true : false)}>
 			<Checkbox checked={status === TaskStatuses.Completed && true} size="small" color="secondary" sx={{ marginRight: '10px' }}
 				onChange={changeTaskStatusHandler}
+				disabled={taskEntityStatus === 'loading'}
 			/>
 			<EditableSpan title={title}
 				onChange={onInputChange}
 				removeItem={removeItemHandler}
+				disabled={taskEntityStatus === 'loading'}
 			/>
 
 		</Box>

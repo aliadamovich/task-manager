@@ -9,12 +9,8 @@ import {SxProps } from '@mui/material'
 //если у нас есть какая то логика по вычислению св-в в зависимости от просов то в виде функции 
 //в компоненте в sx прописываем этот объект либо функцию c вызываемым аргументом
 
-export const getListItemSx = (isDone: boolean): SxProps => ({
-	opacity: isDone ? 0.3 : 1,
-	display: 'flex'
-}
-);
-//как пример того же самого функционала что и выше, но с помощью reusable component и styled()
+
+//как пример того же самого функционала что и ниже, но с помощью reusable component и styled()
 // type IsDoneType = {
 //   isDone: boolean;
 // };
@@ -35,6 +31,11 @@ export const getListItemSx = (isDone: boolean): SxProps => ({
 
 //стиль для заголовка тудулиста
 
+export const TaskEditableSpanBoxSX = (isDone: boolean): SxProps => ({
+  opacity: isDone ? 0.3 : 1,
+  display: "flex",
+  marginBottom: "12px",
+});
 
 export const todolistTitleStyle = {
   margin: "10px 0 20px",
@@ -48,14 +49,23 @@ export const ItemWithHoverStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-	transition: "all 0.3s ease 0s",
-	color: 'dark-grey',
+  transition: "all 0.3s ease 0s",
+  color: "dark-grey",
+	// overflow: 'hidden',
+	gap: '7px',
+
+  button: {
+    opacity: "0",
+    visibility: "hidden",
+  },
 
   "&:hover": {
     background: "#ededed6d",
     borderRadius: "4px",
     button: {
-      display: "block",
+      opacity: "1",
+      visibility: "visible",
     },
   },
 };
+
