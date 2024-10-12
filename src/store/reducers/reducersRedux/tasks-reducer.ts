@@ -1,27 +1,29 @@
 import { Dispatch } from "redux";
-import { v1 } from "uuid";
-import { addTodolistActionType, removeTodolistActionType,  setTodolistsActionType } from "./todolist-reducer";
-import {  ResultCode, TaskDomainType, TaskType, todolistsAPI, UpdateTaskType, } from "../../api/todolists-api";
-import { AppActionsType, AppRootStateType } from "../store";
-import { RequestStatusType, setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "./app-reducer";
-import { handleServerAppErrors, handleServerNetworkError } from "../../utils";
+import { TaskDomainType, TaskType, todolistsAPI, UpdateTaskType } from "../../../api/todolists-api";
+import { AppRootStateType } from "../../store";
+import { handleServerAppErrors, handleServerNetworkError } from "../../../utils";
+import { ResultCode } from "../../../features/lib/enums/enums";
+import { RequestStatusType } from "store/reducers/appSlice";
+import { SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "store/reducers/reducersRedux/app-reducer";
+import { addTodolistActionType, removeTodolistActionType, setTodolistsActionType } from "store/reducers/reducersRedux/todolists-reducer";
 
 
 //* Reducer
-export const tasksReducer = (tasks = initialState, action: TasksActionsType): TaskStateType => {
+export const _tasksReducer = (tasks = initialState, action: TasksActionsType): TaskStateType => {
   switch (action.type) {
     case "REMOVE-TASK":
       return {
         ...tasks,
-        [action.todolistId]: tasks[action.todolistId].filter(
-          (t) => t.id !== action.taskId
-        ),
+        [action.todolistId]: tasks[action.todolistId].filter((t) => t.id !== action.taskId),
       };
     case "ADD-TASK":
       return {
         ...tasks,
         [action.task.todoListId]: [
-          {...action.task, taskEntityStatus: 'idle'},
+          {
+            ...action.task,
+            taskEntityStatus: "idle",
+          },
           ...tasks[action.task.todoListId],
         ],
       };
@@ -29,14 +31,24 @@ export const tasksReducer = (tasks = initialState, action: TasksActionsType): Ta
       return {
         ...tasks,
         [action.todolistId]: tasks[action.todolistId].map((t) =>
-          t.id === action.taskId ? { ...t, ...action.model} : t
+          t.id === action.taskId
+            ? {
+                ...t,
+                ...action.model,
+              }
+            : t,
         ),
       };
     case "ADD-TODOLIST":
-      return { ...tasks, [action.todolist.id]: [] };
+      return {
+        ...tasks,
+        [action.todolist.id]: [],
+      };
 
     case "REMOVE-TODOLIST":
-      let copyTasks = { ...tasks };
+      let copyTasks = {
+        ...tasks,
+      };
       delete copyTasks[action.id];
       return copyTasks;
     //при деструктуризации рождается новый объект, поэтому можно удалить св-во через дестр-ю - присваиваем свойству
@@ -44,23 +56,40 @@ export const tasksReducer = (tasks = initialState, action: TasksActionsType): Ta
     // return rest
 
     case "SET-TODOLISTS":
-      let copy = { ...tasks };
+      let copy = {
+        ...tasks,
+      };
       action.todolists.forEach((tl) => (copy[tl.id] = []));
       return copy;
 
     case "SET-TASKS":
-      return { ...tasks, [action.todolistId]: action.tasks.map(t => ({...t, taskEntityStatus: 'idle'})) };
+      return {
+        ...tasks,
+        [action.todolistId]: action.tasks.map((t) => ({
+          ...t,
+          taskEntityStatus: "idle",
+        })),
+      };
 
-		case "CHANGE-TASK-ENTITY-STATUS":
-			return {
-				...tasks,
-				[action.todolistId]: tasks[action.todolistId].map(t => t.id === action.taskId ? {...t, taskEntityStatus: action.status} : t)
-			}
+    case "CHANGE-TASK-ENTITY-STATUS":
+      return {
+        ...tasks,
+        [action.todolistId]: tasks[action.todolistId].map((t) =>
+          t.id === action.taskId
+            ? {
+                ...t,
+                taskEntityStatus: action.status,
+              }
+            : t,
+        ),
+      };
 
     default:
       return tasks;
   }
 };
+
+
 
 //*Action Creators
 

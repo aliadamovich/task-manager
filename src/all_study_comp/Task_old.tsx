@@ -5,32 +5,37 @@ import { TaskType } from "./App";
 import React, { useCallback } from "react";
 
 type TaskElementType = TaskType & {
-	removeTaskHandler: (taskId: string) => void
-	changeTaskStatusHandler: (taskId: string, status: boolean) => void
-	changeTitleValue: (value: string, id: string) => void
-}
+  removeTaskHandler: (taskId: string) => void;
+  changeTaskStatusHandler: (taskId: string, status: boolean) => void;
+  changeTitleValue: (value: string, id: string) => void;
+};
 
-export const TaskOld = React.memo(({ id, title, isDone, removeTaskHandler, changeTaskStatusHandler, changeTitleValue }:TaskElementType) => {
+export const TaskOld = React.memo(
+  ({ id, title, isDone, removeTaskHandler, changeTaskStatusHandler, changeTitleValue }: TaskElementType) => {
+    const onInputChange = useCallback(
+      (value: string) => {
+        changeTitleValue(value, id);
+      },
+      [id],
+    );
 
-	const onInputChange = useCallback((value: string) => {
-		changeTitleValue(value, id)
-	}, [id])
+    const removeItemHandler = useCallback(() => {
+      removeTaskHandler(id);
+    }, [id]);
 
-	const removeItemHandler = useCallback(() => {
-		removeTaskHandler(id)
-	}, [id])
-
-	return (
-		<Box sx={getListItemSx(isDone)}>
-
-			<Checkbox checked={isDone} size="small" color="secondary" sx={{marginRight: '10px'}}
-				onChange={(e) => changeTaskStatusHandler(id, e.currentTarget.checked)} 
-			/>
-			<EditableSpan title={title} 
-				onChange={onInputChange}
-				removeItem={removeItemHandler}
-			/>
-
-		</Box>
-	)
-})
+    return (
+      <Box sx={getListItemSx(isDone)}>
+        <Checkbox
+          checked={isDone}
+          size="small"
+          color="secondary"
+          sx={{
+            marginRight: "10px",
+          }}
+          onChange={(e) => changeTaskStatusHandler(id, e.currentTarget.checked)}
+        />
+        <EditableSpan title={title} onChange={onInputChange} removeItem={removeItemHandler} />
+      </Box>
+    );
+  },
+);

@@ -3,7 +3,9 @@ import { toMatchImageSnapshot } from "jest-image-snapshot";
 
 const config: TestRunnerConfig = {
   setup: () => {
-    expect.extend({ toMatchImageSnapshot });
+    expect.extend({
+      toMatchImageSnapshot,
+    });
   },
   postRender: async (page, context) => {
     // Add a post-render delay in case page is still animating

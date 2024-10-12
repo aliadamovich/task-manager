@@ -1,15 +1,19 @@
-import { RequestStatusType } from './../store/reducers/app-reducer';
+import { LoginType } from "../layout/login/Login";
+import { RequestStatusType } from "../store/reducers/appSlice";
 import axios, { AxiosResponse } from "axios";
 
 const settings = {
   withCredentials: true,
   headers: {
-    "API-KEY": "18ed5bfc-0aae-47f2-8e6a-4b855e26e81b",
+    // "API-KEY": "18ed5bfc-0aae-47f2-8e6a-4b855e26e81b",
+    Authorization: `Bearer ${process.env.REACT_APP_AUTH_TOKEN}`,
+    "API-KEY": process.env.REACT_APP_API_KEY,
   },
 };
 
 const instance = axios.create({
-  baseURL: "https://social-network.samuraijs.com/api/1.1/",
+  // baseURL: "https://social-network.samuraijs.com/api/1.1/",
+  baseURL: process.env.REACT_APP_BASE_URL,
   ...settings,
 });
 
@@ -21,7 +25,19 @@ export const todolistsAPI = {
   },
 
   createTodolist(title: string) {
-    return instance.post<ResponseType<{ item: TodolistType }>, AxiosResponse<ResponseType<{ item: TodolistType }>>,{ title: string }>("todo-lists", {
+    return instance.post<
+      ResponseType<{
+        item: TodolistType;
+      }>,
+      AxiosResponse<
+        ResponseType<{
+          item: TodolistType;
+        }>
+      >,
+      {
+        title: string;
+      }
+    >("todo-lists", {
       title: title,
     });
   },
@@ -43,28 +59,45 @@ export const todolistsAPI = {
   },
 
   deleteTask(todolistId: string, taskId: string) {
-    return instance.delete<ResponseType>(
-      `todo-lists/${todolistId}/tasks/${taskId}`
-    );
+    return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
   },
 
   updateTask(todolistId: string, taskId: string, model: UpdateTaskType) {
-    return instance.put<ResponseType<{ item: TaskType }>>(
-      `todo-lists/${todolistId}/tasks/${taskId}`,
-      model
-    );
+    return instance.put<
+      ResponseType<{
+        item: TaskType;
+      }>
+    >(`todo-lists/${todolistId}/tasks/${taskId}`, model);
   },
 
   createTask(todolistId: string, title: string) {
-    return instance.post<ResponseType<{ item: TaskType }>>(
-      `todo-lists/${todolistId}/tasks`,
-      { title: title }
-    );
+    return instance.post<
+      ResponseType<{
+        item: TaskType;
+      }>
+    >(`todo-lists/${todolistId}/tasks`, {
+      title: title,
+    });
   },
 };
 
+export const authAPI = {
+  login(data: LoginType) {
+    return instance.post<
+      ResponseType<{
+        userId: number;
+      }>
+    >("auth/login", data);
+  },
 
+  logout() {
+    return instance.delete<ResponseType<{}>>("auth/login");
+  },
 
+  me() {
+    return instance.get<ResponseType<UserType>>("auth/me");
+  },
+};
 
 //* Types
 export type TodolistType = {
@@ -94,23 +127,8 @@ export type TaskType = {
 };
 
 export type TaskDomainType = TaskType & {
-	taskEntityStatus: RequestStatusType
-}
-
-export enum TaskStatuses {
-  New = 0,
-  inProgress = 1,
-  Completed = 2,
-  Draft = 3,
-}
-
-export enum TaskPriorities {
-  Low = 0,
-  Middle = 1,
-  Hi = 2,
-  Urgently = 3,
-  Later = 4,
-}
+  taskEntityStatus: RequestStatusType;
+};
 
 type GetTasksResponse = {
   error: string | null;
@@ -127,8 +145,8 @@ export type UpdateTaskType = {
   deadline: string;
 };
 
-//* enum
-export enum ResultCode {
-	'Success' = 0,
-	'Error' = 1
-}
+type UserType = {
+  id: number;
+  email: string;
+  login: string;
+};

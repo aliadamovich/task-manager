@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -19,9 +15,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-		// "typeRoots": ["./node_modules/@types", "./src"]
+		"baseUrl": "src", //брать все импорты относительно src (чтобы избежать колбаски)
+    // "typeRoots": ["./node_modules/@types", "./src"]
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
