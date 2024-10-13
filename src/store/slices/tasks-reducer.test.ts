@@ -1,4 +1,4 @@
-import { addTask, updateTask, removeTask, tasksReducer, TaskStateType } from "store/reducers/tasksSlice";
+import { addTask, updateTask, removeTask, tasksReducer, TaskStateType } from "store/slices/tasksSlice";
 import { TaskPriorities, TaskStatuses } from "features/lib/enums/enums";
 import { addTodolist, removeTodolist } from "./todolistSlice";
 

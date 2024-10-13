@@ -5,7 +5,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { MaterialUISwitch } from "../../styles/SwitchStyled";
 import { ColorModeContext } from "../../styles/Theme";
 import { useAppDispatch } from "../../store/store";
-import { logoutTC } from "../../store/reducers/authSlice";
+import { logoutTC } from "../../store/slices/authSlice";
 
 type HeaderPropsType = {
   toggleSidebar: (isOpen: boolean) => () => void;

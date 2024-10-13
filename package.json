@@ -78,6 +78,7 @@
 		"styled-components": "5.3.6",
 		"tailwindcss": "3.0.2",
 		"terser-webpack-plugin": "5.2.5",
+		"ts-jest": "^29.2.5",
 		"typescript": "^5.6.2",
 		"uuid": "^10.0.0",
 		"web-vitals": "2.1.0",
@@ -164,9 +165,12 @@
 		"modulePaths": [],
 		"moduleNameMapper": {
 			"react-native$": "react-native-web",
-			".+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
-			"^src/(.*)$": "<rootDir>/src/$1"
+			".+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
 		},
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
 		"moduleFileExtensions": [
 			"web.js",
 			"js",

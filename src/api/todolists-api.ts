@@ -1,5 +1,5 @@
-import { LoginType } from "../layout/login/Login";
-import { RequestStatusType } from "../store/reducers/appSlice";
+import { LoginType } from "../layout/login/LoginPage";
+import { RequestStatusType } from "../store/slices/appSlice";
 import axios, { AxiosResponse } from "axios";
 
 const settings = {

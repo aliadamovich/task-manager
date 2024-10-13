@@ -5,7 +5,7 @@ import { Button, Chip, Divider, Grid, IconButton, List, Paper, useTheme } from "
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { TaskOld } from "./Task_old";
 import { TaskStatuses, TaskType } from "../api/todolists-api";
-import { FilterValueType } from "../store/reducers/todolistSlice";
+import { FilterValueType } from "../store/slices/todolistSlice";
 
 export type TodoListProps = {
   todoListId: string;

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { authAPI } from "../../../api/todolists-api"
-import { LoginType } from "../../../layout/login/Login"
+import { LoginType } from "../../../layout/login/LoginPage"
 import { handleServerAppErrors, handleServerNetworkError } from "../../../utils"
 import { AppThunk } from "../../store"
-import { setAppIsInitializedAC, setAppStatusAC } from "store/reducers/reducersRedux/app-reducer"
+import { setAppIsInitializedAC, setAppStatusAC } from "store/slices/reducersRedux/app-reducer"
 
 const initialState = {
 	isLoggedIn: false,

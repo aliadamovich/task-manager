@@ -1,12 +1,14 @@
+
 import { Dispatch } from "redux";
 import { TaskDomainType, TaskType, todolistsAPI, UpdateTaskType } from "../../api/todolists-api";
-import { AppRootStateType } from "../store";
 import { handleServerAppErrors, handleServerNetworkError } from "../../utils";
 import { ResultCode } from "../../features/lib/enums/enums";
-import { RequestStatusType, setAppStatus } from "store/reducers/appSlice";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addTodolist, removeTodolist, setTodolists } from 'store/reducers/todolistSlice';
-import { setTasksAC } from "store/reducers/reducersRedux/tasks-reducer";
+import { RequestStatusType, setAppStatus } from "store/slices/appSlice";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { addTodolist, removeTodolist, clearData } from 'store/slices/todolistSlice';
+import { AppRootStateType } from "store/store";
+
+const selectTaskss = (state: AppRootStateType) => state.tasks
 
 
 const tasksSlice = createSlice({
@@ -44,22 +46,34 @@ const tasksSlice = createSlice({
 	},
 
 	extraReducers: (builder) => {
-		builder.addCase(addTodolist, (state, action) => {
-			state[action.payload.todolist.id] = []
-		})
-		.addCase(removeTodolist, (state, action) => {
-			delete state[action.payload.id]
-		})
+		builder
+			.addCase(addTodolist, (state, action) => {
+				state[action.payload.todolist.id] = []
+			})
+			.addCase(removeTodolist, (state, action) => {
+				delete state[action.payload.id]
+			})
+			.addCase(clearData, (state, action) => {
+				return {}
+			})
 		//если добавить проверку на пустой массив в компоненте то нет необходимости сетать тудулисты тут
 		// .addCase(setTodolists, (state, action) => {
 		// 	action.payload.todolists.forEach((tl) => state[tl.id] = [])
 		// })
+	},
+
+	selectors: {
+		// selectAllTasks: sliceState => sliceState,
+		selectTasks: createSelector(
+			[(state: TaskStateType) => state, (_, id) => id], //массив входных селекторов
+		(tasks, id) => tasks[id])
+		
 	}
 })
 
 export const tasksReducer = tasksSlice.reducer
 export const { removeTask, addTask, updateTask, changeTaskEntityStatus, setTasks } = tasksSlice.actions
-
+export const { selectTasks } = tasksSlice.selectors
 
 
 //*Thunk Creators

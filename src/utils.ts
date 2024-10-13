@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { ResponseType } from "./api/todolists-api";
-import { setAppError, setAppStatus } from "store/reducers/appSlice";
+import { setAppError, setAppStatus } from "store/slices/appSlice";
 
 export const handleServerNetworkError = (
   dispatch: Dispatch,

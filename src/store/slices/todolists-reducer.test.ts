@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { addTodolist, changeTodolistFilter, changeTodolistTitle, removeTodolist, setTodolists, TodolistDomainType, todolistReducer } from "store/reducers/todolistSlice";
+import { addTodolist, changeTodolistFilter, changeTodolistTitle, removeTodolist, setTodolists, TodolistDomainType, todolistReducer } from "store/slices/todolistSlice";
 
 let todolistId1: string;
 let todolistId2: string;

@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
-import { Login } from "../layout/login/Login";
+import { LoginPage } from "../layout/login/LoginPage";
 import { TodolistsList } from "../layout/todolostsList/TodolistsList";
 import { ErrorPage } from "../components/errorPage/ErrorPage";
 
@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
   },
   {
     path: PATH.LOGIN,
-    element: <Login />,
+    element: <LoginPage />,
   },
   {
     path: PATH.ERROR,

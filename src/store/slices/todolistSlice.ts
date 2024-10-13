@@ -1,9 +1,10 @@
-import { RequestStatusType, setAppStatus } from "store/reducers/appSlice";
+import { RequestStatusType, setAppStatus } from "store/slices/appSlice";
 import { todolistsAPI, TodolistType } from "api/todolists-api";
 import { ResultCode } from "features/lib/enums/enums";
 import { handleServerAppErrors, handleServerNetworkError } from "utils";
 import { AppThunk } from "../store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getTasksTC } from "store/slices/tasksSlice";
 
 
 const todolistsSlice = createSlice({
@@ -40,12 +41,27 @@ const todolistsSlice = createSlice({
 			// 	state.push({ ...td, filter: "All", entityStatus: "idle" })
 			// })
 		},
+		clearData() {
+			return []
+		}
 	},
+
+	selectors: {
+		selectTodolists: (sliceState) => sliceState
+	}
 })
 
 export const todolistReducer = todolistsSlice.reducer
-export const { removeTodolist, addTodolist, changeTodolistEntityStatus, changeTodolistFilter, changeTodolistTitle, setTodolists} = todolistsSlice.actions
-
+export const {
+	removeTodolist,
+	addTodolist,
+	changeTodolistEntityStatus,
+	changeTodolistFilter,
+	changeTodolistTitle,
+	setTodolists,
+	clearData,
+} = todolistsSlice.actions
+export const {selectTodolists} = todolistsSlice.selectors
 
 
 //*Thunk Creators
@@ -53,12 +69,15 @@ export const { removeTodolist, addTodolist, changeTodolistEntityStatus, changeTo
 export const getTodolistsTC = (): AppThunk => {
   return (dispatch) => {
     dispatch(setAppStatus({status: "loading"}));
-    todolistsAPI
-      .getTodolists()
+    todolistsAPI.getTodolists()
       .then((res) => {
         dispatch(setTodolists({todolists: res.data}));
         dispatch(setAppStatus({status: "succeeded"}));
+				return res.data
       })
+			.then((todos) => {
+				todos.forEach((td) => dispatch(getTasksTC(td.id)))
+			})
       .catch((err) => handleServerNetworkError(dispatch, err));
   };
 };

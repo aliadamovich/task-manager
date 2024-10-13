@@ -3,9 +3,9 @@ import { TaskDomainType, TaskType, todolistsAPI, UpdateTaskType } from "../../..
 import { AppRootStateType } from "../../store";
 import { handleServerAppErrors, handleServerNetworkError } from "../../../utils";
 import { ResultCode } from "../../../features/lib/enums/enums";
-import { RequestStatusType } from "store/reducers/appSlice";
-import { SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "store/reducers/reducersRedux/app-reducer";
-import { addTodolistActionType, removeTodolistActionType, setTodolistsActionType } from "store/reducers/reducersRedux/todolists-reducer";
+import { RequestStatusType } from "store/slices/appSlice";
+import { SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "store/slices/reducersRedux/app-reducer";
+import { addTodolistActionType, removeTodolistActionType, setTodolistsActionType } from "store/slices/reducersRedux/todolists-reducer";
 
 
 //* Reducer

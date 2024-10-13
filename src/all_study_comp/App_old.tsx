@@ -4,7 +4,7 @@ import { AddItemInput } from "../components/addItemInput/AddItemInput";
 import { Container, createTheme, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { TodoListOld } from "./TodoListOld";
 import { TaskPriorities, TaskStatuses, TaskType } from "../api/todolists-api";
-import { FilterValueType, TodolistDomainType } from "../store/reducers/todolistSlice";
+import { FilterValueType, TodolistDomainType } from "../store/slices/todolistSlice";
 
 export type TaskStateType = {
   [todolistId: string]: TaskType[];

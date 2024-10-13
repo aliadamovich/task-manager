@@ -2,14 +2,14 @@ import { AddItemInput } from "../../../components/addItemInput/AddItemInput";
 import { Chip, Divider, Grid, List, Paper } from "@mui/material";
 import { useSelector } from "react-redux";
 import { AppRootStateType, useAppDispatch } from "../../../store/store";
-import { createTaskTC, getTasksTC } from "../../../store/reducers/tasksSlice";
+import { createTaskTC, getTasksTC, selectTasks } from "../../../store/slices/tasksSlice";
 import {
 	changeTodolistFilter,
   changeTodolistTitleTC,
   FilterValueType,
   removeTodolistTC,
   TodolistDomainType,
-} from "store/reducers/todolistSlice";
+} from "store/slices/todolistSlice";
 import { todolistTitleStyle } from "../../../styles/Todolost.styles";
 import { EditableSpan } from "../../../components/editableSpan/EditableSpan";
 import React, { useCallback, useEffect } from "react";
@@ -25,18 +25,18 @@ export type TodoListProps = {
 export const TodoList = React.memo(({ todolist }: TodoListProps) => {
   const { id, filter, title, entityStatus, ...restProps } = todolist;
 
-  let tasks = useSelector<AppRootStateType, TaskDomainType[]>((state) => state.tasks[id]);
-  const dispatch = useAppDispatch();
+	// let tasks = useSelector<AppRootStateType, TaskDomainType[]>((state) => state.tasks[id]);
+	let tasks = useSelector((state: AppRootStateType) => selectTasks(state, id));
+	const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getTasksTC(id));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getTasksTC(id));
+  // }, [todolist]);
 
   //*tasks
   // добавление таски
   const addTaskCallback = useCallback(
     (value: string) => {
-      // dispatch(addTaskAС(id, value))
       dispatch(createTaskTC(id, value));
     },
     [createTaskTC, id, dispatch],

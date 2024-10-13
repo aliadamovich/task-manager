@@ -5,7 +5,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { useAppDispatch, useAppSelector } from "./store/store";
 import { ErrorSnackbar } from "./components/error-snackbar/ErrorSnackbar";
 import { Outlet } from "react-router-dom";
-import { meTC } from "./store/reducers/authSlice";
+import { meTC } from "./store/slices/authSlice";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function App() {

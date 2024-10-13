@@ -2,7 +2,7 @@ import { Box, Checkbox } from "@mui/material";
 import { TaskEditableSpanBoxSX } from "styles/Todolost.styles";
 import { EditableSpan } from "components/editableSpan/EditableSpan";
 import React, { ChangeEvent, useCallback } from "react";
-import { removeTaskTC, updateTaskTC } from "store/reducers/tasksSlice";
+import { removeTaskTC, updateTaskTC } from "store/slices/tasksSlice";
 import { TaskDomainType } from "api/todolists-api";
 import { useAppDispatch } from "store/store";
 import { TaskStatuses } from "features/lib/enums/enums";

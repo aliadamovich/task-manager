@@ -2,17 +2,19 @@ import { Container, Grid } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { AddItemInput } from "../../components/addItemInput/AddItemInput";
 import { useSelector } from "react-redux";
-import { TodolistDomainType, addTodolistTC, getTodolistsTC } from "../../store/reducers/todolistSlice";
-import { AppRootStateType, useAppDispatch, useAppSelector } from "../../store/store";
+import { addTodolistTC, getTodolistsTC, selectTodolists } from "store/slices/todolistSlice";
+import { useAppDispatch, useAppSelector } from "store/store";
 import { TodoList } from "./todolist/TodoList";
 import { Navigate } from "react-router-dom";
 import { PATH } from "../../routes/router";
+import { selectAuthIsLoggedIn } from "store/slices/authSlice";
+import { selectAppStatus } from "store/slices/appSlice";
 
 export const TodolistsList = () => {
-  let todolists = useSelector<AppRootStateType, TodolistDomainType[]>((state) => state.todolists);
-  let appstatus = useAppSelector((state) => state.app.status);
+	let todolists = useSelector(selectTodolists)
+	let appStatus = useAppSelector(selectAppStatus);
+  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
   const dispatch = useAppDispatch();
-  const isLoggedIn = useSelector<AppRootStateType>((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -45,7 +47,7 @@ export const TodolistsList = () => {
           mb: "2rem",
         }}
       >
-        <AddItemInput addItem={addTodoList} label="Add new TODO list" disabled={appstatus === "loading"} />
+        <AddItemInput addItem={addTodoList} label="Add new TODO list" disabled={appStatus === "loading"} />
       </Grid>
 
       <Grid container spacing={5}>
