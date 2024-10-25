@@ -1,8 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import App from "../App";
-import { LoginPage } from "../layout/login/LoginPage";
-import { TodolistsList } from "../layout/todolostsList/TodolistsList";
-import { ErrorPage } from "../components/errorPage/ErrorPage";
+import App from "../app/App";
+import { TodolistsList } from "features/todolostsList/ui/TodolistsList";
+import { LoginPage } from "features/login/ui/LoginPage";
+import { ErrorPage } from "common/components/errorPage/ErrorPage";
 
 export const PATH = {
   ROOT: "/",

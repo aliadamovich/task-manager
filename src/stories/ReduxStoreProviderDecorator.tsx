@@ -4,8 +4,8 @@ import { v1 } from "uuid";
 import { combineReducers, createStore, legacy_createStore } from "redux";
 
 import React from "react";
-import { tasksReducer } from "../store/slices/tasksSlice";
-import { todolistReducer } from "../store/slices/todolistSlice";
+import { tasksReducer } from "../features/todolostsList/model/tasksSlice";
+import { todolistReducer } from "../features/todolostsList/model/todolistSlice";
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,

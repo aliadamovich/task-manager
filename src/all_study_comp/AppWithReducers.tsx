@@ -9,14 +9,14 @@ import {
   changeTodolistTitleAС,
   todolistReducer,
   changeTodolistFilterAС,
-} from "../store/slices/todolistSlice";
+} from "../features/todolostsList/model/todolistSlice";
 import {
   addTaskAС,
   updateTaskAC,
   changeTaskTitleAC,
   removeTaskAC,
   tasksReducer,
-} from "../store/slices/tasksSlice";
+} from "../features/todolostsList/model/tasksSlice";
 import { TodoListOld } from "./TodoListOld";
 
 function AppWithReducers() {

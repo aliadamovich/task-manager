@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
-import { todolistsAPI } from "../api/todolists-api";
+import { todolistsAPI } from "../features/todolostsList/api/todolistApi";
 
 export default {
   title: "API",

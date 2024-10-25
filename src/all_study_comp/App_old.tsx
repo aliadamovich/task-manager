@@ -3,8 +3,8 @@ import { useState } from "react";
 import { AddItemInput } from "../components/addItemInput/AddItemInput";
 import { Container, createTheme, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { TodoListOld } from "./TodoListOld";
-import { TaskPriorities, TaskStatuses, TaskType } from "../api/todolists-api";
-import { FilterValueType, TodolistDomainType } from "../store/slices/todolistSlice";
+import { TaskPriorities, TaskStatuses, TaskType } from "../features/todolostsList/api/todolistApi";
+import { FilterValueType, TodolistDomainType } from "../features/todolostsList/model/todolistSlice";
 
 export type TaskStateType = {
   [todolistId: string]: TaskType[];

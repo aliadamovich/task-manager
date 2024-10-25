@@ -4,8 +4,8 @@ import { EditableSpan } from "../components/editableSpan/EditableSpan";
 import { Button, Chip, Divider, Grid, IconButton, List, Paper, useTheme } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { TaskOld } from "./Task_old";
-import { TaskStatuses, TaskType } from "../api/todolists-api";
-import { FilterValueType } from "../store/slices/todolistSlice";
+import { TaskStatuses, TaskType } from "../features/todolostsList/api/todolistApi";
+import { FilterValueType } from "../features/todolostsList/model/todolistSlice";
 
 export type TodoListProps = {
   todoListId: string;

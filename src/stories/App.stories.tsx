@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import App from "../App";
+import App from "../app/App";
 import React from "react";
 import { ReduxStoreProviderDecorator } from "./ReduxStoreProviderDecorator";
 

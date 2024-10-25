@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { ChangeEvent, useState } from "react";
-import { Task } from "../layout/todolostsList/todolist/tasks/Task";
+import { Task } from "../features/todolostsList/ui/Task";
 import { ReduxStoreProviderDecorator } from "./ReduxStoreProviderDecorator";
 import { Box, Checkbox } from "@mui/material";
 import { EditableSpan } from "../components/editableSpan/EditableSpan";
 import { TaskEditableSpanBoxSX } from "../styles/Todolost.styles";
-import { TaskStatuses } from "../api/todolists-api";
+import { TaskStatuses } from "../features/todolostsList/api/todolistApi";
 
 const meta: Meta<typeof Task> = {
   title: "TODOLISTS/Task",
