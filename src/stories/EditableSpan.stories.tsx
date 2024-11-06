@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import { AddItemInput, AddItemInputType } from "../components/addItemInput/AddItemInput"
 import { action } from "@storybook/addon-actions"
 import React, { ChangeEvent, useCallback, useState, KeyboardEvent } from "react"
 import { render } from "react-dom"
 import TextField from "@mui/material/TextField/TextField"
 import { IconButton } from "@mui/material"
 import ControlPointIcon from "@mui/icons-material/ControlPoint"
-import { EditableSpan } from "../components/editableSpan/EditableSpan"
 import { fn } from "@storybook/test"
+import { EditableSpan } from "common/components"
 
 const meta: Meta<typeof EditableSpan> = {
 	title: "TODOLISTS/EditableSpan",
@@ -33,6 +32,6 @@ export const EditableSpanStory: Story = {
 	args: {
 		title: "Buy milk",
 		removeItem: action("task removed"),
-		onChange: action("Title changed"),
+		// onChange: action("Title changed"),
 	},
 }

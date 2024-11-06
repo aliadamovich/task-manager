@@ -1,16 +1,14 @@
 import { Dispatch } from "redux"
-import { TaskDomainType, TaskType, todolistsAPI, UpdateTaskType } from "../../../features/todolostsList/api/todolistApi"
-import { AppRootStateType } from "../../../app/store"
-import { ResultCode } from "../../../features/todolostsList/lib/enums/enums"
 import { RequestStatusType } from "app/appSlice"
-import { SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "store/slices/reducersRedux/app-reducer"
-import {
-	addTodolistActionType,
-	removeTodolistActionType,
-	setTodolistsActionType,
-} from "store/slices/reducersRedux/todolists-reducer"
 import { handleServerNetworkError } from "common/utils/handleNetworkError"
 import { handleServerAppErrors } from "common/utils/handleAppError.ts"
+import { TaskType, UpdateTaskType } from "features/todolostsList/api/api.types"
+import { SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "./app-reducer"
+import { todolistsAPI } from "features/todolostsList/api/todolistApi"
+import { ResultCode } from "common/enums/enum"
+import { AppRootStateType } from "redux-store/store_redux"
+import { TaskDomainType } from "features/todolostsList/model/tasksSlice"
+import { addTodolistActionType, removeTodolistActionType, setTodolistsActionType } from "./todolists-reducer"
 
 //* Reducer
 export const _tasksReducer = (tasks = initialState, action: TasksActionsType): TaskStateType => {

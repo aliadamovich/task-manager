@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { authAPI } from "../../../features/todolostsList/api/todolistApi"
-import { LoginType } from "../../../features/login/LoginPage"
-import { handleServerAppErrors, handleServerNetworkError } from "../../../common/utils"
-import { AppThunk } from "../../../app/store"
-import { setAppIsInitializedAC, setAppStatusAC } from "store/slices/reducersRedux/app-reducer"
-
+import { setAppIsInitializedAC, setAppStatusAC } from "./app-reducer"
+import { authAPI } from "features/login/api/authApi"
+import { LoginType } from "features/login/api/authApi.types"
+import { AppThunk } from "redux-store/store_redux"
+import { handleServerAppErrors } from "common/utils/handleAppError.ts"
+import { handleServerNetworkError } from "common/utils/handleNetworkError"
+import { Dispatch } from "redux"
 const initialState = {
 	isLoggedIn: false,
 }
@@ -24,7 +25,7 @@ export const setIsLoggedInAC = (isLoggedIn: boolean) => ({ type: "auth/SET-IS-LO
 
 //* Thunks
 export const loginTC = (data: LoginType): AppThunk => {
-	return async (dispatch) => {
+	return async (dispatch: Dispatch) => {
 		dispatch(setAppStatusAC("loading"))
 		try {
 			const res = await authAPI.login(data)
@@ -46,7 +47,7 @@ export const loginTC = (data: LoginType): AppThunk => {
 }
 
 export const logoutTC = (): AppThunk => {
-	return async (dispatch) => {
+	return async (dispatch: Dispatch) => {
 		dispatch(setAppStatusAC("loading"))
 		try {
 			const res = await authAPI.logout()
@@ -68,7 +69,7 @@ export const logoutTC = (): AppThunk => {
 }
 
 export const meTC = (): AppThunk => {
-	return async (dispatch) => {
+	return async (dispatch: Dispatch) => {
 		dispatch(setAppStatusAC("loading"))
 
 		try {

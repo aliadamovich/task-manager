@@ -4,9 +4,9 @@ import { ChangeEvent, useState } from "react"
 import { Task } from "../features/todolostsList/ui/tasks/Task"
 import { ReduxStoreProviderDecorator } from "./ReduxStoreProviderDecorator"
 import { Box, Checkbox } from "@mui/material"
-import { EditableSpan } from "../components/editableSpan/EditableSpan"
-import { TaskEditableSpanBoxSX } from "../styles/Todolost.styles"
-import { TaskStatuses } from "../features/todolostsList/api/todolistApi"
+import { TaskStatuses } from "features/todolostsList/lib/enums/enum"
+import { TaskEditableSpanBoxSX } from "styles/Todolost.styles"
+import { EditableSpan } from "common/components"
 
 const meta: Meta<typeof Task> = {
 	title: "TODOLISTS/Task",
@@ -61,6 +61,7 @@ const ToggleTask = () => {
 			title: newTitle,
 		})
 		action("Task title changed")(newTitle)
+		return Promise.resolve(2)
 	}
 	return (
 		<Box sx={TaskEditableSpanBoxSX(task.isDone)}>

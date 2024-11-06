@@ -2,9 +2,9 @@
 
 # dependencies
 /node_modules
+/all_study_comp
 /.pnp
 .pnp.js
-
 # testing
 /coverage
 
@@ -28,3 +28,4 @@ yarn-error.log*
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+

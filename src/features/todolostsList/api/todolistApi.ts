@@ -1,4 +1,3 @@
-import { RequestStatusType } from "../../../app/appSlice"
 import { AxiosResponse } from "axios"
 import { BaseResponseType } from "common/types/types"
 import { instance } from "common/axios-instance/instance"

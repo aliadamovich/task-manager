@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import { AddItemInput, AddItemInputType } from "../components/addItemInput/AddItemInput"
 import { action } from "@storybook/addon-actions"
 import React, { ChangeEvent, useCallback, useState, KeyboardEvent } from "react"
 import { render } from "react-dom"
@@ -7,6 +6,13 @@ import TextField from "@mui/material/TextField/TextField"
 import { IconButton } from "@mui/material"
 import ControlPointIcon from "@mui/icons-material/ControlPoint"
 import { fn } from "@storybook/test"
+import { AddItemInput } from "common/components"
+
+type Props = {
+	addItem: (value: string) => void
+	label: string
+	disabled?: boolean
+}
 
 const meta: Meta<typeof AddItemInput> = {
 	title: "TODOLISTS/AddItemForm",
@@ -39,14 +45,14 @@ type Story = StoryObj<typeof AddItemInput>
 
 export const AddItemInputStory: Story = {
 	args: {
-		addItem: action("Button clicked inside form"),
+		// addItem: action("Button clicked inside form"),
 		label: "enter your text...",
 	},
 }
 
 //!создание компоненты с ошибкой
 //просто скопировали всю компоненту целиком но в стейте ошибку
-const AddItemInputWithError = React.memo(({ addItem, label }: AddItemInputType) => {
+const AddItemInputWithError = React.memo(({ addItem, label }: Props) => {
 	const [itemValue, setItemValue] = useState<string>("")
 	const [error, setError] = useState<null | string>("Field is required")
 
