@@ -1,8 +1,16 @@
-import { RequestStatusType } from "../../../app/appSlice";
-import  { AxiosResponse } from "axios";
-import { BaseResponseType } from "common/types/types";
-import { instance } from "common/axios-instance/instance";
-import { CreateTaskArgs, GetTasksResponse, RemoveTaskArgs, TaskType, TodolistType, UpdataskArgs, updateTodolistArgs } from "features/todolostsList/api/todolistApi.types";
+import { RequestStatusType } from "../../../app/appSlice"
+import { AxiosResponse } from "axios"
+import { BaseResponseType } from "common/types/types"
+import { instance } from "common/axios-instance/instance"
+import {
+	CreateTaskArgs,
+	GetTasksResponse,
+	RemoveTaskArgs,
+	TaskType,
+	TodolistType,
+	UpdataskArgs,
+	updateTodolistArgs,
+} from "features/todolostsList/api/api.types"
 
 //* todolists
 

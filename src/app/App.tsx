@@ -1,60 +1,48 @@
-import { useEffect, useState } from "react";
-import { Sidebar } from "../features/sidebar/Sidebar";
-import LinearProgress from "@mui/material/LinearProgress";
-import { useAppDispatch, useAppSelector } from "./store";
-import { Outlet } from "react-router-dom";
-import { meTC } from "../features/login/model/authSlice";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Header } from "features/header/Header";
-import { ErrorSnackbar } from "common/components";
+import { useEffect, useState } from "react"
+import { Sidebar } from "../common/components/sidebar/Sidebar"
+import LinearProgress from "@mui/material/LinearProgress"
+import { useAppDispatch, useAppSelector } from "./store"
+import { Outlet } from "react-router-dom"
+import { initializeAppTC } from "../features/login/model/authSlice"
+import CircularProgress from "@mui/material/CircularProgress"
+import { ErrorSnackbar } from "common/components"
+import { useSelector } from "react-redux"
+import { selectAppStatus } from "./appSlice"
+import { Header } from "common/components/header/Header"
+import s from './App.styles.module.scss'
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const status = useAppSelector((state) => state.app.status);
-  const isInitialized = useAppSelector((state) => state.app.isInitialized);
-  const dispatch = useAppDispatch();
-  //тоггл сайдбара
-  const toggleSidebar = (newOpen: boolean) => () => {
-    setSidebarOpen(newOpen);
-  };
+	const [sidebarOpen, setSidebarOpen] = useState(false)
+	const appStatus = useSelector(selectAppStatus)
+	const isInitialized = useAppSelector((state) => state.app.isInitialized)
+	const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(meTC());
-  }, []);
+	const toggleSidebar = (newOpen: boolean) => () => {
+		setSidebarOpen(newOpen)
+	}
 
-  if (!isInitialized) {
-    return (
-      <div
-        style={{
-          position: "fixed",
-          top: "40%",
-          textAlign: "center",
-          width: "100%",
-        }}
-      >
-        <CircularProgress />
-      </div>
-    );
-  }
+	useEffect(() => {
+		dispatch(initializeAppTC())
+	}, [])
 
-  return (
-    <div className="App">
-      <Header toggleSidebar={toggleSidebar} />
-      <Sidebar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
+	if (!isInitialized) {
+		return (
+			<div className={s.appProgress}>
+				<CircularProgress />
+			</div>
+		)
+	}
 
-      <div
-        style={{
-          position: "absolute",
-          width: "100%",
-        }}
-      >
-        {status === "loading" && <LinearProgress />}
-      </div>
-      {/* <TodolistsList /> */}
-      <Outlet />
-      <ErrorSnackbar />
-    </div>
-  );
+	return (
+		<div>
+			<Header toggleSidebar={toggleSidebar} />
+			<Sidebar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
+
+			<div className={s.linearProgress}>{appStatus === "loading" && <LinearProgress />}</div>
+			<Outlet />
+			<ErrorSnackbar />
+		</div>
+	)
 }
 
-export default App;
+export default App

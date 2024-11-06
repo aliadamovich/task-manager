@@ -1,27 +1,27 @@
 .select {
-  margin: 100px 0;
+	margin: 100px 0;
 }
 
 .select__default {
-  max-width: 200px;
-  background: linear-gradient(to right, #00aaff, #ff6f7d);
-  border: 1px solid grey;
-  border-radius: 4px;
+	max-width: 200px;
+	background: linear-gradient(to right, #00aaff, #ff6f7d);
+	border: 1px solid grey;
+	border-radius: 4px;
 }
 
 .box__item {
-  display: block;
-  cursor: pointer;
+	display: block;
+	cursor: pointer;
 }
 .select__box {
-  display: none;
-  border: 1px solid rgb(213, 212, 212);
-  width: 200px;
+	display: none;
+	border: 1px solid rgb(213, 212, 212);
+	width: 200px;
 }
 .select__box.visible {
-  display: inline-block;
+	display: inline-block;
 }
 
 .active {
-  background-color: #bebebe;
+	background-color: #bebebe;
 }

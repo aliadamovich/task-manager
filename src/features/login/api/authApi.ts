@@ -5,7 +5,7 @@ import { LoginType, UserType } from "features/login/api/authApi.types"
 export const authAPI = {
 	login(data: LoginType) {
 		return instance.post<
-			 BaseResponseType<{
+			BaseResponseType<{
 				userId: number
 			}>
 		>("auth/login", data)
