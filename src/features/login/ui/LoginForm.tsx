@@ -18,7 +18,7 @@ export const LoginForm = () => {
 				required
 				fullWidth
 				id="email"
-				label="Email Ad			dress"
+				label="Email Address"
 				autoComplete="email"
 				autoFocus
 				error={!!formik.errors.email && formik.touched.email} //для подсвечивания бордера инпута

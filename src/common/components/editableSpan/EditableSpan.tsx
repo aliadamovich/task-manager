@@ -1,10 +1,11 @@
-import { IconButton, ListItem, TextField } from "@mui/material"
+import { Box, IconButton, ListItem, Modal, TextField, Typography } from "@mui/material"
 import React, { useState } from "react"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import BorderColorIcon from "@mui/icons-material/BorderColor"
 import { ItemWithHoverStyle } from "styles/Todolost.styles"
 import { unwrapResult } from "@reduxjs/toolkit"
 import s from './EditableSpan.styles.module.scss'
+import { ModalContainer } from "../modal/Modal"
 
 type Props = {
 	title: string
@@ -17,6 +18,7 @@ export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem 
 	const [editMode, setEditMode] = useState(false)
 	const [titleValue, setTitleValue] = useState<string>("")
 	const [error, setError] = useState<null | string>(null)
+	const [openModal, setOpenModal] = React.useState(false);
 
 	const onInputBlur = () => {
 
@@ -76,12 +78,13 @@ export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem 
 							<BorderColorIcon fontSize="small" />
 						</IconButton>
 
-						<IconButton onClick={onRemoveButtonClick} disabled={disabled}>
+							<IconButton onClick={() => { setOpenModal(true) }} disabled={disabled}>
 							<DeleteOutlineIcon fontSize="small" />
 						</IconButton>
 					</div>
 				</>
 			)}
+			{openModal && <ModalContainer modalText="Delete this item?" modalClickHandler={onRemoveButtonClick} openModal={openModal} setOpenModal={setOpenModal}/>}
 		</ListItem>
 	)
 })

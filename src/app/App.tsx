@@ -35,7 +35,7 @@ function App() {
 
 	return (
 		<div>
-			<Header toggleSidebar={toggleSidebar} />
+			{/* <Header toggleSidebar={toggleSidebar} /> */}
 			<Sidebar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
 
 			<div className={s.linearProgress}>{appStatus === "loading" && <LinearProgress />}</div>

@@ -1,5 +1,5 @@
 import { createSlice, isFulfilled, PayloadAction } from "@reduxjs/toolkit"
-import { setAppIsInitialized, setAppStatus } from "app/appSlice"
+import { setAppIsInitialized } from "app/appSlice"
 import { clearData } from "features/todolostsList/model/todolistSlice"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { LoginType } from "features/login/api/authApi.types"
@@ -38,7 +38,7 @@ export const initializeAppTC = createAppAsyncThunk<{ isLoggedIn: boolean }, unde
 		if (res.data.resultCode === ResultCode.Success) {
 			return { isLoggedIn: true }
 		} else {
-			return rejectWithValue(null)
+			return rejectWithValue(res.data)
 		}
 	},
 )

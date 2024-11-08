@@ -33,6 +33,8 @@ export const TodolistsList = () => {
 	if (!isLoggedIn) {
 		return <Navigate to={PATH.LOGIN} />
 	}
+
+
 	return (
 		<Container sx={{ mt: "1rem" }} fixed>
 			<Grid container sx={{ mb: "2rem"}}>
@@ -45,5 +47,6 @@ export const TodolistsList = () => {
 				))}
 			</Grid>
 		</Container>
-	)
+	);
 }
+
