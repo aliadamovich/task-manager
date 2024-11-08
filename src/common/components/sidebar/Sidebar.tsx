@@ -25,7 +25,7 @@ export const Sidebar = ({ toggleSidebar, sidebarOpen }: Props) => {
 			onClick={toggleSidebar(false)}
 		>
 			<List>
-				{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+				{["Draft", "Old", "Recent", "Done"].map((text, index) => (
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
@@ -36,7 +36,7 @@ export const Sidebar = ({ toggleSidebar, sidebarOpen }: Props) => {
 			</List>
 			<Divider />
 			<List>
-				{["All mail", "Trash", "Spam"].map((text, index) => (
+				{["Settings"].map((text, index) => (
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>

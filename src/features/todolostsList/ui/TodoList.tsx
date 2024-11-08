@@ -10,6 +10,7 @@ import { todolistTitleStyle } from "styles/Todolost.styles"
 import { Task } from "features/todolostsList/ui/tasks/Task"
 import { FilterTasksButtons } from "./filterButtons/FilterTasksButtons"
 import {Tasks} from "./tasks/Tasks"
+import { SortableTasks } from "./tasks/SortableTasks"
 
 type Props = {
 	todolist: TodolistDomainType
@@ -53,7 +54,8 @@ export const TodoList = React.memo(({ todolist }: Props) => {
 				</h2>
 
 				<List sx={{ flex: "1 1 auto", mt: "10px" }}>
-					<Tasks todolist={todolist}/>
+					{/* <Tasks todolist={todolist}/> */}
+					<SortableTasks todolist={todolist}/>
 				</List>
 
 				<div style={{ margin: "20px 0", display: "flex", gap: "8px" }}>

@@ -1,4 +1,4 @@
-import { Box, IconButton, ListItem, Modal, TextField, Typography } from "@mui/material"
+import { Box, Button, IconButton, ListItem, Modal, TextField, Typography } from "@mui/material"
 import React, { useState } from "react"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import BorderColorIcon from "@mui/icons-material/BorderColor"
@@ -6,15 +6,20 @@ import { ItemWithHoverStyle } from "styles/Todolost.styles"
 import { unwrapResult } from "@reduxjs/toolkit"
 import s from './EditableSpan.styles.module.scss'
 import { ModalContainer } from "../modal/Modal"
+import { DraggableAttributes } from "@dnd-kit/core/dist/hooks/useDraggable"
+import { RiDragMove2Fill } from "react-icons/ri";
+import DragHandleOutlinedIcon from '@mui/icons-material/DragHandleOutlined';
 
 type Props = {
 	title: string
 	onChange: (newTitle: string) => Promise<any>
 	removeItem: () => void
 	disabled?: boolean
+	attributes?: DraggableAttributes
+	listeners?: Record<string, Function>;
 }
 
-export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem }: Props) => {
+export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem, attributes, listeners }: Props) => {
 	const [editMode, setEditMode] = useState(false)
 	const [titleValue, setTitleValue] = useState<string>("")
 	const [error, setError] = useState<null | string>(null)
@@ -62,6 +67,7 @@ export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem 
 						}}
 					/>
 					<IconButton
+						disabled={disabled}
 						sx={{
 							display: "block",
 							p: "2px",
@@ -81,6 +87,9 @@ export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem 
 							<IconButton onClick={() => { setOpenModal(true) }} disabled={disabled}>
 							<DeleteOutlineIcon fontSize="small" />
 						</IconButton>
+							{listeners && <IconButton {...listeners} {...attributes} style={{cursor:'move'}}>
+								<RiDragMove2Fill fontSize="medium" />
+							</IconButton>}
 					</div>
 				</>
 			)}

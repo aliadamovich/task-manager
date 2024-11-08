@@ -2,9 +2,8 @@ import { RequestStatusType, setAppStatus } from "app/appSlice"
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { addTodolistTC, clearData, removeTodolistTC } from "features/todolostsList/model/todolistSlice"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
-import { handleServerAppErrors } from "common/utils/handleAppError.ts"
 import { ResultCode } from "common/enums/enum"
-import { RemoveTaskArgs, TaskType, CreateTaskArgs, UpdateTaskType } from "features/todolostsList/api/api.types"
+import { RemoveTaskArgs, TaskType, CreateTaskArgs, UpdateTaskType, ReorderTasksArgs } from "features/todolostsList/api/api.types"
 import { tasksAPI } from "../api/tasksApi"
 import { TaskStatuses } from "../lib/enums/enum"
 
@@ -78,6 +77,22 @@ export const updateTaskTC = createAppAsyncThunk<UpdateTaskArgs, UpdateTaskArgs>(
 	},
 )
 
+//
+export const reorderTasksTC = createAppAsyncThunk<{ todolistId: string; taskId: string, replacedTaskId: string}, ReorderTasksArgs>("tasks/reorderTasks",
+	async ({ todolistId, taskId, replacedTaskId }, thunkAPI) => {
+		const { dispatch, rejectWithValue } = thunkAPI
+		dispatch(changeTaskEntityStatus({ todolistId, taskId, entityStatus: "loading" }))
+		const res = await tasksAPI.reorderTasks({ replacedTaskId, todolistId, taskId }).finally(() => {
+			dispatch(changeTaskEntityStatus({ todolistId, taskId, entityStatus: "idle" }))
+		})
+		if (res.data.resultCode === ResultCode.Success) {
+			return { taskId, todolistId, replacedTaskId }
+		} else {
+			return rejectWithValue(res.data)
+		}
+	},
+)
+
 const tasksSlice = createSlice({
 	name: "tasks",
 
@@ -105,30 +120,39 @@ const tasksSlice = createSlice({
 			.addCase(clearData, (state, action) => {
 				return {}
 			})
-		//если добавить проверку на пустой массив в компоненте то нет необходимости сетать тудулисты тут
-		// .addCase(setTodolists, (state, action) => {
-		// 	action.payload.todolists.forEach((tl) => state[tl.id] = [])
-		// })
-		//* thunk actions
-		builder.addCase(setTasksTC.fulfilled, (state, action) => {
-			state[action.payload.todolistId] = action.payload.tasks.map((t) => ({
-				...t,
-				taskEntityStatus: "idle",
-			}))
-		})
-		builder.addCase(createTaskTC.fulfilled, (state, action) => {
-			const currentTasks = state[action.payload.task.todoListId]
-			currentTasks.unshift({ ...action.payload.task, taskEntityStatus: "idle" })
-		})
-		builder.addCase(removeTaskTC.fulfilled, (state, action) => {
-			const currentTasks = state[action.payload.todolistId]
-			const index = currentTasks.findIndex((t) => t.id === action.payload.taskId)
-			if (index !== -1) currentTasks.splice(index, 1)
-		})
-		builder.addCase(updateTaskTC.fulfilled, (state, action) => {
-			const currentTasks = state[action.payload.todolistId]
-			const index = currentTasks.findIndex((t) => t.id === action.payload.taskId)
-			if (index !== -1) currentTasks[index] = { ...currentTasks[index], ...action.payload.model }
+			//если добавить проверку на пустой массив в компоненте то нет необходимости сетать тудулисты тут
+			// .addCase(setTodolists, (state, action) => {
+			// 	action.payload.todolists.forEach((tl) => state[tl.id] = [])
+			// })
+			//* thunk actions
+			.addCase(setTasksTC.fulfilled, (state, action) => {
+				state[action.payload.todolistId] = action.payload.tasks.map((t) => ({
+					...t,
+					taskEntityStatus: "idle",
+				}))
+			})
+			.addCase(createTaskTC.fulfilled, (state, action) => {
+				const currentTasks = state[action.payload.task.todoListId]
+				currentTasks.unshift({ ...action.payload.task, taskEntityStatus: "idle" })
+			})
+			.addCase(removeTaskTC.fulfilled, (state, action) => {
+				const currentTasks = state[action.payload.todolistId]
+				const index = currentTasks.findIndex((t) => t.id === action.payload.taskId)
+				if (index !== -1) currentTasks.splice(index, 1)
+			})
+			.addCase(updateTaskTC.fulfilled, (state, action) => {
+				const currentTasks = state[action.payload.todolistId]
+				const index = currentTasks.findIndex((t) => t.id === action.payload.taskId)
+				if (index !== -1) currentTasks[index] = { ...currentTasks[index], ...action.payload.model }
+			})
+			.addCase(reorderTasksTC.fulfilled, (state, action) => {
+				const tasksArray = state[action.payload.todolistId]
+				const reorderedTaskIndex = tasksArray.findIndex((t) => t.id === action.payload.taskId)
+				const newTaskIndex = tasksArray.findIndex((t) => t.id === action.payload.replacedTaskId)
+				if (reorderedTaskIndex !== -1 && newTaskIndex !== -1 ) {
+					const [movedTask] = tasksArray.splice(reorderedTaskIndex, 1)
+					tasksArray.splice(newTaskIndex, 0, movedTask)
+				}
 		})
 	},
 

@@ -11,6 +11,9 @@ export type RemoveTaskArgs = {
 export type UpdataskArgs = RemoveTaskArgs & {
 	apiModel: UpdateTaskType
 }
+export type ReorderTasksArgs = RemoveTaskArgs & {
+	replacedTaskId: string
+}
 
 export type updateTodolistArgs = {
 	todolistId: string

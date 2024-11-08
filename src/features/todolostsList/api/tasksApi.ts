@@ -4,6 +4,7 @@ import {
 	CreateTaskArgs,
 	GetTasksResponse,
 	RemoveTaskArgs,
+	ReorderTasksArgs,
 	TaskType,
 	UpdataskArgs,
 } from "features/todolostsList/api/api.types"
@@ -36,5 +37,10 @@ export const tasksAPI = {
 		>(`todo-lists/${todolistId}/tasks`, {
 			title: title,
 		})
+	},
+
+	reorderTasks(args: ReorderTasksArgs) {
+		const { replacedTaskId, taskId, todolistId } = args
+		return instance.put<BaseResponseType>(`todo-lists/${todolistId}/tasks/${taskId}/reorder`, replacedTaskId)
 	},
 }
