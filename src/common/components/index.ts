@@ -1,3 +1,4 @@
+import { EditableButtons } from './editableSpan/EditableButtons';
 export { ErrorPage } from "./errorPage/ErrorPage"
 export { ErrorSnackbar } from "./errorSnackbar/ErrorSnackbar"
 export { EditableSpan } from "./editableSpan/EditableSpan"

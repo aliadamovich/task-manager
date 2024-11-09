@@ -31,7 +31,7 @@ type Story = StoryObj<typeof EditableSpan>
 export const EditableSpanStory: Story = {
 	args: {
 		title: "Buy milk",
-		removeItem: action("task removed"),
+		removeItemHandler: action("task removed"),
 		// onChange: action("Title changed"),
 	},
 }

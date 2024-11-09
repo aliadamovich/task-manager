@@ -5,6 +5,7 @@ import { removeTaskTC, TaskDomainType, updateTaskTC } from "features/todolostsLi
 import { useAppDispatch } from "app/store"
 import { EditableSpan } from "common/components"
 import { TaskStatuses } from "features/todolostsList/lib/enums/enum"
+import { ModalContainer } from "common/components/modal/Modal"
 
 type Props = TaskDomainType & {
 	todolistId: string
@@ -29,9 +30,11 @@ export const Task = React.memo(({ id, title, status, taskEntityStatus, todolistI
 		[id, todolistId, dispatch],
 	)
 	const isTaskCompleted = status === TaskStatuses.Completed
+	
+
 
 	return (
-		<Box sx={TaskEditableSpanBoxSX(isTaskCompleted ? true : false)}>
+		<Box sx={TaskEditableSpanBoxSX(isTaskCompleted ? true : false)} >
 			<Checkbox
 				checked={isTaskCompleted && true}
 				size="small"
@@ -43,7 +46,7 @@ export const Task = React.memo(({ id, title, status, taskEntityStatus, todolistI
 			<EditableSpan
 				title={title}
 				onChange={changeTaskTitleHandler}
-				removeItem={removeTaskHandler}
+				removeItemHandler={removeTaskHandler}
 				disabled={taskEntityStatus === "loading"}
 			/>
 		</Box>

@@ -32,7 +32,7 @@ import { SxProps } from "@mui/material"
 export const TaskEditableSpanBoxSX = (isDone: boolean): SxProps => ({
 	opacity: isDone ? 0.3 : 1,
 	display: "flex",
-	marginBottom: "12px",
+	marginBottom: "12px"
 })
 
 export const todolistTitleStyle = {
@@ -50,7 +50,7 @@ export const ItemWithHoverStyle = {
 	color: "dark-grey",
 	// overflow: 'hidden',
 	gap: "7px",
-
+	padding: '2px 5px',
 	button: {
 		opacity: "0",
 		visibility: "hidden",

@@ -7,16 +7,18 @@ import { EditableSpan } from "common/components"
 import { TaskStatuses } from "features/todolostsList/lib/enums/enum"
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { ModalContainer } from "common/components/modal/Modal"
+import { TaskModal } from "./TaskModal"
 
 
 type Props = TaskDomainType & {
 	todolistId: string
 }
-export const SortableTask = React.memo(({ id, title, status, taskEntityStatus, todolistId }: Props) => {
+export const SortableTask = React.memo(({ id, title, status, taskEntityStatus, todolistId, ...rest }: Props) => {
 	const dispatch = useAppDispatch()
+	const [openTaskModal, setOpenTaskModal] = React.useState(false);
 
 	const removeTaskHandler = useCallback(() => {
-		console.log('remove');
 		dispatch(removeTaskTC({ todolistId, taskId: id }))
 	}, [id, todolistId, dispatch])
 
@@ -28,7 +30,6 @@ export const SortableTask = React.memo(({ id, title, status, taskEntityStatus, t
 	)
 
 	const changeTaskTitleHandler = useCallback((value: string) => {
-		console.log('change');
 		return dispatch(updateTaskTC({ todolistId, taskId: id, model: { title: value } }))
 	},
 		[id, todolistId, dispatch],
@@ -48,7 +49,9 @@ export const SortableTask = React.memo(({ id, title, status, taskEntityStatus, t
 		transition,
 	};
 
-
+	const unwrapModalHandler = () => {
+		setOpenTaskModal(true)
+ }
 	return (
 		<div ref={setNodeRef} style={style} >
 			<Box sx={TaskEditableSpanBoxSX(isTaskCompleted ? true : false)}>
@@ -60,14 +63,19 @@ export const SortableTask = React.memo(({ id, title, status, taskEntityStatus, t
 					onChange={changeTaskStatusHandler}
 					disabled={taskEntityStatus === "loading"}
 				/>
+
 				<EditableSpan
 					attributes={attributes}
 					listeners={listeners}
 					title={title}
 					onChange={changeTaskTitleHandler}
-					removeItem={removeTaskHandler}
+					removeItemHandler={removeTaskHandler}
 					disabled={taskEntityStatus === "loading"}
+					isWithModal
+					unwrapModalHandler={unwrapModalHandler}
 				/>
+				{openTaskModal && <TaskModal openModal={openTaskModal} setOpenModal={setOpenTaskModal} taskHeader={title} rest={rest}/>
+				}
 			</Box>
     </div>
 		

@@ -19,7 +19,7 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useEffect, useState } from 'react'
+import { act, useEffect, useState } from 'react'
 import { SortableTask } from './SortableTask'
 import {
 	restrictToVerticalAxis,
@@ -40,8 +40,9 @@ export const SortableTasks = ({todolist}: Props) => {
 	const activeTasks = tasks?.filter((task) => task.status === TaskStatuses.New) || [];
 	const completedTasks = tasks?.filter((task) => task.status === TaskStatuses.Completed) || [];
 	const dispatch = useAppDispatch()
+
 	const mappedTasks = (tasksArray: TaskDomainType[]): JSX.Element[] => {
-		return tasksArray.map((t) => <SortableTask {...t} key={t.id} todolistId={id} />)
+		return tasksArray?.map((t) => <SortableTask {...t} key={t.id} todolistId={id} />)
 	}
 
 	useEffect(() => {
@@ -55,20 +56,20 @@ export const SortableTasks = ({todolist}: Props) => {
 			coordinateGetter: sortableKeyboardCoordinates,
 		})
 	);
-
+	
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event;
+		console.log('active: ', active.id)
+		console.log('over: ', over?.id)
 
 		if (over && active.id !== over.id) {
-			 dispatch(reorderTasksTC({todolistId: id, taskId: active.id as string, replacedTaskId: over.id as string}))
-				// .then(unwrapResult)
-				// .then(() => {
 					setTaskItems((items) => {
 						const oldIndex = items.findIndex(item => item.id === active.id)
 						const newIndex = items.findIndex(item => item.id === over.id)
 						return arrayMove(items, oldIndex, newIndex);
-					// });
 				})
+			dispatch(reorderTasksTC({ todolistId: id, taskId: active.id as string, replacedTaskId:over.id as string }))
+
 		}
 	}
 
@@ -94,15 +95,15 @@ export const SortableTasks = ({todolist}: Props) => {
 					items={taskItems}
 					strategy={verticalListSortingStrategy}
 				>
-				{activeTasks.length ? mappedTasks(activeTasks) : <div>No tasks</div>}
+				{ mappedTasks(tasks) }
 
-					
+				{/* { taskItems.map((t) => <SortableTask {...t} key={t.id} todolistId={id} />) } */}
 				</SortableContext>
 
-				<SortableContext
+				{/* <SortableContext
 					items={taskItems}
 					strategy={verticalListSortingStrategy}>
-				{completedTasks.length > 0 && (
+					{completedTasks.length > 0 && (
 					<>
 						<Divider textAlign="right" sx={{ m: "10px 0" }}>
 							<Chip label="Done" size="small" />
@@ -110,7 +111,7 @@ export const SortableTasks = ({todolist}: Props) => {
 						{mappedTasks(completedTasks)}
 					</>
 				)}
-				</SortableContext>
+				</SortableContext> */}
 			</DndContext>
 
 			

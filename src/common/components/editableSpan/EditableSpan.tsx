@@ -1,32 +1,35 @@
-import { Box, Button, IconButton, ListItem, Modal, TextField, Typography } from "@mui/material"
-import React, { useState } from "react"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import React, { MouseEvent, useState } from 'react'
+import s from './EditableSpan.styles.module.scss'
+import { IconButton, ListItem, TextField } from '@mui/material'
+import { EditableButtons } from './EditableButtons'
 import BorderColorIcon from "@mui/icons-material/BorderColor"
 import { ItemWithHoverStyle } from "styles/Todolost.styles"
-import { unwrapResult } from "@reduxjs/toolkit"
-import s from './EditableSpan.styles.module.scss'
-import { ModalContainer } from "../modal/Modal"
-import { DraggableAttributes } from "@dnd-kit/core/dist/hooks/useDraggable"
+import { DraggableAttributes } from '@dnd-kit/core'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { DeleteConfirmationModal } from './DeleteConfirmationModal'
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import { RiDragMove2Fill } from "react-icons/ri";
-import DragHandleOutlinedIcon from '@mui/icons-material/DragHandleOutlined';
 
 type Props = {
 	title: string
 	onChange: (newTitle: string) => Promise<any>
-	removeItem: () => void
+	removeItemHandler: () => void
 	disabled?: boolean
 	attributes?: DraggableAttributes
-	listeners?: Record<string, Function>;
+	listeners?: Record<string, Function>
+	isWithModal?: boolean
+	unwrapModalHandler?: () => void
 }
 
-export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem, attributes, listeners }: Props) => {
+
+export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, attributes, listeners, isWithModal, unwrapModalHandler }: Props) => {
+
 	const [editMode, setEditMode] = useState(false)
 	const [titleValue, setTitleValue] = useState<string>("")
 	const [error, setError] = useState<null | string>(null)
-	const [openModal, setOpenModal] = React.useState(false);
+	const [deleteModal, setDeleteModal] = React.useState(false);
 
 	const onInputBlur = () => {
-
 		onChange(titleValue)
 			.then(unwrapResult)
 			.then(() => {
@@ -39,17 +42,23 @@ export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem,
 			})
 	}
 
-	const onEditButtonClick = () => {
+	const editButtonClickHandler = () => {
 		setEditMode(true)
 		setTitleValue(title)
 	}
 
-	const onRemoveButtonClick = () => {
-		removeItem()
+	const spanClickHandler = () => {
+		if (!isWithModal) return;
+		unwrapModalHandler?.()
+	}
+
+	const deleteButtonClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation()
+		setDeleteModal(true)
 	}
 
 	return (
-		<ListItem disablePadding sx={ItemWithHoverStyle}>
+		<ListItem disablePadding sx={ItemWithHoverStyle} onClick={spanClickHandler}>
 			{editMode ? (
 				<>
 					<TextField
@@ -60,7 +69,7 @@ export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem,
 						value={titleValue}
 						error={!!error}
 						helperText={error}
-						sx={{width: "100%"}}
+						sx={{ width: "100%" }}
 						onBlur={onInputBlur}
 						onChange={(e) => {
 							setTitleValue(e.currentTarget.value)
@@ -80,20 +89,23 @@ export const EditableSpan = React.memo(({ title, disabled, onChange, removeItem,
 				<>
 					<span className={s.spanText}>{title}</span>
 					<div className={s.buttonsContainer}>
-						<IconButton onClick={onEditButtonClick} disabled={disabled}>
+						<IconButton onClick={editButtonClickHandler} disabled={disabled}>
 							<BorderColorIcon fontSize="small" />
 						</IconButton>
 
-							<IconButton onClick={() => { setOpenModal(true) }} disabled={disabled}>
+						<IconButton onClick={deleteButtonClickHandler} disabled={disabled}>
 							<DeleteOutlineIcon fontSize="small" />
 						</IconButton>
-							{listeners && <IconButton {...listeners} {...attributes} style={{cursor:'move'}}>
-								<RiDragMove2Fill fontSize="medium" />
-							</IconButton>}
+
+						{listeners && <IconButton {...listeners} {...attributes} style={{ cursor: 'move' }}>
+							<RiDragMove2Fill fontSize="medium" />
+						</IconButton>}
 					</div>
 				</>
 			)}
-			{openModal && <ModalContainer modalText="Delete this item?" modalClickHandler={onRemoveButtonClick} openModal={openModal} setOpenModal={setOpenModal}/>}
+			{deleteModal &&
+				<DeleteConfirmationModal openModal={deleteModal} setOpenModal={setDeleteModal} removeItemHandler={removeItemHandler} />}
 		</ListItem>
 	)
-})
+}
+

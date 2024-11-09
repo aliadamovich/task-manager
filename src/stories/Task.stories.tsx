@@ -74,7 +74,7 @@ const ToggleTask = () => {
 				}}
 				onChange={changeTaskStatus}
 			/>
-			<EditableSpan title={task.title} onChange={changeTaskTitle} removeItem={action("removeTask")} />
+			<EditableSpan title={task.title} onChange={changeTaskTitle} removeItemHandler={action("removeTask")} />
 		</Box>
 	)
 }
