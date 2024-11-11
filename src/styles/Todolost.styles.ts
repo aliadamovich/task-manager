@@ -48,7 +48,7 @@ export const ItemWithHoverStyle = {
 	justifyContent: "space-between",
 	transition: "all 0.3s ease 0s",
 	color: "dark-grey",
-	// overflow: 'hidden',
+	cursor: 'pointer',
 	gap: "7px",
 	padding: '2px 5px',
 	button: {

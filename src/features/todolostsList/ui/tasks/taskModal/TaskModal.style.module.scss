@@ -1,0 +1,28 @@
+.descriptionTitle {
+	margin-bottom: 30px;
+}
+
+
+
+.descriptionBlock {
+	width: 100%;
+	min-height: 100px;
+	border: 1px solid lightgray;
+	cursor: pointer;
+	border-radius: 8px;
+	padding: 10px;
+}
+
+.editor {
+	 div {
+		border-color: lightgray !important;
+		border-radius: 8px;
+	}
+	>:nth-child(2){
+		border-top: 1px solid lightgray !important;;
+		margin-top: 10px;
+		>div {
+		min-height: 150px;
+		}
+	}
+}

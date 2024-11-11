@@ -39,17 +39,18 @@ export const SortableTasks = ({todolist}: Props) => {
 
 	const activeTasks = tasks?.filter((task) => task.status === TaskStatuses.New) || [];
 	const completedTasks = tasks?.filter((task) => task.status === TaskStatuses.Completed) || [];
-	const dispatch = useAppDispatch()
 
 	const mappedTasks = (tasksArray: TaskDomainType[]): JSX.Element[] => {
-		return tasksArray?.map((t) => <SortableTask {...t} key={t.id} todolistId={id} />)
+		return tasksArray?.map((t) => <SortableTask task={t} key={t.id} todolistId={id} />)
 	}
 
 	useEffect(() => {
-		setTaskItems(tasks || []);
-	}, [tasks]);
+		if (JSON.stringify(taskItems) !== JSON.stringify(activeTasks)) {
+			setTaskItems(activeTasks);
+		}
+	}, [activeTasks]);
 
-	const [taskItems, setTaskItems] = useState<TaskDomainType[]>(tasks || []);
+	const [taskItems, setTaskItems] = useState<TaskDomainType[]>(activeTasks);
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, {
@@ -57,34 +58,21 @@ export const SortableTasks = ({todolist}: Props) => {
 		})
 	);
 	
-	function handleDragEnd(event: DragEndEvent) {
+	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
-		console.log('active: ', active.id)
-		console.log('over: ', over?.id)
-
 		if (over && active.id !== over.id) {
-					setTaskItems((items) => {
-						const oldIndex = items.findIndex(item => item.id === active.id)
-						const newIndex = items.findIndex(item => item.id === over.id)
-						return arrayMove(items, oldIndex, newIndex);
-				})
-			dispatch(reorderTasksTC({ todolistId: id, taskId: active.id as string, replacedTaskId:over.id as string }))
-
+			console.log({active, over});
+			setTaskItems((items) => {
+				const oldIndex = items.findIndex(item => item.id === active.id)
+				const newIndex = items.findIndex(item => item.id === over.id)
+				return arrayMove(items, oldIndex, newIndex);
+			})
+			// dispatch(reorderTasksTC({ todolistId: id, taskId: active.id as string, replacedTaskId:over.id as string }))
 		}
 	}
 
 	return (
 		<>
-			{/* {activeTasks.length ? mappedTasks(activeTasks) : <div>No tasks</div>} */}
-			{/* {completedTasks.length > 0 && (
-				<>
-					<Divider textAlign="right" sx={{ m: "10px 0" }}>
-						<Chip label="Done" size="small" />
-					</Divider>
-					{mappedTasks(completedTasks)}
-				</>
-			)} */}
-
 			<DndContext
 				sensors={sensors}
 				collisionDetection={closestCenter}
@@ -95,26 +83,16 @@ export const SortableTasks = ({todolist}: Props) => {
 					items={taskItems}
 					strategy={verticalListSortingStrategy}
 				>
-				{ mappedTasks(tasks) }
+				{ mappedTasks(taskItems) }
 
-				{/* { taskItems.map((t) => <SortableTask {...t} key={t.id} todolistId={id} />) } */}
 				</SortableContext>
-
-				{/* <SortableContext
-					items={taskItems}
-					strategy={verticalListSortingStrategy}>
-					{completedTasks.length > 0 && (
-					<>
-						<Divider textAlign="right" sx={{ m: "10px 0" }}>
-							<Chip label="Done" size="small" />
-						</Divider>
-						{mappedTasks(completedTasks)}
-					</>
-				)}
-				</SortableContext> */}
 			</DndContext>
-
-			
+			<>
+				<Divider textAlign="right" sx={{ m: "10px 0" }}>
+					<Chip label="Done" size="small" />
+				</Divider>
+				{mappedTasks(completedTasks)}
+			</>
 		</>
 	)
 }

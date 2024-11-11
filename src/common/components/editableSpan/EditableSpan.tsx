@@ -9,6 +9,7 @@ import { unwrapResult } from '@reduxjs/toolkit'
 import { DeleteConfirmationModal } from './DeleteConfirmationModal'
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import { RiDragMove2Fill } from "react-icons/ri";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 type Props = {
 	title: string

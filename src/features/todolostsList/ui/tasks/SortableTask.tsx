@@ -8,13 +8,16 @@ import { TaskStatuses } from "features/todolostsList/lib/enums/enum"
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { ModalContainer } from "common/components/modal/Modal"
-import { TaskModal } from "./TaskModal"
+import { TaskModal } from "./taskModal/TaskModal"
 
 
-type Props = TaskDomainType & {
+type Props = {
 	todolistId: string
+	task: TaskDomainType
 }
-export const SortableTask = React.memo(({ id, title, status, taskEntityStatus, todolistId, ...rest }: Props) => {
+export const SortableTask = React.memo(({ task, todolistId}: Props) => {
+	const {id, title, status, taskEntityStatus} = task
+
 	const dispatch = useAppDispatch()
 	const [openTaskModal, setOpenTaskModal] = React.useState(false);
 
@@ -74,7 +77,7 @@ export const SortableTask = React.memo(({ id, title, status, taskEntityStatus, t
 					isWithModal
 					unwrapModalHandler={unwrapModalHandler}
 				/>
-				{openTaskModal && <TaskModal openModal={openTaskModal} setOpenModal={setOpenTaskModal} taskHeader={title} rest={rest}/>
+				{openTaskModal && <TaskModal openModal={openTaskModal} setOpenModal={setOpenTaskModal} task={task} todolistId={todolistId}/>
 				}
 			</Box>
     </div>
