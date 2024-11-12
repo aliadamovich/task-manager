@@ -80,7 +80,7 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 					<Typography variant="h5" component="h2" className={styles.descriptionTitle} >
 						{title}
 					</Typography>
-					<Typography variant="body2" component="span" sx={{ margin: '15px 0 5px' }}>Description:</Typography>
+					<Typography variant="body2" component="p" sx={{ margin: '15px 0 10px' }}>Description:</Typography>
 					{isExpanded ?
 						<ReactQuill
 							className={styles.editor}

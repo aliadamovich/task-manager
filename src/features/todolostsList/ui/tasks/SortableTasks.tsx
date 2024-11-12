@@ -19,7 +19,7 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { act, useEffect, useState } from 'react'
+import { act, useEffect, useRef, useState } from 'react'
 import { SortableTask } from './SortableTask'
 import {
 	restrictToVerticalAxis,
@@ -43,10 +43,11 @@ export const SortableTasks = ({todolist}: Props) => {
 	const mappedTasks = (tasksArray: TaskDomainType[]): JSX.Element[] => {
 		return tasksArray?.map((t) => <SortableTask task={t} key={t.id} todolistId={id} />)
 	}
-
+	const prevActiveTasksRef = useRef<TaskDomainType[]>([]);
 	useEffect(() => {
-		if (JSON.stringify(taskItems) !== JSON.stringify(activeTasks)) {
+		if (JSON.stringify(prevActiveTasksRef.current) !== JSON.stringify(activeTasks)) {
 			setTaskItems(activeTasks);
+			prevActiveTasksRef.current = activeTasks;
 		}
 	}, [activeTasks]);
 
@@ -61,7 +62,6 @@ export const SortableTasks = ({todolist}: Props) => {
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 		if (over && active.id !== over.id) {
-			console.log({active, over});
 			setTaskItems((items) => {
 				const oldIndex = items.findIndex(item => item.id === active.id)
 				const newIndex = items.findIndex(item => item.id === over.id)
@@ -77,7 +77,7 @@ export const SortableTasks = ({todolist}: Props) => {
 				sensors={sensors}
 				collisionDetection={closestCenter}
 				onDragEnd={handleDragEnd}
-				modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
+				modifiers={[restrictToVerticalAxis]}
 			>
 				<SortableContext
 					items={taskItems}

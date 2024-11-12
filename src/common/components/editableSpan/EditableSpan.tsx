@@ -1,6 +1,6 @@
 import React, { MouseEvent, useState } from 'react'
 import s from './EditableSpan.styles.module.scss'
-import { IconButton, ListItem, TextField } from '@mui/material'
+import { IconButton, ListItem, TextField, useTheme } from '@mui/material'
 import { EditableButtons } from './EditableButtons'
 import BorderColorIcon from "@mui/icons-material/BorderColor"
 import { ItemWithHoverStyle } from "styles/Todolost.styles"
@@ -29,7 +29,7 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, att
 	const [titleValue, setTitleValue] = useState<string>("")
 	const [error, setError] = useState<null | string>(null)
 	const [deleteModal, setDeleteModal] = React.useState(false);
-
+	const theme = useTheme()
 	const onInputBlur = () => {
 		onChange(titleValue)
 			.then(unwrapResult)
@@ -43,12 +43,14 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, att
 			})
 	}
 
-	const editButtonClickHandler = () => {
+	const editButtonClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation()
 		setEditMode(true)
 		setTitleValue(title)
 	}
 
-	const spanClickHandler = () => {
+	const spanClickHandler = (e: MouseEvent<HTMLElement>) => {
+		console.log(e.currentTarget);
 		if (!isWithModal) return;
 		unwrapModalHandler?.()
 	}
@@ -59,7 +61,7 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, att
 	}
 
 	return (
-		<ListItem disablePadding sx={ItemWithHoverStyle} onClick={spanClickHandler}>
+		<ListItem disablePadding sx={ItemWithHoverStyle(theme)} onClick={spanClickHandler}>
 			{editMode ? (
 				<>
 					<TextField

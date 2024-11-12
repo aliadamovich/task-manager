@@ -1,5 +1,4 @@
-import { SxProps } from "@mui/material"
-
+import { SxProps, useTheme } from "@mui/material"
 //пример написания стилей в MUI в виде объекта для sx
 // export const buttonContainerSX: SxProps = {
 //   display: "flex",
@@ -28,11 +27,11 @@ import { SxProps } from "@mui/material"
 // }));
 
 //стиль для заголовка тудулиста
-
 export const TaskEditableSpanBoxSX = (isDone: boolean): SxProps => ({
 	opacity: isDone ? 0.3 : 1,
 	display: "flex",
-	marginBottom: "12px"
+	marginBottom: "8px",
+	alignItems: 'center'
 })
 
 export const todolistTitleStyle = {
@@ -41,7 +40,7 @@ export const todolistTitleStyle = {
 	fontWeight: "500",
 }
 
-export const ItemWithHoverStyle = {
+export const ItemWithHoverStyle = (theme: any): SxProps => ({
 	flexGrow: 1,
 	display: "flex",
 	alignItems: "center",
@@ -57,11 +56,26 @@ export const ItemWithHoverStyle = {
 	},
 
 	"&:hover": {
-		background: "#ededed6d",
-		borderRadius: "4px",
+		// background: "#ededed6d",
+		background: `${theme.palette.primary.light}`,
+		borderRadius: "6px",
 		button: {
 			opacity: "1",
 			visibility: "visible",
 		},
 	},
-}
+})
+
+export const popoverWIthColor = (priorityColor: string): SxProps => ({
+	position: "relative",
+	"&::before": {
+		content: "''",
+		width: "1ex",
+		height: "1ex",
+		marginRight: "1ex",
+		backgroundColor: priorityColor,
+		display: "inline-block",
+		borderRadius: "50%",
+		verticalAlign: "middle",
+	},
+})

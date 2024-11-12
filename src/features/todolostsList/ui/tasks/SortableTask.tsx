@@ -7,8 +7,8 @@ import { EditableSpan } from "common/components"
 import { TaskStatuses } from "features/todolostsList/lib/enums/enum"
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { ModalContainer } from "common/components/modal/Modal"
 import { TaskModal } from "./taskModal/TaskModal"
+import { TaskPriorityPopover } from "./TaskPriorityPopover"
 
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 	task: TaskDomainType
 }
 export const SortableTask = React.memo(({ task, todolistId}: Props) => {
-	const {id, title, status, taskEntityStatus} = task
+	const {id, title, status, priority, taskEntityStatus} = task
 
 	const dispatch = useAppDispatch()
 	const [openTaskModal, setOpenTaskModal] = React.useState(false);
@@ -62,11 +62,11 @@ export const SortableTask = React.memo(({ task, todolistId}: Props) => {
 					checked={isTaskCompleted && true}
 					size="small"
 					color="secondary"
-					sx={{ marginRight: "10px", }}
+					sx={{ marginRight: "5px", }}
 					onChange={changeTaskStatusHandler}
 					disabled={taskEntityStatus === "loading"}
 				/>
-
+				<TaskPriorityPopover priority={priority}/>
 				<EditableSpan
 					attributes={attributes}
 					listeners={listeners}
