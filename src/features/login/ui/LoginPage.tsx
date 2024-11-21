@@ -7,11 +7,11 @@ import { PATH } from "routes/router"
 import { AppRootStateType } from "app/store"
 import { ErrorSnackbar } from "common/components"
 import { LoginForm } from "./LoginForm"
-import { selectAppStatus } from "app/appSlice"
+import { selectAppStatus, selectIsLoggedIn } from "app/appSlice"
 
 export const LoginPage = () => {
 	const theme = useTheme()
-	const isLoggedIn = useSelector<AppRootStateType>((state) => state.auth.isLoggedIn)
+	const isLoggedIn = useSelector(selectIsLoggedIn)
 	const appStatus = useSelector(selectAppStatus)
 
 	if (isLoggedIn) return <Navigate to={PATH.ROOT} />

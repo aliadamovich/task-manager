@@ -7,24 +7,23 @@ import { todolistReducer } from "features/todolostsList/model/todolistSlice"
 import { appReducer } from "app/appSlice"
 import { baseApi } from "./baseApi"
 import { setupListeners } from "@reduxjs/toolkit/query"
+import { authReducer } from "features/login/model/authSlice"
 
+//!ВНИМАНИЕ! ЭТОТ СТОР НЕ ИСПЛЬЗУЕТСЯ В ТЕКУЩЕЙ ВЕРСИИ ПРИДОЖЕНИЯ
 //* types (как в документации RTK)
-export type AppRootStateType = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type AppRootStateType = ReturnType<typeof _store.getState>
+export type AppDispatch = typeof _store.dispatch
 
 //* store
-export const store = configureStore({
+export const _store = configureStore({
 	reducer: {
 		tasks: tasksReducer,
 		todolists: todolistReducer,
 		app: appReducer,
-
-		[baseApi.reducerPath]: baseApi.reducer,
+		auth: authReducer,
 	},
-	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
 })
 
-setupListeners(store.dispatch)
 
 //*custom hook useDispatch
 // создали кастомный хук useAppDispatch, при его вызове вы получаете специализированный dispatch, уже адаптированный для работы как с обычными actions, так и с thunks.

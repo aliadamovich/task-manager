@@ -5,17 +5,26 @@ import { removeTaskTC, TaskDomainType, updateTaskTC } from "features/todolostsLi
 import { useAppDispatch } from "app/store"
 import { EditableSpan } from "common/components"
 import { TaskStatuses } from "features/todolostsList/lib/enums/enum"
-import { ModalContainer } from "common/components/modal/Modal"
+import { TaskModal } from "./taskModal/TaskModal"
+import { TaskPriorityPopover } from "./TaskPriorityPopover"
+import { useDeleteTaskMutation } from "features/todolostsList/api/tasksApi_rtk"
 
-type Props = TaskDomainType & {
+
+type Props = {
 	todolistId: string
+	task: TaskDomainType
 }
-export const Task = React.memo(({ id, title, status, taskEntityStatus, todolistId }: Props) => {
+export const Task = React.memo(({ task, todolistId}: Props) => {
+	const {id, title, status, priority, taskEntityStatus} = task
+
 	const dispatch = useAppDispatch()
+	const [openTaskModal, setOpenTaskModal] = React.useState(false);
+	const [deleteTask] = useDeleteTaskMutation()
 
 	const removeTaskHandler = useCallback(() => {
-		dispatch(removeTaskTC({ todolistId, taskId: id }))
-	}, [id, todolistId, dispatch])
+		// dispatch(removeTaskTC({ todolistId, taskId: id }))
+		deleteTask({todolistId, taskId: id})
+	}, [id, todolistId])
 
 	const changeTaskStatusHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
 		let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
@@ -30,25 +39,35 @@ export const Task = React.memo(({ id, title, status, taskEntityStatus, todolistI
 		[id, todolistId, dispatch],
 	)
 	const isTaskCompleted = status === TaskStatuses.Completed
-	
 
 
+	const unwrapModalHandler = () => {
+		setOpenTaskModal(true)
+ }
 	return (
-		<Box sx={TaskEditableSpanBoxSX(isTaskCompleted ? true : false)} >
-			<Checkbox
-				checked={isTaskCompleted && true}
-				size="small"
-				color="secondary"
-				sx={{marginRight: "10px",}}
-				onChange={changeTaskStatusHandler}
-				disabled={taskEntityStatus === "loading"}
-			/>
-			<EditableSpan
-				title={title}
-				onChange={changeTaskTitleHandler}
-				removeItemHandler={removeTaskHandler}
-				disabled={taskEntityStatus === "loading"}
-			/>
-		</Box>
+		<div>
+			<Box sx={TaskEditableSpanBoxSX(isTaskCompleted ? true : false)}>
+				<Checkbox
+					checked={isTaskCompleted && true}
+					size="small"
+					color="secondary"
+					sx={{ marginRight: "5px", }}
+					onChange={changeTaskStatusHandler}
+					disabled={taskEntityStatus === "loading"}
+				/>
+				<TaskPriorityPopover priority={priority}/>
+				<EditableSpan
+					title={title}
+					onChange={changeTaskTitleHandler}
+					removeItemHandler={removeTaskHandler}
+					disabled={taskEntityStatus === "loading"}
+					isWithModal
+					unwrapModalHandler={unwrapModalHandler}
+				/>
+				{openTaskModal && <TaskModal openModal={openTaskModal} setOpenModal={setOpenTaskModal} task={task} todolistId={todolistId}/>
+				}
+			</Box>
+    </div>
+		
 	)
 })

@@ -1,3 +1,5 @@
+import { TaskDomainType } from "../model/tasksSlice"
+
 export type CreateTaskArgs = {
 	todolistId: string
 	title: string
@@ -44,6 +46,12 @@ export type GetTasksResponse = {
 	error: string | null
 	totalCount: number
 	items: TaskType[]
+}
+
+export type GetTasksRTKResponse = {
+	error: string | null
+	totalCount: number
+	items: TaskDomainType[]
 }
 
 export type UpdateTaskType = {

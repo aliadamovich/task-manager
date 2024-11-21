@@ -70,9 +70,9 @@ export const popoverWIthColor = (priorityColor: string): SxProps => ({
 	position: "relative",
 	"&::before": {
 		content: "''",
-		width: "1ex",
-		height: "1ex",
-		marginRight: "1ex",
+		width: "8px",
+		height: "8px",
+		marginRight: "8px",
 		backgroundColor: priorityColor,
 		display: "inline-block",
 		borderRadius: "50%",

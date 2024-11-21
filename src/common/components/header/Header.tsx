@@ -5,7 +5,10 @@ import MenuIcon from "@mui/icons-material/Menu"
 import { MaterialUISwitch } from "styles/SwitchStyled"
 import { ColorModeContext } from "styles/Theme"
 import { useAppDispatch } from "app/store"
-import { logoutTC } from "features/login/model/authSlice"
+import { useLogoutMutation } from "features/login/api/authApi_rtk"
+import { setIsLoggedIn } from "app/appSlice"
+import { ResultCode } from "common/enums/enum"
+import { clearData } from "features/todolostsList/model/todolistSlice"
 
 type Props = {
 	toggleSidebar: (isOpen: boolean) => () => void
@@ -13,10 +16,18 @@ type Props = {
 export const Header = ({ toggleSidebar }: Props) => {
 	//компонент, вызывающий useContext, получает доступ к value обозначенному в провайдере контекста
 	const colorMode = useContext(ColorModeContext)
+	const [logout] = useLogoutMutation()
 
 	const dispatch = useAppDispatch()
 	const onLogoutHandler = () => {
-		dispatch(logoutTC())
+		// dispatch(logoutTC())
+		logout()
+			.then((res) => {
+			if (res.data?.resultCode === ResultCode.Success) {
+				dispatch(clearData())
+				dispatch(setIsLoggedIn({isLoggedIn: false}))
+			}
+		})
 	}
 
 	return (

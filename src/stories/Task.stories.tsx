@@ -19,11 +19,13 @@ const meta: Meta<typeof Task> = {
 	decorators: [ReduxStoreProviderDecorator],
 
 	args: {
-		id: "taskId1",
-		title: "Learn Storybook",
-		status: TaskStatuses.New,
+		// id: "taskId1",
+		// title: "Learn Storybook",
+		// status: TaskStatuses.New,
+		task : {id: 'taskid',addedDate: '', deadline: '', description: '', order: 1, priority: 1, startDate: '', status: 0, taskEntityStatus: 'idle',title: 'd', todoListId: 'de'},
 		todolistId: "todolistId1", // ID тудулиста, который существует в initialGlobalState
 	},
+
 }
 
 export default meta
@@ -31,13 +33,14 @@ type Story = StoryObj<typeof Task>
 
 export const TaskIsNotDoneStory: Story = {
 	args: {
-		status: TaskStatuses.New,
+		task: { id: 'taskid', addedDate: '', deadline: '', description: '', order: 1, priority: 1, startDate: '', status: TaskStatuses.New, taskEntityStatus: 'idle', title: 'd', todoListId: 'de' },
 	},
 }
 
 export const TaskIsDoneStory: Story = {
 	args: {
-		status: TaskStatuses.Completed,
+		task: { id: 'taskid', addedDate: '', deadline: '', description: '', order: 1, priority: 1, startDate: '', status: TaskStatuses.Completed, taskEntityStatus: 'idle', title: 'd', todoListId: 'de' },
+
 	},
 }
 

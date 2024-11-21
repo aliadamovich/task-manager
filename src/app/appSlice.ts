@@ -12,6 +12,7 @@ const appSlice = createSlice({
 		status: "idle" as RequestStatusType,
 		error: null as string | null,
 		isInitialized: false,
+		isLoggedIn: false,
 	},
 
 	reducers: {
@@ -24,41 +25,43 @@ const appSlice = createSlice({
 		setAppIsInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
 			state.isInitialized = action.payload.isInitialized
 		},
+		setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
+			state.isLoggedIn = action.payload.isLoggedIn
+		},
 	},
 	extraReducers: (builder) => {
 		builder
 			.addMatcher(isPending, (state) => {
-				state.status = 'loading'
-			},
-		)
+				state.status = "loading"
+			})
 			.addMatcher(isRejected, (state, action: any) => {
-				state.status = 'failed';
-				
+				state.status = "failed"
+
 				if (action.payload) {
 					if (
 						action.type === addTodolistTC.rejected.type ||
 						action.type === createTaskTC.rejected.type ||
 						action.type === changeTodolistTitleTC.rejected.type
-					) return
+					)
+						return
 					state.error = action.payload.messages[0]
 				} else {
-					state.error = action.error.message ? action.error.message : 'Some error occurred'
+					state.error = action.error.message ? action.error.message : "Some error occurred"
 				}
-			},
-		)
-		.addMatcher(isFulfilled, (state) => {
-				state.status = 'succeeded'
-			},
-		)
+			})
+			.addMatcher(isFulfilled, (state) => {
+				state.status = "succeeded"
+			})
 	},
 
 	selectors: {
 		selectAppStatus: (sliceState) => sliceState.status,
 		selectAppError: (sliceState) => sliceState.error,
 		selectAppIsInitialized: (sliceState) => sliceState.isInitialized,
+		selectIsLoggedIn: (sliceState) => sliceState.isLoggedIn,
 	},
 })
 
 export const appReducer = appSlice.reducer
-export const { setAppStatus, setAppError, setAppIsInitialized } = appSlice.actions
-export const { selectAppError, selectAppIsInitialized, selectAppStatus } = appSlice.selectors
+export const { setAppStatus, setAppError, setAppIsInitialized, setIsLoggedIn } = appSlice.actions
+export const { selectAppError, selectAppIsInitialized, selectAppStatus, selectIsLoggedIn } = appSlice.selectors

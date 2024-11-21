@@ -1,6 +1,8 @@
 import { useTheme } from "@mui/material"
+import { setIsLoggedIn } from "app/appSlice"
 import { useAppDispatch } from "app/store"
-import { loginTC } from "features/login/model/authSlice"
+import { ResultCode } from "common/enums/enum"
+import { useLoginMutation } from "features/login/api/authApi_rtk"
 import { useFormik } from "formik"
 
 type FormikErrorType = {
@@ -28,6 +30,7 @@ const validate = (values: FormikErrorType) => {
 export const useLogin = () => {
 	const dispatch = useAppDispatch()
 	const theme = useTheme()
+	const [login] = useLoginMutation();
 
 	const formik = useFormik({
 		initialValues: {
@@ -37,14 +40,23 @@ export const useLogin = () => {
 		},
 		validate,
 		onSubmit: (values, formikHelpers) => {
-			dispatch(loginTC(values))
+			login(values)
+				.then((res) => {
+					if (res.data?.resultCode === ResultCode.Success) {
+						dispatch(setIsLoggedIn({ isLoggedIn: true }))
+					}
+				})
+				.finally(() => {
+					formik.resetForm()
+				})
+			// dispatch(loginTC(values))
 			// 	.unwrap()
 			// 	.catch((err: BaseResponseType) => {
 			// 		err.fieldsErrors.forEach(el => {
 			// 			formikHelpers.setFieldError(el.field, el.error)
 			// 		})
 			// })
-			formik.resetForm()
+			// formik.resetForm()
 		},
 	})
 

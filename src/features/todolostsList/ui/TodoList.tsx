@@ -10,7 +10,8 @@ import { todolistTitleStyle } from "styles/Todolost.styles"
 import { Task } from "features/todolostsList/ui/tasks/Task"
 import { FilterTasksButtons } from "./filterButtons/FilterTasksButtons"
 import {Tasks} from "./tasks/Tasks"
-import { SortableTasks } from "./tasks/SortableTasks"
+import { useDeleteTodolistMutation, useUpdateTodolistMutation } from "../api/todolistApi_rtk"
+import { useCreateTaskMutation } from "../api/tasksApi_rtk"
 
 type Props = {
 	todolist: TodolistDomainType
@@ -18,23 +19,27 @@ type Props = {
 
 export const TodoList = React.memo(({ todolist }: Props) => {
 	const { id, filter, title, entityStatus, ...restProps } = todolist
-
+	const [deleteTodolist] = useDeleteTodolistMutation()
+	const [updateTodolist] = useUpdateTodolistMutation()
 	const dispatch = useAppDispatch()
-
+	const [createTask] = useCreateTaskMutation()
 	//*tasks
 	// добавление таски
 	const addTaskHandler = useCallback((title: string) => {
-		return dispatch(createTaskTC({ todolistId: id, title }))
+		// return dispatch(createTaskTC({ todolistId: id, title }))
+		return createTask({todolistId: id, title})
 	}, [createTaskTC, id, dispatch])
 
 	//* todolists
-	const removeTodoListHandler = useCallback(() => {
-		dispatch(removeTodolistTC(id))
-	}, [id, dispatch])
+	const removeTodoListHandler = () => {
+		// dispatch(removeTodolistTC(id))
+		deleteTodolist(id)
+	}
 
 
 	const changeTodolistTitleHandler = useCallback((title: string) => {
-			return dispatch(changeTodolistTitleTC({ todolistId: id, title }))
+			// return dispatch(changeTodolistTitleTC({ todolistId: id, title }))
+		return updateTodolist({title, todolistId: id})
 		},
 		[id, dispatch],
 	)
@@ -54,8 +59,8 @@ export const TodoList = React.memo(({ todolist }: Props) => {
 				</h2>
 
 				<List sx={{ flex: "1 1 auto", mt: "10px" }}>
-					{/* <Tasks todolist={todolist}/> */}
-					<SortableTasks todolist={todolist}/>
+					<Tasks todolist={todolist}/>
+					{/* <SortableTasks todolist={todolist}/> */}
 				</List>
 
 				<div style={{ margin: "20px 0", display: "flex", gap: "8px" }}>

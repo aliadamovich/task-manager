@@ -6,7 +6,7 @@ import { LoginType } from "features/login/api/authApi.types"
 import { authAPI } from "features/login/api/authApi"
 import { ResultCode } from "common/enums/enum"
 
-//* Thunks
+//!ВНИМАНИЕ! ЭТОТ СЛАЙС НЕ ИСПОЛЬЗУЕТСЯ В ТЕКУЩЕЙ ВЕРСИИ ПРИЛОЖЕНИЯ И НУЖЕН ТОЛЬКО В ВЕРСИИ RTK
 
 export const loginTC = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginType>("auth/login", async (data, { rejectWithValue } ) => {
 	const res = await authAPI.login(data)
@@ -70,9 +70,9 @@ const authSlice = createSlice({
 	},
 
 	selectors: {
-		selectAuthIsLoggedIn: (sliceState) => sliceState.isLoggedIn,
+		selectIsLoggedIn: (sliceState) => sliceState.isLoggedIn,
 	},
 })
 
 export const authReducer = authSlice.reducer
-export const { selectAuthIsLoggedIn } = authSlice.selectors
+export const { selectIsLoggedIn: selectAuthIsLoggedIn } = authSlice.selectors

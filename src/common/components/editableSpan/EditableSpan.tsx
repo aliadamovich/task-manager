@@ -75,8 +75,10 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, att
 						sx={{ width: "100%" }}
 						onBlur={onInputBlur}
 						onChange={(e) => {
+							e.stopPropagation()
 							setTitleValue(e.currentTarget.value)
 						}}
+						onClick={(e) => e.stopPropagation()}
 					/>
 					<IconButton
 						disabled={disabled}
