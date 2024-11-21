@@ -2,7 +2,7 @@ import { useTheme } from "@mui/material"
 import { setIsLoggedIn } from "app/appSlice"
 import { useAppDispatch } from "app/store"
 import { ResultCode } from "common/enums/enum"
-import { useLoginMutation } from "features/login/api/authApi_rtk"
+import { useLoginMutation } from "features/login/api/authApi"
 import { useFormik } from "formik"
 
 type FormikErrorType = {

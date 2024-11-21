@@ -50,7 +50,6 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, att
 	}
 
 	const spanClickHandler = (e: MouseEvent<HTMLElement>) => {
-		console.log(e.currentTarget);
 		if (!isWithModal) return;
 		unwrapModalHandler?.()
 	}

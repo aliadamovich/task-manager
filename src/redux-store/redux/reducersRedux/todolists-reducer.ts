@@ -1,8 +1,8 @@
 
 import { TodolistType } from "features/todolostsList/api/api.types"
 import { RequestStatusType, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "./app-reducer"
-import { AppThunk } from "redux-store/store_redux"
-import { todolistsAPI } from "features/todolostsList/api/todolistApi"
+import { AppThunk } from "redux-store/redux/store_redux"
+import { todolistsAPI } from "redux-store/api_rtk/todolistApi_rtk"
 import { handleServerNetworkError } from "common/utils/handleNetworkError"
 import { Dispatch } from "redux"
 import { ResultCode } from "common/enums/enum"

@@ -1,13 +1,15 @@
 import { Box, Checkbox } from "@mui/material"
 import { TaskEditableSpanBoxSX } from "styles/Todolost.styles"
 import React, { ChangeEvent, useCallback } from "react"
-import { removeTaskTC, TaskDomainType, updateTaskTC } from "features/todolostsList/model/tasksSlice"
+import { TaskDomainType } from "features/todolostsList/model/tasksSlice"
 import { useAppDispatch } from "app/store"
 import { EditableSpan } from "common/components"
 import { TaskStatuses } from "features/todolostsList/lib/enums/enum"
 import { TaskModal } from "./taskModal/TaskModal"
 import { TaskPriorityPopover } from "./TaskPriorityPopover"
-import { useDeleteTaskMutation } from "features/todolostsList/api/tasksApi_rtk"
+import { useDeleteTaskMutation, useUpdateTaskMutation } from "features/todolostsList/api/tasksApi"
+import { updateTaskApiModel } from "features/todolostsList/lib/utils/updateTaskModel"
+import { updateTaskStatusQueryData } from "features/todolostsList/lib/utils/updateStatusQueryData"
 
 
 type Props = {
@@ -20,28 +22,43 @@ export const Task = React.memo(({ task, todolistId}: Props) => {
 	const dispatch = useAppDispatch()
 	const [openTaskModal, setOpenTaskModal] = React.useState(false);
 	const [deleteTask] = useDeleteTaskMutation()
+	const [updateTask] = useUpdateTaskMutation()
 
-	const removeTaskHandler = useCallback(() => {
-		// dispatch(removeTaskTC({ todolistId, taskId: id }))
+	const removeTaskHandler =() => {
+		updateTaskStatusQueryData(dispatch, id, todolistId, 'loading')
 		deleteTask({todolistId, taskId: id})
-	}, [id, todolistId])
+		.finally(() => {
+			updateTaskStatusQueryData(dispatch, id, todolistId, 'idle')
+		})
+	}
 
-	const changeTaskStatusHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+	const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+		updateTaskStatusQueryData(dispatch, id, todolistId, 'loading')
 		let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
-		dispatch(updateTaskTC({ todolistId, taskId: id, model: { status } }))
-	},
-		[todolistId, dispatch],
-	)
+		const updatedModel = updateTaskApiModel(task, {status})
+		updateTask({ todolistId, taskId: id, apiModel: updatedModel })
+			.finally(() => {
+				updateTaskStatusQueryData(dispatch, id, todolistId, 'idle')
+			})
+	}
 
-	const changeTaskTitleHandler = useCallback((value: string) => {
-		return dispatch(updateTaskTC({ todolistId, taskId: id, model: { title: value } }))
+	const changeTaskTitleHandler = useCallback((title: string) => {
+		updateTaskStatusQueryData(dispatch, id, todolistId, 'loading')
+		const updatedModel = updateTaskApiModel(task, { title })
+		return updateTask({ todolistId, taskId: id, apiModel: updatedModel })
+			.finally(() => {
+				updateTaskStatusQueryData(dispatch, id, todolistId, 'idle')
+			})
 	},
 		[id, todolistId, dispatch],
 	)
+
+
 	const isTaskCompleted = status === TaskStatuses.Completed
 
 
 	const unwrapModalHandler = () => {
+		if (taskEntityStatus === 'loading') return
 		setOpenTaskModal(true)
  }
 	return (

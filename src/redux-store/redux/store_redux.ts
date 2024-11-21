@@ -1,13 +1,13 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
-import { todolistReducer } from "../features/todolostsList/model/todolistSlice"
+import { todolistReducer } from "../../features/todolostsList/model/todolistSlice"
 import { Action, applyMiddleware, combineReducers, legacy_createStore as createStore, UnknownAction } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
 import { thunk, ThunkAction, ThunkDispatch } from "redux-thunk"
-import { appReducer } from "../app/appSlice"
-import { authReducer } from "../features/login/model/authSlice"
+import { appReducer } from "../../app/appSlice"
+import { authReducer } from "../rtk/slices/authSlice_rtk"
 import { tasksReducer } from "features/todolostsList/model/tasksSlice"
-import { TodolistsActionType } from "redux-store/reducersRedux/todolists-reducer"
-import { TasksActionsType } from "redux-store/reducersRedux/tasks-reducer"
+import { TodolistsActionType } from "redux-store/redux/reducersRedux/todolists-reducer"
+import { TasksActionsType } from "redux-store/redux/reducersRedux/tasks-reducer"
 //* types
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>

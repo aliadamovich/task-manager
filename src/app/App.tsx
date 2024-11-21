@@ -9,7 +9,7 @@ import { useSelector } from "react-redux"
 import { selectAppStatus, setIsLoggedIn } from "./appSlice"
 import { Header } from "common/components/header/Header"
 import s from './App.styles.module.scss'
-import { useMeQuery } from "features/login/api/authApi_rtk"
+import { useMeQuery } from "features/login/api/authApi"
 import { ResultCode } from "common/enums/enum"
 
 function App() {

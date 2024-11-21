@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import React from "react"
-import { todolistsAPI } from "../features/todolostsList/api/todolistApi"
+import { todolistsAPI } from "../redux-store/api_rtk/todolistApi_rtk"
 
 export default {
 	title: "API",

@@ -11,12 +11,16 @@ import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
 import { TaskPriorities, TaskStatuses } from 'features/todolostsList/lib/enums/enum';
 
 type TaskSelectProps = {
-	onChange: (value: string) => void
+	onChange: (e: any, value: string) => void
 	defaultValue: TaskPriorities | TaskStatuses
 	options: ExtendedOption[]
 }
 export const TaskSelect = ({ defaultValue, onChange, options }: TaskSelectProps ) => {
-	return <CustomSelect options={options} defaultValue={defaultValue} onChange={onChange}/>;
+
+	const handleSelectChange = (e: any, value: string | null) => {
+		console.log('Selected value:', typeof value);
+	};
+	return <CustomSelect options={options} defaultValue={defaultValue} onSelectChange={onChange}/>;
 }
 
 const blue = {
@@ -179,7 +183,7 @@ interface Props {
 	options: ExtendedOption[];
 	placeholder?: string;
 	defaultValue: TaskPriorities | TaskStatuses
-	onChange?: (newValue: string) => void
+	onSelectChange?: (e: any, newValue: any) => void
 }
 
 interface OptionProps {
@@ -219,31 +223,25 @@ function CustomOption(props: OptionProps) {
 	);
 }
 
-function CustomSelect({ options, defaultValue, onChange }: Props) {
+function CustomSelect({ options, defaultValue, onSelectChange }: Props) {
 	const listboxRef = React.useRef<HTMLUListElement>(null);
 	const [listboxVisible, setListboxVisible] = React.useState(false);
 	const initialValue = options.find(o => o.value === defaultValue.toString())
-	const { getButtonProps, getListboxProps, contextValue, value } = useSelect<
-		string,
-		false
-	>({
+	const { getButtonProps, getListboxProps, contextValue, value } = useSelect<string,false>({
 		listboxRef,
 		onOpenChange: setListboxVisible,
 		open: listboxVisible,
-		defaultValue: (initialValue?.value)?.toString() || null
+		defaultValue: (initialValue?.value)?.toString() || null,
+		onChange: onSelectChange
 	});
-	
-	React.useEffect(() => {
-		if (value && onChange) {
-			onChange(value);
-		}
-	}, [value, onChange, options]);
+
 
 	const currentColor = options.find(o => o.value === value)?.color
 
 	return (
 		<Root>
-			<Toggle {...getButtonProps()} style={{ '--color': currentColor } as any}>
+			<Toggle {...getButtonProps()}
+				 style={{ '--color': currentColor } as any}>
 				{renderSelectedValue(value, options) || initialValue?.label}
 				<UnfoldMoreRoundedIcon />
 			</Toggle>

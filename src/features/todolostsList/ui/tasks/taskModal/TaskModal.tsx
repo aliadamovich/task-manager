@@ -1,22 +1,16 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, IconButton, ListItem, Modal, TextField, Typography } from "@mui/material"
-import React, { useEffect, useState } from "react"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import BorderColorIcon from "@mui/icons-material/BorderColor"
-import { ItemWithHoverStyle } from "styles/Todolost.styles"
-import { unwrapResult } from "@reduxjs/toolkit"
-import s from './EditableSpan.styles.module.scss'
+import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
 import { ModalContainer } from "../../../../../common/components/modal/Modal"
-import { DraggableAttributes } from "@dnd-kit/core/dist/hooks/useDraggable"
-import { EditableSpan } from "common/components"
 import bg from 'assets/images/back_task.jpg'
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'quill-emoji/dist/quill-emoji.css'
 import * as Emoji from "quill-emoji";
-import { useAppDispatch } from "app/store"
-import { TaskDomainType, updateTaskTC } from "features/todolostsList/model/tasksSlice"
+import { TaskDomainType } from "features/todolostsList/model/tasksSlice"
 import styles from './TaskModal.style.module.scss'
 import { TaskSelects } from "./taskSelects/TaskSelects"
+import { updateTaskApiModel } from "features/todolostsList/lib/utils/updateTaskModel"
+import { useUpdateTaskMutation } from "features/todolostsList/api/tasksApi"
 
 type Props = {
 	openModal: boolean
@@ -30,13 +24,11 @@ Quill.register('modules/emoji', Emoji);
 
 export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) => {
 	const { id: taskId, title, status, taskEntityStatus, description, priority } = task;
-	const taskCkickHandler = (e: any) => {
-		setOpenModal(true)
-	}
+
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [text, setText] = useState(description || '');
-	const dispatch = useAppDispatch();
-
+	const [updateTask] = useUpdateTaskMutation()
+	
 	const handleQuillChange = (value: string) => {
 		setText(value)
 	}
@@ -51,24 +43,24 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 			['bold', 'italic', 'underline'],
 			[{ 'list': 'ordered' }, { 'list': 'bullet' }],
 			['link', 'image'],
-			['emoji'], // Добавляем кнопку эмодзи
+			['emoji'], 
 		],
 		'emoji-toolbar': true,
 		'emoji-shortname': true,
 	}
 
 	const changeDescriptionHandler = () => {
-		dispatch(updateTaskTC({taskId, todolistId, model: {description: text}})).then(() => {
-			setIsExpanded(false)
-		})
+		const updatedModel = updateTaskApiModel(task, {description: text})
+		updateTask({ taskId, todolistId, apiModel: updatedModel })
+			.then(() => {
+				setIsExpanded(false)
+			})
 	}
 
-	const changeSelectHandler = (v: string) => {
-	}
 
 	return (
 		<ModalContainer openModal={openModal} setOpenModal={setOpenModal}>
-			<Card sx={{ minWidth: 450, maxWidth: 850, height: 600 }}>
+			<Card sx={{ minWidth: 450, maxWidth: 850, overflow: 'auto'}}>
 				<CardMedia
 					component="img"
 					alt="green iguana"
@@ -94,7 +86,7 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 							dangerouslySetInnerHTML={{ __html: text || 'Add description here...' }}
 						></div>}
 					
-					<TaskSelects status={status} priority={priority} taskId={taskId} todolistId={todolistId}/>
+					<TaskSelects task={task} todolistId={todolistId}/>
 					
 				</CardContent>
 				<CardActions>
@@ -104,7 +96,8 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 							onClick={changeDescriptionHandler}
 							disabled={taskEntityStatus === 'loading'}
 							variant='contained'
-						>Add description</Button>}
+						>Add description
+					</Button>}
 				</CardActions>
 				
 			</Card>

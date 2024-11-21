@@ -5,9 +5,9 @@ import { configureStore } from "@reduxjs/toolkit"
 import { tasksReducer } from "features/todolostsList/model/tasksSlice"
 import { todolistReducer } from "features/todolostsList/model/todolistSlice"
 import { appReducer } from "app/appSlice"
-import { baseApi } from "./baseApi"
+import { baseApi } from "../../app/baseApi"
 import { setupListeners } from "@reduxjs/toolkit/query"
-import { authReducer } from "features/login/model/authSlice"
+import { authReducer } from "redux-store/rtk/slices/authSlice_rtk"
 
 //!ВНИМАНИЕ! ЭТОТ СТОР НЕ ИСПЛЬЗУЕТСЯ В ТЕКУЩЕЙ ВЕРСИИ ПРИДОЖЕНИЯ
 //* types (как в документации RTK)

@@ -2,13 +2,13 @@ import React from 'react'
 import { TaskSelect } from './TaskSelect';
 import { TaskPriorities, TaskStatuses } from 'features/todolostsList/lib/enums/enum';
 import { useAppDispatch } from 'app/store';
-import { updateTaskTC } from 'features/todolostsList/model/tasksSlice';
+import { TaskDomainType } from 'features/todolostsList/model/tasksSlice';
 import { Typography } from '@mui/material';
+import { useUpdateTaskMutation } from 'features/todolostsList/api/tasksApi';
+import { updateTaskApiModel } from 'features/todolostsList/lib/utils/updateTaskModel';
 
 type Props = {
-	status: TaskStatuses
-	priority:TaskPriorities
-	taskId: string
+	task: TaskDomainType
 	todolistId: string
 }
 export const priorityOptions = [
@@ -44,40 +44,46 @@ const statusesOptions = [
 		color: '#2196F3',
 		value: '0'
 	},
-	{
-		label: 'In progress',
-		color: '#e913f0',
-		value: '1'
-	},
+	// {
+	// 	label: 'In progress',
+	// 	color: '#e913f0',
+	// 	value: '1'
+	// },
 	{
 		label: 'Completed',
 		color: '#4CAF50',
 		value: '2'
 	},
-	{
-		label: 'Draft',
-		color: '#D32F2F',
-		value: '3'
-	},
+	// {
+	// 	label: 'Draft',
+	// 	color: '#D32F2F',
+	// 	value: '3'
+	// },
 ];
 
-export const TaskSelects = ({ status, priority, taskId, todolistId }: Props) => {
+export const TaskSelects = ({ task, todolistId }: Props) => {
+	const { status, priority, id: taskId } = task;
+	const [updateTask] = useUpdateTaskMutation()
 	const dispatch = useAppDispatch()
-
-	const changeStatusSelectHandler = (value: string) => {
+	const changeStatusSelectHandler = (e: any, value: string) => {
+		
 		let newStatus = Number(value)
 		if (newStatus === status) return
-		dispatch(updateTaskTC({todolistId, taskId, model: {status: newStatus}}))
+		const updatedModel = updateTaskApiModel(task, { status: newStatus })
+		updateTask({ taskId, todolistId, apiModel: updatedModel })
 	}
 
-	const changePrioritySelectHandler = (value: string) => {
+	const changePrioritySelectHandler = (e: any, value: string) => {
+		// debugger
 		let newPriority = Number(value)
 		if (newPriority === priority) return
-		dispatch(updateTaskTC({ todolistId, taskId, model: { priority: newPriority } }))
+		const updatedModel = updateTaskApiModel(task, { priority: newPriority })
+		updateTask({ taskId, todolistId, apiModel: updatedModel })
+		// dispatch(updateTaskTC({ todolistId, taskId, model: { priority: newPriority } }))
 	}
 
 	return (
-		<div style={{}}>
+		<div >
 			<Typography variant="body2" component="p" sx={{ margin: '15px 0 5px' }}>Task priority:</Typography>
 			<TaskSelect defaultValue={priority} onChange={changePrioritySelectHandler} options={priorityOptions}/>
 

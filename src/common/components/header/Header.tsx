@@ -5,10 +5,11 @@ import MenuIcon from "@mui/icons-material/Menu"
 import { MaterialUISwitch } from "styles/SwitchStyled"
 import { ColorModeContext } from "styles/Theme"
 import { useAppDispatch } from "app/store"
-import { useLogoutMutation } from "features/login/api/authApi_rtk"
+import { useLogoutMutation } from "features/login/api/authApi"
 import { setIsLoggedIn } from "app/appSlice"
 import { ResultCode } from "common/enums/enum"
 import { clearData } from "features/todolostsList/model/todolistSlice"
+import { baseApi } from "app/baseApi"
 
 type Props = {
 	toggleSidebar: (isOpen: boolean) => () => void
@@ -20,14 +21,16 @@ export const Header = ({ toggleSidebar }: Props) => {
 
 	const dispatch = useAppDispatch()
 	const onLogoutHandler = () => {
-		// dispatch(logoutTC())
 		logout()
 			.then((res) => {
 			if (res.data?.resultCode === ResultCode.Success) {
-				dispatch(clearData())
 				dispatch(setIsLoggedIn({isLoggedIn: false}))
+				// dispatch(clearData())
 			}
 		})
+			.then(() => {
+				dispatch(baseApi.util.invalidateTags(['Tasks', 'Todolist']))
+			})
 	}
 
 	return (
