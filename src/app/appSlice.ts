@@ -1,5 +1,7 @@
 import { action } from "@storybook/addon-actions"
 import { createSlice, isFulfilled, isPending, isRejected, PayloadAction } from "@reduxjs/toolkit"
+import { todolistsAPI } from "features/todolostsList/api/todolistApi"
+import { tasksAPI } from "features/todolostsList/api/tasksApi"
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
 
@@ -29,23 +31,15 @@ const appSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addMatcher(isPending, (state) => {
-				state.status = "loading"
+			.addMatcher(isPending, (state, action) => {
+				if (todolistsAPI.endpoints.getTodolists.matchPending(action) ||
+						tasksAPI.endpoints.getTasks.matchPending(action)) {
+							return
+						}
+						state.status = "loading"
 			})
 			.addMatcher(isRejected, (state, action: any) => {
 				state.status = "failed"
-
-				// if (action.payload) {
-				// 	if (
-				// 		action.type === addTodolistTC.rejected.type ||
-				// 		action.type === createTaskTC.rejected.type ||
-				// 		action.type === changeTodolistTitleTC.rejected.type
-				// 	)
-				// 		return
-				// 	state.error = action.payload.messages[0]
-				// } else {
-				// 	state.error = action.error.message ? action.error.message : "Some error occurred"
-				// }
 			})
 			.addMatcher(isFulfilled, (state) => {
 				state.status = "succeeded"

@@ -15,8 +15,9 @@ import { updateTaskStatusQueryData } from "features/todolostsList/lib/utils/upda
 type Props = {
 	todolistId: string
 	task: TaskDomainType
+	page: number
 }
-export const Task = React.memo(({ task, todolistId}: Props) => {
+export const Task = React.memo(({ task, todolistId, page}: Props) => {
 	const {id, title, status, priority, taskEntityStatus} = task
 
 	const dispatch = useAppDispatch()
@@ -25,29 +26,29 @@ export const Task = React.memo(({ task, todolistId}: Props) => {
 	const [updateTask] = useUpdateTaskMutation()
 
 	const removeTaskHandler =() => {
-		updateTaskStatusQueryData(dispatch, id, todolistId, 'loading')
+		updateTaskStatusQueryData({ dispatch, id, todolistId, status: 'loading', page })
 		deleteTask({todolistId, taskId: id})
 		.finally(() => {
-			updateTaskStatusQueryData(dispatch, id, todolistId, 'idle')
+			updateTaskStatusQueryData({ dispatch, id, todolistId, status: 'idle', page })
 		})
 	}
 
 	const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-		updateTaskStatusQueryData(dispatch, id, todolistId, 'loading')
+		updateTaskStatusQueryData({ dispatch, id, todolistId, status: 'loading', page })
 		let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
 		const updatedModel = updateTaskApiModel(task, {status})
 		updateTask({ todolistId, taskId: id, apiModel: updatedModel })
 			.finally(() => {
-				updateTaskStatusQueryData(dispatch, id, todolistId, 'idle')
+				updateTaskStatusQueryData({ dispatch, id, todolistId, status: 'idle', page })
 			})
 	}
 
 	const changeTaskTitleHandler = useCallback((title: string) => {
-		updateTaskStatusQueryData(dispatch, id, todolistId, 'loading')
+		updateTaskStatusQueryData({ dispatch, id, todolistId, status: 'loading', page })
 		const updatedModel = updateTaskApiModel(task, { title })
 		return updateTask({ todolistId, taskId: id, apiModel: updatedModel })
 			.finally(() => {
-				updateTaskStatusQueryData(dispatch, id, todolistId, 'idle')
+				updateTaskStatusQueryData({dispatch, id, todolistId, status: 'idle', page})
 			})
 	},
 		[id, todolistId, dispatch],

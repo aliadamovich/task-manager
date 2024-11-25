@@ -17,9 +17,6 @@ type TaskSelectProps = {
 }
 export const TaskSelect = ({ defaultValue, onChange, options }: TaskSelectProps ) => {
 
-	const handleSelectChange = (e: any, value: string | null) => {
-		console.log('Selected value:', typeof value);
-	};
 	return <CustomSelect options={options} defaultValue={defaultValue} onSelectChange={onChange}/>;
 }
 
@@ -54,7 +51,7 @@ const Toggle = styled('button')(
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 0.875rem;
   box-sizing: border-box;
-  min-width: 320px;
+  width: 100%;
   padding: 8px 12px;
   border-radius: 8px;
   text-align: left;
@@ -108,7 +105,6 @@ const Listbox = styled('ul')(
   font-size: 0.875rem;
   box-sizing: border-box;
   min-height: calc(1.5em + 22px);
-  min-width: 320px;
   padding: 12px;
   border-radius: 12px;
   text-align: left;
@@ -119,7 +115,7 @@ const Listbox = styled('ul')(
   padding: 5px;
   margin: 5px 0 0 0;
   position: absolute;
-  height: auto;
+	max-height: 200px;
   width: 100%;
   overflow: auto;
   z-index: 1;
@@ -240,11 +236,7 @@ function CustomSelect({ options, defaultValue, onSelectChange }: Props) {
 
 	return (
 		<Root>
-			<Toggle {...getButtonProps()}
-				 style={{ '--color': currentColor } as any}>
-				{renderSelectedValue(value, options) || initialValue?.label}
-				<UnfoldMoreRoundedIcon />
-			</Toggle>
+			
 			<Listbox
 				{...getListboxProps()}
 				aria-hidden={!listboxVisible}
@@ -260,6 +252,11 @@ function CustomSelect({ options, defaultValue, onSelectChange }: Props) {
 					})}
 				</SelectProvider>
 			</Listbox>
+			<Toggle {...getButtonProps()}
+				style={{ '--color': currentColor } as any}>
+				{renderSelectedValue(value, options) || initialValue?.label}
+				<UnfoldMoreRoundedIcon />
+			</Toggle>
 		</Root>
 	);
 }

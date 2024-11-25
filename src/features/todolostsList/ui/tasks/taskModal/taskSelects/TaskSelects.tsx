@@ -83,7 +83,7 @@ export const TaskSelects = ({ task, todolistId }: Props) => {
 	}
 
 	return (
-		<div >
+		<div style={{width:'100%'}}>
 			<Typography variant="body2" component="p" sx={{ margin: '15px 0 5px' }}>Task priority:</Typography>
 			<TaskSelect defaultValue={priority} onChange={changePrioritySelectHandler} options={priorityOptions}/>
 

@@ -12,9 +12,17 @@ export const updateTodolistStatusQueryData = (dispatch: AppDispatch, id: string,
 	)
 }
 
-export const updateTaskStatusQueryData = (dispatch: AppDispatch, id: string, todolistId: string, status: RequestStatusType) => {
+
+type Props = {
+	dispatch: AppDispatch
+	id: string
+	todolistId: string
+	status: RequestStatusType
+	page: number
+}
+export const updateTaskStatusQueryData = ({dispatch, id, todolistId, status, page}: Props) => {
 	dispatch(
-		tasksAPI.util.updateQueryData("getTasks", todolistId, (state) => {
+		tasksAPI.util.updateQueryData("getTasks", {todolistId, args: {page}}, (state) => {
 			let tasks = state.items
 			let index = tasks.findIndex((t) => t.id === id)
 			tasks[index].taskEntityStatus = status

@@ -25,7 +25,7 @@ export const TodoList = React.memo(({ todolist }: Props) => {
 	const [createTask] = useCreateTaskMutation()
 	//*tasks
 	const addTaskHandler = useCallback((title: string) => {
-		return createTask({todolistId: id, title})
+		return createTask({todolistId: id, title}).unwrap()
 	}, [ id, dispatch])
 
 	//* todolists
@@ -36,7 +36,6 @@ export const TodoList = React.memo(({ todolist }: Props) => {
 	const changeTodolistTitleHandler = useCallback((title: string) => {
 		updateTodolistStatusQueryData(dispatch, id, 'loading')
 		return updateTodolist({title, todolistId: id})
-			.unwrap()
 			.finally(() => {
 				updateTodolistStatusQueryData(dispatch, id, 'idle')
 			})

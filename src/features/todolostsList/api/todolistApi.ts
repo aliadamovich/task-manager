@@ -14,7 +14,8 @@ export const todolistsAPI = baseApi.injectEndpoints({
 			transformResponse(todolists: TodolistType[]): TodolistDomainType[] {
 				return todolists.map((tl) => ({ ...tl, filter: "All", entityStatus: "idle" }))
 			},
-			providesTags: ["Todolist"],
+			// providesTags: ["Todolist"],
+			providesTags: (res) => (res ? res.map(({ id }) => ({ type: "Todolist", id }) as const) : ["Tasks"]),
 		}),
 		addTodolist: build.mutation<BaseResponseType<{ item: TodolistType }>, string>({
 			query: (title) => {
@@ -33,7 +34,8 @@ export const todolistsAPI = baseApi.injectEndpoints({
 					method: "DELETE",
 				}
 			},
-			invalidatesTags: ["Todolist"],
+			// invalidatesTags: ["Todolist"],
+			invalidatesTags: (res, err, todolistId) => [{ type: "Todolist", id: todolistId }],
 		}),
 		updateTodolist: build.mutation<BaseResponseType, { todolistId: string; title: string }>({
 			query: ({ todolistId, title }) => {
@@ -43,7 +45,8 @@ export const todolistsAPI = baseApi.injectEndpoints({
 					body: { title },
 				}
 			},
-			invalidatesTags: ["Todolist"],
+			// invalidatesTags: ["Todolist"],
+			invalidatesTags: (res, err, { todolistId }) => [{ type: "Todolist", id: todolistId }],
 		}),
 	}),
 })

@@ -14,7 +14,6 @@ import s from './skeletons/TodolistSkeleton.module.scss'
 export const TodolistsList = () => {
 	const {data: todolists, isLoading } = useGetTodolistsQuery()
 	const [addTodolist] = useAddTodolistMutation()
-	// let todolists = useSelector(selectTodolists)
 	let appStatus = useAppSelector(selectAppStatus)
 	const isLoggedIn = useSelector(selectIsLoggedIn)
 	const dispatch = useAppDispatch()
@@ -26,7 +25,6 @@ export const TodolistsList = () => {
 	}, [])
 
 	const addTodoListHandler = (title: string) => {
-		// return dispatch(addTodolistTC({ title }))
 		return addTodolist(title)
 	}
 	if (isLoading) {

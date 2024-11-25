@@ -1,7 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent, useCallback, useState } from "react"
 import { IconButton, TextField } from "@mui/material"
 import ControlPointIcon from "@mui/icons-material/ControlPoint"
-import { unwrapResult } from "@reduxjs/toolkit"
+import { ResultCode } from "common/enums/enum"
 
 type Props = {
 	addItem: (value: string) => Promise<any>
@@ -17,24 +17,19 @@ export const AddItemInput = React.memo(({ addItem, label, disabled }: Props) => 
 		setItemValue(e.currentTarget.value)
 	}, [])
 
-	const addItemHandler = useCallback(() => {
+	const addItemHandler = () => {
 		if (itemValue.trim()) {
 			addItem(itemValue.trim())
-				.then(unwrapResult)
-				.then(() => {
-					setItemValue("")
-				})
-				.catch((err) => {
-					if(err.messages) {
-					setError(err.messages[0])
+				.then((res) => {
+					if (res.data.resultCode === ResultCode.Success) {
+						setItemValue("")
 					}
 				})
 		} else {
 			setError("Field is required")
 		}
-	}, [addItem, itemValue])
+	}
 
-	//добавление таски по нажатию на Enter
 	const keyPressHandler = useCallback(
 		(e: KeyboardEvent<HTMLInputElement>) => {
 			if (error) {

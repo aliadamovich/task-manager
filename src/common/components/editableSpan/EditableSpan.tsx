@@ -10,20 +10,19 @@ import { DeleteConfirmationModal } from './DeleteConfirmationModal'
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import { RiDragMove2Fill } from "react-icons/ri";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { ResultCode } from 'common/enums/enum'
 
 type Props = {
 	title: string
 	onChange: (newTitle: string) => Promise<any>
 	removeItemHandler: () => void
 	disabled?: boolean
-	attributes?: DraggableAttributes
-	listeners?: Record<string, Function>
 	isWithModal?: boolean
 	unwrapModalHandler?: () => void
 }
 
 
-export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, attributes, listeners, isWithModal, unwrapModalHandler }: Props) => {
+export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isWithModal, unwrapModalHandler }: Props) => {
 
 	const [editMode, setEditMode] = useState(false)
 	const [titleValue, setTitleValue] = useState<string>("")
@@ -31,16 +30,16 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, att
 	const [deleteModal, setDeleteModal] = React.useState(false);
 	const theme = useTheme()
 	const onInputBlur = () => {
-		onChange(titleValue)
-			.then(unwrapResult)
-			.then(() => {
-				setEditMode(false)
-			})
-			.catch((err) => {
-				if (err.messages) {
-					setError(err.messages[0])
-				}
-			})
+		if (titleValue.trim()) {
+			onChange(titleValue)
+				.then((res) => {
+					if (res.data.resultCode === ResultCode.Success) {
+						setEditMode(false)
+					}
+				})
+		} else {
+			setError('Field is required')
+		}
 	}
 
 	const editButtonClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
@@ -101,9 +100,6 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, att
 							<DeleteOutlineIcon fontSize="small" />
 						</IconButton>
 
-						{listeners && <IconButton {...listeners} {...attributes} style={{ cursor: 'move' }}>
-							<RiDragMove2Fill fontSize="medium" />
-						</IconButton>}
 					</div>
 				</>
 			)}

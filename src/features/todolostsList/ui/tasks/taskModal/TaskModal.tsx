@@ -60,7 +60,7 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 
 	return (
 		<ModalContainer openModal={openModal} setOpenModal={setOpenModal}>
-			<Card sx={{ minWidth: 450, maxWidth: 850, overflow: 'auto'}}>
+			<Card >
 				<CardMedia
 					component="img"
 					alt="green iguana"
@@ -72,6 +72,7 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 					<Typography variant="h5" component="h2" className={styles.descriptionTitle} >
 						{title}
 					</Typography>
+					<TaskSelects task={task} todolistId={todolistId} />
 					<Typography variant="body2" component="p" sx={{ margin: '15px 0 10px' }}>Description:</Typography>
 					{isExpanded ?
 						<ReactQuill
@@ -86,12 +87,13 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 							dangerouslySetInnerHTML={{ __html: text || 'Add description here...' }}
 						></div>}
 					
-					<TaskSelects task={task} todolistId={todolistId}/>
+
 					
 				</CardContent>
 				<CardActions>
 					{isExpanded &&
 						<Button
+							sx={{marginBottom:' 20px'}}
 							size="small"
 							onClick={changeDescriptionHandler}
 							disabled={taskEntityStatus === 'loading'}
