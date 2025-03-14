@@ -25,7 +25,7 @@ export const Sidebar = ({ toggleSidebar, sidebarOpen }: Props) => {
 			onClick={toggleSidebar(false)}
 		>
 			<List>
-				{["Draft", "Old", "Recent", "Done"].map((text, index) => (
+				{["Profile", "Tasks", "Todolists", "Projects"].map((text, index) => (
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>

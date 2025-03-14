@@ -3,9 +3,9 @@ import { setAppIsInitializedAC, setAppStatusAC } from "./app-reducer"
 import { authAPI } from "redux-store/api_rtk/authApi_rtk"
 import { LoginType } from "features/login/api/authApi.types"
 import { AppThunk } from "redux-store/redux/store_redux"
-import { handleServerAppErrors } from "common/utils/handleAppError.ts"
 import { handleServerNetworkError } from "common/utils/handleNetworkError"
 import { Dispatch } from "redux"
+import { handleServerAppErrors } from "common/utils/handleAppError"
 const initialState = {
 	isLoggedIn: false,
 }

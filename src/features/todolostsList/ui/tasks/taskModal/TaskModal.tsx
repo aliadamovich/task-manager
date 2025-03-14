@@ -60,7 +60,7 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 
 	return (
 		<ModalContainer openModal={openModal} setOpenModal={setOpenModal}>
-			<Card >
+			<Card sx={{width: "100%"}}>
 				<CardMedia
 					component="img"
 					alt="green iguana"

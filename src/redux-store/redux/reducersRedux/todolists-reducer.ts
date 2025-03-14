@@ -6,7 +6,7 @@ import { todolistsAPI } from "redux-store/api_rtk/todolistApi_rtk"
 import { handleServerNetworkError } from "common/utils/handleNetworkError"
 import { Dispatch } from "redux"
 import { ResultCode } from "common/enums/enum"
-import { handleServerAppErrors } from "common/utils/handleAppError.ts"
+import { handleServerAppErrors } from "common/utils/handleAppError"
 
 const initialState: TodolistDomainType[] = []
 

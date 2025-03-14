@@ -55,5 +55,5 @@ const appSlice = createSlice({
 })
 
 export const appReducer = appSlice.reducer
-export const { setAppStatus, setAppError, setAppIsInitialized, setIsLoggedIn } = appSlice.actions
+export const { setAppError, setAppIsInitialized, setIsLoggedIn, setAppStatus } = appSlice.actions
 export const { selectAppError, selectAppIsInitialized, selectAppStatus, selectIsLoggedIn } = appSlice.selectors

@@ -15,13 +15,14 @@ export const AddItemInput = React.memo(({ addItem, label, disabled }: Props) => 
 
 	const changeInputHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
 		setItemValue(e.currentTarget.value)
+
 	}, [])
 
 	const addItemHandler = () => {
 		if (itemValue.trim()) {
 			addItem(itemValue.trim())
 				.then((res) => {
-					if (res.data.resultCode === ResultCode.Success) {
+					if (res.resultCode === ResultCode.Success || res.data.resultCode === ResultCode.Success) {
 						setItemValue("")
 					}
 				})

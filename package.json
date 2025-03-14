@@ -2,7 +2,7 @@
 	"name": "portfolio-start",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "https://aliadamovich.github.io/TodoList_React",
+	"homepage": "https://aliadamovich.github.io/task-manager/",
 	"dependencies": {
 		"@babel/core": "^7.25.2",
 		"@babel/preset-env": "^7.25.4",

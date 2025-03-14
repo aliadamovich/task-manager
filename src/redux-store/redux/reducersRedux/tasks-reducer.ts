@@ -1,7 +1,6 @@
 import { Dispatch } from "redux"
 import { RequestStatusType } from "app/appSlice"
 import { handleServerNetworkError } from "common/utils/handleNetworkError"
-import { handleServerAppErrors } from "common/utils/handleAppError.ts"
 import { TaskType, UpdateTaskType } from "features/todolostsList/api/api.types"
 import { SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "./app-reducer"
 import { todolistsAPI } from "redux-store/api_rtk/todolistApi_rtk"
@@ -9,6 +8,7 @@ import { ResultCode } from "common/enums/enum"
 import { AppRootStateType } from "redux-store/redux/store_redux"
 import { TaskDomainType } from "features/todolostsList/model/tasksSlice"
 import { addTodolistActionType, removeTodolistActionType, setTodolistsActionType } from "./todolists-reducer"
+import { handleServerAppErrors } from "common/utils/handleAppError"
 
 //* Reducer
 export const _tasksReducer = (tasks = initialState, action: TasksActionsType): TaskStateType => {
