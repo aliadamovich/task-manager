@@ -7,6 +7,14 @@ import {
 import { setAppError } from "app/appSlice"
 import { ResultCode } from "common/enums/enum"
 export const handleError = (api: BaseQueryApi, result: QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>) => {
+	
+	 if (
+    (result.data as { resultCode: ResultCode })?.resultCode === ResultCode.Error &&
+    (result.data as { messages: string[] })?.messages?.[0] === "You are not authorized"
+  ) {
+    return; 
+  }
+
 	let error = "Some error occurred"
 
 	if (result.error) {

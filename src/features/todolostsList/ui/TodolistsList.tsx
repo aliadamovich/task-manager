@@ -12,11 +12,14 @@ import { TodolistPageSkeleton } from "./skeletons/TodolistSkeleton"
 import style from './Todolist.module.scss'
 
 export const TodolistsList = () => {
-	const {data: todolists, isLoading } = useGetTodolistsQuery()
-	const [addTodolist] = useAddTodolistMutation()
-	let appStatus = useAppSelector(selectAppStatus)
+
+	const appStatus = useAppSelector(selectAppStatus)
 	const isLoggedIn = useSelector(selectIsLoggedIn)
 	const dispatch = useAppDispatch()
+	const { data: todolists, isLoading } = useGetTodolistsQuery(undefined, {
+		skip: !isLoggedIn
+	})
+	const [addTodolist] = useAddTodolistMutation()
 
 	useEffect(() => {
 		if (!isLoggedIn) {
@@ -28,9 +31,9 @@ export const TodolistsList = () => {
 		return addTodolist(title)
 	}
 
-	if (!isLoggedIn) {
-		return <Navigate to={PATH.LOGIN} />
-	}
+	// if (!isLoggedIn) {
+	// 	return <Navigate to={PATH.LOGIN} />
+	// }
 
 		return (
 			<div className={style.container}>

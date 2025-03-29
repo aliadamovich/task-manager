@@ -28,9 +28,6 @@ export const Header = ({ toggleSidebar }: Props) => {
 				dispatch(clearData())
 			}
 		})
-			// .then(() => {
-			// 	dispatch(baseApi.util.invalidateTags(['Tasks', 'Todolist']))
-			// })
 	}
 
 	return (
