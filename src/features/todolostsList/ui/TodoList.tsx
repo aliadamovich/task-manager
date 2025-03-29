@@ -44,7 +44,7 @@ export const TodoList = React.memo(({ todolist }: Props) => {
 	)
 
 	return (
-		<Grid item xs={12} md={6}>
+		<Grid item xs={12} md={4} sm={12}>
 			<Paper elevation={3}
 				sx={{ padding: 2, display: "flex", flexDirection: "column", height: "100%", }}>
 

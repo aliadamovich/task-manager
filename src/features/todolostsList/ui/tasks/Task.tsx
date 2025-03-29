@@ -27,7 +27,7 @@ export const Task = React.memo(({ task, todolistId, page}: Props) => {
 
 	const removeTaskHandler =() => {
 		updateTaskStatusQueryData({ dispatch, id, todolistId, status: 'loading', page })
-		deleteTask({todolistId, taskId: id})
+		return deleteTask({todolistId, taskId: id})
 		.finally(() => {
 			updateTaskStatusQueryData({ dispatch, id, todolistId, status: 'idle', page })
 		})
@@ -50,6 +50,7 @@ export const Task = React.memo(({ task, todolistId, page}: Props) => {
 			.finally(() => {
 				updateTaskStatusQueryData({dispatch, id, todolistId, status: 'idle', page})
 			})
+
 	},
 		[id, todolistId, dispatch],
 	)
@@ -82,7 +83,15 @@ export const Task = React.memo(({ task, todolistId, page}: Props) => {
 					isWithModal
 					unwrapModalHandler={unwrapModalHandler}
 				/>
-				{openTaskModal && <TaskModal openModal={openTaskModal} setOpenModal={setOpenTaskModal} task={task} todolistId={todolistId}/>
+				{openTaskModal && 
+				<TaskModal 
+					openModal={openTaskModal} 
+					setOpenModal={setOpenTaskModal} 
+					task={task} 
+					todolistId={todolistId} 
+					changeTaskTitle={changeTaskTitleHandler}
+					removeTask={removeTaskHandler}
+					/>
 				}
 			</Box>
     </div>

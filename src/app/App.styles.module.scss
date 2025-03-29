@@ -9,3 +9,10 @@
 	position: absolute;
 	width: 100%;
 }
+
+.appWrapper {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	min-height: 100vh;
+}

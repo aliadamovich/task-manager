@@ -9,7 +9,7 @@ import { selectAppStatus, selectIsLoggedIn } from "app/appSlice"
 import { AddItemInput } from "common/components"
 import { useAddTodolistMutation, useGetTodolistsQuery } from "../api/todolistApi"
 import { TodolistPageSkeleton } from "./skeletons/TodolistSkeleton"
-import s from './skeletons/TodolistSkeleton.module.scss'
+import style from './Todolist.module.scss'
 
 export const TodolistsList = () => {
 	const {data: todolists, isLoading } = useGetTodolistsQuery()
@@ -27,15 +27,14 @@ export const TodolistsList = () => {
 	const addTodoListHandler = (title: string) => {
 		return addTodolist(title)
 	}
-	if (isLoading) {
-		return <TodolistPageSkeleton />}
 
 	if (!isLoggedIn) {
 		return <Navigate to={PATH.LOGIN} />
 	}
 
 		return (
-			<Container sx={{ mt: "1rem" }} fixed>
+			<div className={style.container}>
+				{isLoading && <TodolistPageSkeleton />}
 				<Grid container sx={{ mb: "2rem" }}>
 					<AddItemInput addItem={addTodoListHandler} label="Add new TODO list" disabled={appStatus === "loading"} />
 				</Grid>
@@ -45,7 +44,7 @@ export const TodolistsList = () => {
 						<TodoList key={tl.id} todolist={tl} />
 					))}
 				</Grid>
-			</Container>
+			</div>
 		);
 }
 

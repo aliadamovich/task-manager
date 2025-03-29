@@ -11,6 +11,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import { RiDragMove2Fill } from "react-icons/ri";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { ResultCode } from 'common/enums/enum'
+import { IoMdOpen } from "react-icons/io";
 
 type Props = {
 	title: string
@@ -48,7 +49,11 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isW
 		setTitleValue(title)
 	}
 
-	const spanClickHandler = (e: MouseEvent<HTMLElement>) => {
+	const openTaskClickHandler = () => {
+		unwrapModalHandler?.()
+	}
+
+	const spanClickHandler = () => {
 		if (!isWithModal) return;
 		unwrapModalHandler?.()
 	}
@@ -89,19 +94,26 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isW
 					</IconButton>
 				</>
 			) : (
-				<>
-					<span className={s.spanText}>{title}</span>
-					<div className={s.buttonsContainer}>
-						<IconButton onClick={editButtonClickHandler} disabled={disabled}>
-							<BorderColorIcon fontSize="small" />
-						</IconButton>
+					<>
+						<span className={s.spanText}>{title}</span>
+						<div className={s.buttonsContainer}>
+							{isWithModal ?
+								<IconButton onClick={openTaskClickHandler} disabled={disabled}>
+									<IoMdOpen fontSize="medium" />
+								</IconButton>
+								:
+								<IconButton onClick={editButtonClickHandler} disabled={disabled}>
+									<BorderColorIcon fontSize="small" />
+								</IconButton>
+							}
 
-						<IconButton onClick={deleteButtonClickHandler} disabled={disabled}>
-							<DeleteOutlineIcon fontSize="small" />
-						</IconButton>
 
-					</div>
-				</>
+							<IconButton onClick={deleteButtonClickHandler} disabled={disabled}>
+								<DeleteOutlineIcon fontSize="small" />
+							</IconButton>
+
+						</div>
+					</>
 			)}
 			{deleteModal &&
 				<DeleteConfirmationModal openModal={deleteModal} setOpenModal={setDeleteModal} removeItemHandler={removeItemHandler} />}

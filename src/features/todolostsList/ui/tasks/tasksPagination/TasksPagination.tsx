@@ -14,20 +14,22 @@ export const TasksPagination = ({ totalCount, page, setPage }: Props) => {
 	const changePageHandler = (_: ChangeEvent<unknown>, page: number) => {
 		setPage(page)
 	}
-
+	const numberOfPages = Math.ceil(totalCount / PAGE_SIZE)
 	return (
-		<>
-			<Pagination
-				count={Math.ceil(totalCount / PAGE_SIZE)}
+		<div className={s.paginationWrapper}>
+			{numberOfPages > 1 && <Pagination
+				count={numberOfPages}
 				page={page}
 				onChange={changePageHandler}
 				shape="rounded"
 				color="primary"
 				className={s.pagination}
-			/>
+				size='small'
+			
+			/>}
 			<div className={s.totalCount}>
 				<Typography variant="caption">Total: {totalCount}</Typography>
 			</div>
-		</>
+		</div>
 	)
 }

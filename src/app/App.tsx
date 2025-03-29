@@ -49,7 +49,7 @@ function App() {
 	}
 
 	return (
-		<div>
+		<div className={s.appWrapper}>
 			<Header toggleSidebar={toggleSidebar} />
 			<Sidebar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
 

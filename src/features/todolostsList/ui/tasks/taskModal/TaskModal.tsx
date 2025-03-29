@@ -11,19 +11,23 @@ import styles from './TaskModal.style.module.scss'
 import { TaskSelects } from "./taskSelects/TaskSelects"
 import { updateTaskApiModel } from "features/todolostsList/lib/utils/updateTaskModel"
 import { useUpdateTaskMutation } from "features/todolostsList/api/tasksApi"
+import { EditableSpan } from "common/components";
 
 type Props = {
 	openModal: boolean
 	setOpenModal: (openModal: boolean) => void
 	task: TaskDomainType
 	todolistId: string
+	changeTaskTitle: (title: string) => Promise<any>
+	removeTask: () => Promise<any>
 }
 
 Quill.register('modules/emoji', Emoji);
 
 
-export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) => {
+export const TaskModal = ({ task, todolistId, changeTaskTitle, openModal, setOpenModal, removeTask }: Props) => {
 	const { id: taskId, title, status, taskEntityStatus, description, priority } = task;
+
 
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [text, setText] = useState(description || '');
@@ -60,7 +64,7 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 
 	return (
 		<ModalContainer openModal={openModal} setOpenModal={setOpenModal}>
-			<Card sx={{width: "100%"}}>
+			<Card sx={{width: "100%", maxWidth: 600}}>
 				<CardMedia
 					component="img"
 					alt="green iguana"
@@ -69,9 +73,11 @@ export const TaskModal = ({ task, todolistId, openModal, setOpenModal}: Props) =
 				/>
 
 				<CardContent>
-					<Typography variant="h5" component="h2" className={styles.descriptionTitle} >
-						{title}
-					</Typography>
+					<EditableSpan
+					title={title}
+					onChange={changeTaskTitle}
+						removeItemHandler={removeTask}
+					/>
 					<TaskSelects task={task} todolistId={todolistId} />
 					<Typography variant="body2" component="p" sx={{ margin: '15px 0 10px' }}>Description:</Typography>
 					{isExpanded ?

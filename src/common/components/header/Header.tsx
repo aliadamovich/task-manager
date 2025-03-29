@@ -25,12 +25,12 @@ export const Header = ({ toggleSidebar }: Props) => {
 			.then((res) => {
 			if (res.data?.resultCode === ResultCode.Success) {
 				dispatch(setIsLoggedIn({isLoggedIn: false}))
-				// dispatch(clearData())
+				dispatch(clearData())
 			}
 		})
-			.then(() => {
-				dispatch(baseApi.util.invalidateTags(['Tasks', 'Todolist']))
-			})
+			// .then(() => {
+			// 	dispatch(baseApi.util.invalidateTags(['Tasks', 'Todolist']))
+			// })
 	}
 
 	return (

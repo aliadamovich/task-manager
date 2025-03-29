@@ -1,29 +1,29 @@
 import Paper from '@mui/material/Paper'
 import s from './TodolistSkeleton.module.scss'
 import Skeleton from '@mui/material/Skeleton'
-import { Container, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 
 export const TodolistPageSkeleton = () => {
 	return (
-		<Container sx={{ mt: "1rem" }} fixed>
+		<>
 			<div className={s.todolistTitle}>
 				<Skeleton width={1200} height={60} />
 				<Skeleton width={40} height={60} />
 			</div>
 			<Grid container spacing={5}>
-				{Array(2)
+				{Array(3)
 					.fill(null)
 					.map((_, id) => (
 						<TodolistSkeleton key={id} />
 					))}
 			</Grid >
-		</Container>
+		</>
 	)
 }
 
  const TodolistSkeleton = () => {
 	return (
-		<Grid item xs={12} md={6} >
+		<Grid item xs={12} md={4} >
 			
 			<Paper elevation={3} sx={{ p: 4 }}>
 			

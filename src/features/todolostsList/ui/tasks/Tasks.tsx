@@ -20,6 +20,8 @@ export const Tasks = ({todolist}: Props) => {
 	const { data, isLoading } = useGetTasksQuery({todolistId: id, args: {page}})
 	let tasks = data?.items
 	const dispatch = useAppDispatch()
+
+
 	if (filter === "Completed") {
 		tasks = tasks?.filter((t) => t.status === TaskStatuses.Completed)
 	} else if (filter === "Active") {

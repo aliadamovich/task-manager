@@ -20,7 +20,7 @@ export const ModalContainer = ({ openModal, children, setOpenModal }: Props) => 
 		transform: 'translate(-50%, -50%)',
 		width: '95%',
 		heigh: '90%',
-		maxWidth: '500px',
+		maxWidth: '600px',
 		bgcolor: 'background.paper',
 		borderRadius: '6px',
 		boxShadow: 24,
