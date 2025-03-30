@@ -1,4 +1,4 @@
-import { SxProps, useTheme } from "@mui/material"
+import { SxProps } from '@mui/system'
 //пример написания стилей в MUI в виде объекта для sx
 // export const buttonContainerSX: SxProps = {
 //   display: "flex",

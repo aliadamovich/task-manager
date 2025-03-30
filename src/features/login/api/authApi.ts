@@ -1,5 +1,4 @@
 import { baseApi } from "app/baseApi"
-import { instance } from "common/axios-instance/instance"
 import { BaseResponseType } from "common/types/types"
 import { LoginType, UserType } from "features/login/api/authApi.types"
 

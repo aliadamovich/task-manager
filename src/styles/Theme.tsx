@@ -1,7 +1,7 @@
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material"
-import { createContext, useContext, useState } from "react"
+import CssBaseline from "@mui/material/CssBaseline"
+import { createContext, useState } from "react"
 import React from "react"
-
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 //React.createContext(): Это функция, которая создаёт контекст и позволяет передать данные без необходимости прокидывания пропсов,. Функция создает объект Provider Consumer - для управления и получения контекста
 //Она принимает один аргумент — значение по умолчанию для этого контекста.
 //в данном примере принимает объект с единственной функцией пустой toggleColorMode внутри - загушкой - на случай если контекст не будет обеспечен (важно чтобы избежать ошибок)

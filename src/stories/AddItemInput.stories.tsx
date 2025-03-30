@@ -3,10 +3,10 @@ import { action } from "@storybook/addon-actions"
 import React, { ChangeEvent, useCallback, useState, KeyboardEvent } from "react"
 import { render } from "react-dom"
 import TextField from "@mui/material/TextField/TextField"
-import { IconButton } from "@mui/material"
 import ControlPointIcon from "@mui/icons-material/ControlPoint"
 import { fn } from "@storybook/test"
 import { AddItemInput } from "common/components"
+import IconButton from "@mui/material/IconButton"
 
 type Props = {
 	addItem: (value: string) => void

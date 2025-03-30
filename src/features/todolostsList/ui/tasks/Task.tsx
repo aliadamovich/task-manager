@@ -1,4 +1,3 @@
-import { Box, Checkbox } from "@mui/material"
 import { TaskEditableSpanBoxSX } from "styles/Todolost.styles"
 import React, { ChangeEvent, useCallback } from "react"
 import { TaskDomainType } from "features/todolostsList/model/tasksSlice"
@@ -10,6 +9,8 @@ import { TaskPriorityPopover } from "./TaskPriorityPopover"
 import { useDeleteTaskMutation, useUpdateTaskMutation } from "features/todolostsList/api/tasksApi"
 import { updateTaskApiModel } from "features/todolostsList/lib/utils/updateTaskModel"
 import { updateTaskStatusQueryData } from "features/todolostsList/lib/utils/updateStatusQueryData"
+import Box from "@mui/material/Box"
+import Checkbox from "@mui/material/Checkbox"
 
 
 type Props = {

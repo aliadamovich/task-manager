@@ -1,5 +1,6 @@
-import { Button, ButtonProps } from "@mui/material"
 import React from "react"
+import Button from "@mui/material/Button";
+import type { ButtonProps } from "@mui/material/Button";
 
 //взяли типы из MUI и оюъединили их с нашим типом на сучай если понадобится в будущем свои пропсы передать
 type Props = ButtonProps & {}

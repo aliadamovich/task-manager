@@ -3,9 +3,9 @@ import { TaskSelect } from './TaskSelect';
 import { TaskPriorities, TaskStatuses } from 'features/todolostsList/lib/enums/enum';
 import { useAppDispatch } from 'app/store';
 import { TaskDomainType } from 'features/todolostsList/model/tasksSlice';
-import { Typography } from '@mui/material';
 import { useUpdateTaskMutation } from 'features/todolostsList/api/tasksApi';
 import { updateTaskApiModel } from 'features/todolostsList/lib/utils/updateTaskModel';
+import Typography from '@mui/material/Typography';
 
 type Props = {
 	task: TaskDomainType

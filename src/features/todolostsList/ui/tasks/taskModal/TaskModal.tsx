@@ -1,4 +1,3 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { ModalContainer } from "../../../../../common/components/modal/Modal"
 import bg from 'assets/images/back_task.jpg'
@@ -12,6 +11,12 @@ import { TaskSelects } from "./taskSelects/TaskSelects"
 import { updateTaskApiModel } from "features/todolostsList/lib/utils/updateTaskModel"
 import { useUpdateTaskMutation } from "features/todolostsList/api/tasksApi"
 import { EditableSpan } from "common/components";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import CardActions from "@mui/material/CardActions";
 
 type Props = {
 	openModal: boolean

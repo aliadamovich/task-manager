@@ -1,17 +1,16 @@
-import { Chip, Divider, Grid, List, Paper } from "@mui/material"
-import { useSelector } from "react-redux"
 import {TodolistDomainType} from "features/todolostsList/model/todolistSlice"
 import React, { useCallback } from "react"
 import { AddItemInput, EditableSpan } from "common/components"
-import { TaskStatuses } from "features/todolostsList/lib/enums/enum"
-import { AppRootStateType, useAppDispatch } from "app/store"
+import { useAppDispatch } from "app/store"
 import { todolistTitleStyle } from "styles/Todolost.styles"
-import { Task } from "features/todolostsList/ui/tasks/Task"
 import { FilterTasksButtons } from "./filterButtons/FilterTasksButtons"
 import {Tasks} from "./tasks/Tasks"
 import { useDeleteTodolistMutation, useUpdateTodolistMutation } from "../api/todolistApi"
 import { useCreateTaskMutation } from "../api/tasksApi"
 import { updateTodolistStatusQueryData } from "../lib/utils/updateStatusQueryData"
+import Paper from "@mui/material/Paper"
+import Grid from '@mui/material/Grid';
+import List from "@mui/material/List"
 
 type Props = {
 	todolist: TodolistDomainType
@@ -44,7 +43,7 @@ export const TodoList = React.memo(({ todolist }: Props) => {
 	)
 
 	return (
-		<Grid item xs={12} md={4} sm={12}>
+		<Grid size={{ xs: 12, md: 4, sm: 12 }}>
 			<Paper elevation={3}
 				sx={{ padding: 2, display: "flex", flexDirection: "column", height: "100%", }}>
 

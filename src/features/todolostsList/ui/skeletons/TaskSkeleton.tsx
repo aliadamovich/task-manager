@@ -1,4 +1,4 @@
-import { Skeleton } from "@mui/material"
+import Skeleton from '@mui/material/Skeleton'
 import s from './TodolistSkeleton.module.scss'
 
 export const TasksSkeleton = () => {

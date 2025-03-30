@@ -1,4 +1,3 @@
-import { Container, Grid, Skeleton } from "@mui/material"
 import { useCallback, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -10,6 +9,7 @@ import { AddItemInput } from "common/components"
 import { useAddTodolistMutation, useGetTodolistsQuery } from "../api/todolistApi"
 import { TodolistPageSkeleton } from "./skeletons/TodolistSkeleton"
 import style from './Todolist.module.scss'
+import Grid from "@mui/material/Grid"
 
 export const TodolistsList = () => {
 

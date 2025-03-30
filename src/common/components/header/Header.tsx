@@ -1,5 +1,4 @@
 import React, { useContext } from "react"
-import { AppBar, Button, FormControlLabel, IconButton, Toolbar, Typography } from "@mui/material"
 import AccountCircle from "@mui/icons-material/AccountCircle"
 import MenuIcon from "@mui/icons-material/Menu"
 import { MaterialUISwitch } from "styles/SwitchStyled"
@@ -9,7 +8,12 @@ import { useLogoutMutation } from "features/login/api/authApi"
 import { setIsLoggedIn } from "app/appSlice"
 import { ResultCode } from "common/enums/enum"
 import { clearData } from "features/todolostsList/model/todolistSlice"
-import { baseApi } from "app/baseApi"
+import AppBar from "@mui/material/AppBar"
+import Toolbar from "@mui/material/Toolbar"
+import IconButton from "@mui/material/IconButton"
+import Typography from "@mui/material/Typography"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Button from "@mui/material/Button"
 
 type Props = {
 	toggleSidebar: (isOpen: boolean) => () => void

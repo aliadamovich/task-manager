@@ -1,4 +1,7 @@
-import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material"
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import TextField from "@mui/material/TextField"; 
 import { useLogin } from "../lib/hooks/useLogin"
 
 export const LoginForm = () => {

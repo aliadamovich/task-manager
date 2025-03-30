@@ -1,4 +1,5 @@
-import { Box, Typography, Modal, Button, useTheme } from '@mui/material'
+import Box from '@mui/material/Box'
+import Modal from '@mui/material/Modal'
 import React from 'react'
 
 type Props = {

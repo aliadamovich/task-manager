@@ -1,4 +1,3 @@
-import { Chip, Divider } from '@mui/material'
 import { FilterValueType, TodolistDomainType } from 'features/todolostsList/model/todolistSlice'
 import { selectFilteredTasks, TaskDomainType } from 'features/todolostsList/model/tasksSlice'
 import { useAppDispatch, useAppSelector } from 'app/store'
@@ -9,6 +8,8 @@ import { TasksSkeleton } from '../skeletons/TaskSkeleton'
 import { setAppError } from 'app/appSlice'
 import { TasksPagination } from './tasksPagination/TasksPagination'
 import { useState } from 'react'
+import Divider from '@mui/material/Divider'
+import Chip from '@mui/material/Chip'
 
 type Props = {
 	todolist: TodolistDomainType

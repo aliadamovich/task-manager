@@ -1,13 +1,19 @@
-import { Avatar, Box, Grid, LinearProgress, Link, Paper, Typography, useTheme } from "@mui/material"
 import LockOpenIcon from "@mui/icons-material/LockOpen"
 import cover from "assets/images/cover_login.jpg"
 import { useSelector } from "react-redux"
 import { Navigate } from "react-router-dom"
 import { PATH } from "routes/router"
-import { AppRootStateType } from "app/store"
 import { ErrorSnackbar } from "common/components"
 import { LoginForm } from "./LoginForm"
 import { selectAppStatus, selectIsLoggedIn } from "app/appSlice"
+import { useTheme } from '@mui/material/styles';
+import LinearProgress from "@mui/material/LinearProgress"
+import Paper from "@mui/material/Paper"
+import Avatar from "@mui/material/Avatar"
+import Typography from "@mui/material/Typography"
+import Grid from "@mui/material/Grid"
+import Link from "@mui/material/Link"
+import Box from "@mui/material/Box"
 
 export const LoginPage = () => {
 	const theme = useTheme()
@@ -21,10 +27,7 @@ export const LoginPage = () => {
 			<div style={{ position: "absolute", width: "100%" }}>{appStatus === "loading" && <LinearProgress />}</div>
 			<Grid container component="main" style={{ height: "100vh" }}>
 				<Grid
-					item
-					xs={false}
-					sm={4}
-					md={7}
+					size={{ xs: false, md: 7, sm: 4 }}
 					style={{
 						backgroundImage: `url(${cover})`,
 						backgroundRepeat: "no-repeat",
@@ -33,7 +36,7 @@ export const LoginPage = () => {
 						backgroundPosition: "center",
 					}}
 				/>
-				<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+				<Grid size={{ xs: 12, md: 5, sm: 8 }} component={Paper} elevation={6} square>
 					<div
 						style={{
 							margin: theme.spacing(8, 4),

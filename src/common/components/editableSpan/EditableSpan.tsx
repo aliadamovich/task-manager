@@ -1,17 +1,12 @@
 import React, { MouseEvent, useState } from 'react'
 import s from './EditableSpan.styles.module.scss'
 import { IconButton, ListItem, TextField, useTheme } from '@mui/material'
-import { EditableButtons } from './EditableButtons'
 import BorderColorIcon from "@mui/icons-material/BorderColor"
 import { ItemWithHoverStyle } from "styles/Todolost.styles"
-import { DraggableAttributes } from '@dnd-kit/core'
-import { unwrapResult } from '@reduxjs/toolkit'
 import { DeleteConfirmationModal } from './DeleteConfirmationModal'
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import { RiDragMove2Fill } from "react-icons/ri";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { ResultCode } from 'common/enums/enum'
-import { IoMdOpen } from "react-icons/io";
+import OpenInNew from '@mui/icons-material/OpenInNew'
 
 type Props = {
 	title: string
@@ -99,7 +94,7 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isW
 						<div className={s.buttonsContainer}>
 							{isWithModal ?
 								<IconButton onClick={openTaskClickHandler} disabled={disabled}>
-									<IoMdOpen fontSize="medium" />
+									<OpenInNew fontSize="small" />
 								</IconButton>
 								:
 								<IconButton onClick={editButtonClickHandler} disabled={disabled}>

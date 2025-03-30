@@ -1,7 +1,7 @@
 import Paper from '@mui/material/Paper'
 import s from './TodolistSkeleton.module.scss'
 import Skeleton from '@mui/material/Skeleton'
-import { Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 export const TodolistPageSkeleton = () => {
 	return (
@@ -23,7 +23,7 @@ export const TodolistPageSkeleton = () => {
 
  const TodolistSkeleton = () => {
 	return (
-		<Grid item xs={12} md={4} >
+		<Grid size={{ xs: 12, md: 4, sm: 12 }} >
 			
 			<Paper elevation={3} sx={{ p: 4 }}>
 			

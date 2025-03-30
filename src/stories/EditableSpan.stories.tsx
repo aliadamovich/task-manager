@@ -1,11 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
-import React, { ChangeEvent, useCallback, useState, KeyboardEvent } from "react"
-import { render } from "react-dom"
-import TextField from "@mui/material/TextField/TextField"
-import { IconButton } from "@mui/material"
-import ControlPointIcon from "@mui/icons-material/ControlPoint"
-import { fn } from "@storybook/test"
 import { EditableSpan } from "common/components"
 
 const meta: Meta<typeof EditableSpan> = {

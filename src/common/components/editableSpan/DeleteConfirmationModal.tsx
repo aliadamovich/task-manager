@@ -1,6 +1,7 @@
 import React, { MouseEvent } from 'react'
 import { ModalContainer } from '../modal/Modal'
-import { Button, Typography } from '@mui/material'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 
 type Props = {
 	openModal: boolean
