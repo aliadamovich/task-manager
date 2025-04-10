@@ -1,0 +1,1 @@
+export type ViewModeType = 'list' | 'columns' | 'gallery'

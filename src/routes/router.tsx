@@ -3,6 +3,8 @@ import App from "../app/App"
 import { TodolistsList } from "features/todolostsList/ui/TodolistsList"
 import { LoginPage } from "features/login/ui/LoginPage"
 import { ErrorPage } from "common/components/errorPage/ErrorPage"
+import { TodoList } from "features/todolostsList/ui/TodoList"
+import { TodolistPage } from "features/todolostsList/ui/TodolistPage"
 
 export const PATH = {
 	ROOT: "/",
@@ -27,6 +29,10 @@ export const router = createHashRouter([
 			{
 				path: PATH.TODOLISTS,
 				element: <TodolistsList />,
+			},
+			{
+				path: "todolists/:id",
+				element: <TodolistPage />,
 			},
 		],
 	},

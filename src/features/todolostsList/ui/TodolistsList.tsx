@@ -1,15 +1,14 @@
-import { useCallback, useEffect } from "react"
+import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { TodoList } from "./TodoList"
-import { Navigate } from "react-router-dom"
-import { PATH } from "../../../routes/router"
 import { selectAppStatus, selectIsLoggedIn } from "app/appSlice"
 import { AddItemInput } from "common/components"
 import { useAddTodolistMutation, useGetTodolistsQuery } from "../api/todolistApi"
 import { TodolistPageSkeleton } from "./skeletons/TodolistSkeleton"
 import style from './Todolist.module.scss'
 import Grid from "@mui/material/Grid"
+import { useViewMode } from "features/todolostsList/lib/hooks/useViewMode"
+import { ViewModes } from "features/todolostsList/ui/tasks/modeView/ViewModes"
 
 export const TodolistsList = () => {
 
@@ -20,7 +19,7 @@ export const TodolistsList = () => {
 		skip: !isLoggedIn
 	})
 	const [addTodolist] = useAddTodolistMutation()
-
+	const {mode} = useViewMode()
 	useEffect(() => {
 		if (!isLoggedIn) {
 			return
@@ -38,15 +37,11 @@ export const TodolistsList = () => {
 		return (
 			<div className={style.container}>
 				{isLoading && <TodolistPageSkeleton />}
+
 				<Grid container sx={{ mb: "2rem" }}>
 					<AddItemInput addItem={addTodoListHandler} label="Add new TODO list" disabled={appStatus === "loading"} />
 				</Grid>
-
-				<Grid container spacing={5}>
-					{todolists?.map((tl) => (
-						<TodoList key={tl.id} todolist={tl} />
-					))}
-				</Grid>
+				<ViewModes mode={mode} todolists={todolists} />
 			</div>
 		);
 }

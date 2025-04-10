@@ -7,6 +7,8 @@ import { DeleteConfirmationModal } from './DeleteConfirmationModal'
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import { ResultCode } from 'common/enums/enum'
 import OpenInNew from '@mui/icons-material/OpenInNew'
+import { DraggableAttributes } from '@dnd-kit/core/dist/hooks/useDraggable'
+import DragHandleOutlinedIcon from '@mui/icons-material/DragHandleOutlined';
 
 type Props = {
 	title: string
@@ -15,10 +17,12 @@ type Props = {
 	disabled?: boolean
 	isWithModal?: boolean
 	unwrapModalHandler?: () => void
+	attributes?: DraggableAttributes
+	listeners?: Record<string, Function>;
 }
 
 
-export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isWithModal, unwrapModalHandler }: Props) => {
+export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isWithModal, attributes, listeners, unwrapModalHandler }: Props) => {
 
 	const [editMode, setEditMode] = useState(false)
 	const [titleValue, setTitleValue] = useState<string>("")
@@ -59,7 +63,9 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isW
 	}
 
 	return (
-		<ListItem disablePadding sx={ItemWithHoverStyle(theme)} onClick={spanClickHandler}>
+		<ListItem disablePadding sx={ItemWithHoverStyle(theme)} 
+		onClick={spanClickHandler}
+		>
 			{editMode ? (
 				<>
 					<TextField
@@ -101,12 +107,12 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isW
 									<BorderColorIcon fontSize="small" />
 								</IconButton>
 							}
-
-
 							<IconButton onClick={deleteButtonClickHandler} disabled={disabled}>
 								<DeleteOutlineIcon fontSize="small" />
 							</IconButton>
-
+							{listeners && <IconButton {...listeners} {...attributes} style={{ cursor: 'move' }}>
+								<DragHandleOutlinedIcon fontSize="medium" />
+							</IconButton>}
 						</div>
 					</>
 			)}

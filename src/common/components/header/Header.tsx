@@ -14,12 +14,16 @@ import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Button from "@mui/material/Button"
+import { Link } from "@mui/material"
+import { PATH } from "routes/router"
+import logo from '../../../assets/images/logoo.png'
+import { NavLink } from "react-router-dom"
+
 
 type Props = {
 	toggleSidebar: (isOpen: boolean) => () => void
 }
 export const Header = ({ toggleSidebar }: Props) => {
-	//компонент, вызывающий useContext, получает доступ к value обозначенному в провайдере контекста
 	const colorMode = useContext(ColorModeContext)
 	const [logout] = useLogoutMutation()
 
@@ -35,29 +39,20 @@ export const Header = ({ toggleSidebar }: Props) => {
 	}
 
 	return (
-		<AppBar color="secondary" position="static">
-			<Toolbar>
-				<IconButton
-					size="large"
-					edge="start"
-					color="inherit"
-					sx={{
-						mr: 2,
-					}}
-					onClick={toggleSidebar(true)}
-				>
-					<MenuIcon />
-				</IconButton>
-
-				<Typography
-					variant="h4"
-					component="span"
-					sx={{
-						flexGrow: 1,
-					}}
-				>
-					My Todo
-				</Typography>
+		<AppBar color="secondary" position="static" sx={{zIndex: '10'}}>
+			<Toolbar >
+				<NavLink to={PATH.ROOT} style={{textDecoration: 'none', flexGrow: 1, display: 'flex', alignItems: 'center', gap:'20px'}} >
+					<span >
+						<img src={logo} alt="logo" style={{width:' 40px', height: '40px'}}/>
+					</span>
+					<Typography
+						variant="h4"
+						component="span"
+						color="#fff"
+					>
+						Taskify
+					</Typography>
+				</NavLink>
 
 				<IconButton color="inherit" size="large">
 					<AccountCircle />

@@ -11,12 +11,14 @@ import { updateTodolistStatusQueryData } from "../lib/utils/updateStatusQueryDat
 import Paper from "@mui/material/Paper"
 import Grid from '@mui/material/Grid';
 import List from "@mui/material/List"
+import { NavLink } from "react-router-dom"
 
 type Props = {
 	todolist: TodolistDomainType
+	fullScreen?: boolean
 }
 
-export const TodoList = React.memo(({ todolist }: Props) => {
+export const TodoList = React.memo(({ todolist, fullScreen }: Props) => {
 	const { id, filter, title, entityStatus, ...restProps } = todolist
 	const [deleteTodolist] = useDeleteTodolistMutation()
 	const [updateTodolist] = useUpdateTodolistMutation()
@@ -43,29 +45,29 @@ export const TodoList = React.memo(({ todolist }: Props) => {
 	)
 
 	return (
-		<Grid size={{ xs: 12, md: 4, sm: 12 }}>
-			<Paper elevation={3}
-				sx={{ padding: 2, display: "flex", flexDirection: "column", height: "100%", }}>
-
-				<h2 style={todolistTitleStyle}>
-					<EditableSpan
-						title={title}
-						onChange={changeTodolistTitleHandler}
-						removeItemHandler={removeTodoListHandler}
-						disabled={entityStatus === "loading"}
-					/>
-				</h2>
-
-				<List sx={{ flex: "1 1 auto", mt: "10px" }}>
-					<Tasks todolist={todolist}/>
-				</List>
-
-				<div style={{ margin: "20px 0", display: "flex", gap: "8px" }}>
-					<FilterTasksButtons todolist={todolist} />
-				</div>
-
-				<AddItemInput addItem={addTaskHandler} label="Add new task" disabled={entityStatus === "loading"} />
-			</Paper>
-		</Grid>
+			<Grid size={{ xs: 12, md: 4, sm: 12 }}>
+				<Paper elevation={3}
+					sx={{ padding: 2, display: "flex", flexDirection: "column", height: "100%", width: fullScreen ? "100%" : "auto"}}>
+	
+					<h2 style={todolistTitleStyle}>
+						<EditableSpan
+							title={title}
+							onChange={changeTodolistTitleHandler}
+							removeItemHandler={removeTodoListHandler}
+							disabled={entityStatus === "loading"}
+						/>
+					</h2>
+	
+					<List sx={{ flex: "1 1 auto", mt: "10px" }}>
+						<Tasks todolist={todolist}/>
+					</List>
+	
+					<div style={{ margin: "20px 0", display: "flex", gap: "8px" }}>
+						<FilterTasksButtons todolist={todolist} />
+					</div>
+	
+					<AddItemInput addItem={addTaskHandler} label="Add new task" disabled={entityStatus === "loading"} />
+				</Paper>
+			</Grid>
 	)
 })

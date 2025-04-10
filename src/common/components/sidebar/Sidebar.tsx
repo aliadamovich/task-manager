@@ -1,58 +1,48 @@
 import Box from "@mui/material/Box"
-import Drawer from "@mui/material/Drawer"
-import List from "@mui/material/List"
-import Divider from "@mui/material/Divider"
-import ListItem from "@mui/material/ListItem"
-import ListItemButton from "@mui/material/ListItemButton"
-import ListItemIcon from "@mui/material/ListItemIcon"
-import ListItemText from "@mui/material/ListItemText"
-import InboxIcon from "@mui/icons-material/MoveToInbox"
-import MailIcon from "@mui/icons-material/Mail"
+import ViewModule from "@mui/icons-material/ViewModule"
+import s from './Sidebar.module.scss'
+import GridViewIcon from '@mui/icons-material/GridView';
+import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import { ViewModeType } from "common/types/viewTypes"
 
-//ф-ция toggleSidebar -двойная обертка коллбэк
 type Props = {
-	toggleSidebar: (isOpen: boolean) => () => void
-	sidebarOpen: boolean
+	onChange: (mode: ViewModeType) => void
+	currentMode: ViewModeType
 }
 
-export const Sidebar = ({ toggleSidebar, sidebarOpen }: Props) => {
-	const DrawerList = (
-		<Box
-			sx={{
-				width: 250,
-			}}
-			role="presentation"
-			onClick={toggleSidebar(false)}
-		>
-			<List>
-				{["Profile", "Tasks", "Todolists", "Projects"].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List>
-			<Divider />
-			<List>
-				{["Settings"].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List>
-		</Box>
-	)
-
+export const Sidebar = ({ onChange, currentMode }: Props) => {
 	return (
-		<div>
-			<Drawer open={sidebarOpen} onClose={toggleSidebar(false)}>
-				{DrawerList}
-			</Drawer>
+		<div className={s.sidebar}>
+			<Box display="flex" flexDirection="column" gap={2}>
+				<Tooltip title="List View" placement="right">
+					<IconButton size="large"
+						color={currentMode === "list" ? "secondary" : "default"}
+						onClick={() => onChange("list")}
+					>
+						<ViewHeadlineIcon />
+					</IconButton>
+				</Tooltip>
+
+				<Tooltip title="Column View" placement="right">
+					<IconButton size="large"
+						color={currentMode === "columns" ? "secondary" : "default"}
+						onClick={() => onChange("columns")}
+					>
+						<ViewModule />
+					</IconButton>
+				</Tooltip>
+
+				<Tooltip title="Gallery View" placement="right">
+					<IconButton size="large"
+						color={currentMode === "gallery" ? "secondary" : "default"}
+						onClick={() => onChange("gallery")}
+					>
+						<GridViewIcon />
+					</IconButton>
+				</Tooltip>
+			</Box>
 		</div>
 	)
 }

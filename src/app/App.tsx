@@ -13,6 +13,8 @@ import { useMeQuery } from "features/login/api/authApi"
 import { ResultCode } from "common/enums/enum"
 import { Footer } from "common/components/footer/Footer"
 import { PATH } from "routes/router"
+import { useViewMode } from "features/todolostsList/lib/hooks/useViewMode"
+import { ViewModeProvider } from "app/providers/ViewModeContext.ts/ViewModeContext"
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -21,7 +23,7 @@ function App() {
 	const {data, isLoading} = useMeQuery()
 	const dispatch = useAppDispatch()
 	const isLoggedIn = useSelector(selectIsLoggedIn)
-	
+	const { mode, setMode } = useViewMode()
 	const toggleSidebar = (newOpen: boolean) => () => {
 		setSidebarOpen(newOpen)
 	}
@@ -55,15 +57,15 @@ function App() {
 		}
 
 	return (
-		<div className={s.appWrapper}>
-			<Header toggleSidebar={toggleSidebar} />
-			<Sidebar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
-
-			<div className={s.linearProgress}>{appStatus === "loading" && <LinearProgress />}</div>
-			<Outlet />
-			<Footer />
-			<ErrorSnackbar />
-		</div>
+			<div className={s.appWrapper}>
+				<Header toggleSidebar={toggleSidebar} />
+				<Sidebar currentMode={mode} onChange={setMode} />
+	
+				<div className={s.linearProgress}>{appStatus === "loading" && <LinearProgress />}</div>
+				<Outlet />
+				<Footer />
+				<ErrorSnackbar />
+			</div>
 	)
 }
 

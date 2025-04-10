@@ -11,7 +11,8 @@ import { updateTaskApiModel } from "features/todolostsList/lib/utils/updateTaskM
 import { updateTaskStatusQueryData } from "features/todolostsList/lib/utils/updateStatusQueryData"
 import Box from "@mui/material/Box"
 import Checkbox from "@mui/material/Checkbox"
-
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 type Props = {
 	todolistId: string
@@ -59,13 +60,26 @@ export const Task = React.memo(({ task, todolistId, page}: Props) => {
 
 	const isTaskCompleted = status === TaskStatuses.Completed
 
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+	} = useSortable({ id });
+
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
+	};
+
 
 	const unwrapModalHandler = () => {
 		if (taskEntityStatus === 'loading') return
 		setOpenTaskModal(true)
  }
 	return (
-		<div>
+		<div ref={setNodeRef} style={style} >
 			<Box sx={TaskEditableSpanBoxSX(isTaskCompleted ? true : false)}>
 				<Checkbox
 					checked={isTaskCompleted && true}
@@ -77,6 +91,8 @@ export const Task = React.memo(({ task, todolistId, page}: Props) => {
 				/>
 				<TaskPriorityPopover priority={priority}/>
 				<EditableSpan
+					attributes={attributes}
+					listeners={listeners}
 					title={title}
 					onChange={changeTaskTitleHandler}
 					removeItemHandler={removeTaskHandler}
