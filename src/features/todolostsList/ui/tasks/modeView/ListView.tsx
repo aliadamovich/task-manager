@@ -7,7 +7,8 @@ import { TodolistDomainType } from 'features/todolostsList/model/todolistSlice'
 import { SortableTodolist } from 'features/todolostsList/ui/tasks/modeView/SortableTodolist'
 import { NavLink } from 'react-router-dom'
 import { PATH } from 'routes/router'
-
+import s from './ViewModes.module.scss'
+import clsx from 'clsx'
 
 export const ListView = ({todolists}: {todolists: TodolistDomainType[] | undefined}) => {
 
@@ -16,23 +17,24 @@ export const ListView = ({todolists}: {todolists: TodolistDomainType[] | undefin
 			{todolists?.map(tl => {
 				const taskCount = 4
 				return <SortableTodolist item={tl}>
-					<Paper
+					{({ listeners, attributes }) => <Paper
 						sx={{
 							p: 2,
 							width: '100%',
 							maxWidth: '95%',
 							transition: 'all 0.3s ease-in-out',
-						}}>
-
-						<Box display="flex" justifyContent="space-between" alignItems="center">
-							<NavLink to={`${PATH.TODOLISTS}/${tl.id}`} key={tl.id} >
+						}}
+						{...listeners} {...attributes} style={{ cursor: 'grab' }}
+						>
+						<Box display="flex" justifyContent="space-between" alignItems="center" gap={2}>
+							<NavLink to={`${PATH.TODOLISTS}/${tl.id}`} key={tl.id} className={clsx(s.link, s.customLink)}>
 								<Typography variant="h6">{tl.title}</Typography>
 							</NavLink>
 							<Badge color="primary" badgeContent={taskCount} showZero>
 								<Typography variant="body2">Tasks To Complete</Typography>
 							</Badge>
 						</Box>
-					</Paper>
+					</Paper>}
 				</SortableTodolist>
 			})}
 		</Stack>

@@ -2,8 +2,7 @@
 	position: fixed;
 	left: 0;
 	width: 70px;
-	height: calc(100vh - 64px);
-	// background-color: #f4f4f4;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -17,4 +16,21 @@
 			height: 30px;
 		}
 	}
+
+	@media screen and (max-width:1400px){
+		position: static;
+		flex-direction: row;
+		width: 100%;
+		justify-content: flex-end;
+		padding: 0 20px 0;
+	};
+}
+.sidebarContent {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	@media screen and (max-width:1400px){
+	flex-direction: row;
+	};
 }

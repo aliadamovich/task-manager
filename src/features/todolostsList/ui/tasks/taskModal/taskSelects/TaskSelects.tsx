@@ -11,33 +11,35 @@ type Props = {
 	task: TaskDomainType
 	todolistId: string
 }
+
 export const priorityOptions = [
 	{
 		label: 'Low',
-		color: '#4CAF50',
+		color: '#A8D5BA', 
 		value: '0'
 	},
 	{
 		label: 'Middle',
-		color: '#2196F3',
+		color: '#90CAF9',
 		value: '1'
 	},
 	{
 		label: 'High',
-		color: '#D32F2F',
+		color: '#EF9A9A', 
 		value: '2'
 	},
 	{
 		label: 'Urgent',
-		color: '#030303',
+		color: '#727171', 
 		value: '3'
 	},
 	{
 		label: 'Later',
-		color: '#e913f0',
+		color: '#CE93D8',
 		value: '4'
 	},
 ];
+
 const statusesOptions = [
 	{
 		label: 'New',

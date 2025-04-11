@@ -4,6 +4,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { TodoList } from "features/todolostsList/ui/TodoList"
 import { useGetTodolistsQuery } from "features/todolostsList/api/todolistApi"
 import style from './Todolist.module.scss'
+import { ErrorPage } from "common/components"
 
 export const TodolistPage = () => {
 	const { id } = useParams()
@@ -13,18 +14,7 @@ export const TodolistPage = () => {
 
 	if (isLoading) return <CircularProgress />
 
-	if (error) return <Typography color="error">Error has occured...</Typography>
-	if (!todolist) {
-		return (
-			<Container>
-				<Typography variant="h5" mt={5}>No todolist found...</Typography>
-				<Button variant="contained" onClick={() => navigate(-1)} sx={{ mt: 2 }}>
-					<ArrowBackIcon sx={{ mr: 1 }} />
-					Back
-				</Button>
-			</Container>
-		)
-	}
+	if (error) return <ErrorPage />
 
 	return (
 		<div className={style.container}>
@@ -37,9 +27,12 @@ export const TodolistPage = () => {
 				>
 					Back
 				</Button>
-				<Box>
+				{todolist 
+				? <Box>
 					<TodoList todolist={todolist} fullScreen />
 				</Box>
+				: <Typography variant="h5" mt={5} textAlign='center'>No todolist found...</Typography>
+				}
 				</Container>
 		</div>
 	)

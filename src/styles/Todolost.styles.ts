@@ -34,11 +34,6 @@ export const TaskEditableSpanBoxSX = (isDone: boolean): SxProps => ({
 	alignItems: 'center'
 })
 
-export const todolistTitleStyle = {
-	margin: "10px 0 20px",
-	fontSize: "24px",
-	fontWeight: "500",
-}
 
 export const ItemWithHoverStyle = (theme: any): SxProps => ({
 	flexGrow: 1,
@@ -56,9 +51,8 @@ export const ItemWithHoverStyle = (theme: any): SxProps => ({
 	},
 
 	"&:hover": {
-		// background: "#ededed6d",
-		background: `${theme.palette.primary.light}`,
-		borderRadius: "6px",
+		backgroundColor: theme.palette.action.hover,
+		borderRadius: "4px",
 		button: {
 			opacity: "1",
 			visibility: "visible",

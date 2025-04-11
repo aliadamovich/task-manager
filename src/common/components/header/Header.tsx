@@ -1,6 +1,4 @@
-import React, { useContext } from "react"
-import AccountCircle from "@mui/icons-material/AccountCircle"
-import MenuIcon from "@mui/icons-material/Menu"
+import { useContext } from "react"
 import { MaterialUISwitch } from "styles/SwitchStyled"
 import { ColorModeContext } from "styles/Theme"
 import { useAppDispatch } from "app/store"
@@ -10,20 +8,16 @@ import { ResultCode } from "common/enums/enum"
 import { clearData } from "features/todolostsList/model/todolistSlice"
 import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
-import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Button from "@mui/material/Button"
-import { Link } from "@mui/material"
 import { PATH } from "routes/router"
 import logo from '../../../assets/images/logoo.png'
 import { NavLink } from "react-router-dom"
+import s from './Header.module.scss'
 
 
-type Props = {
-	toggleSidebar: (isOpen: boolean) => () => void
-}
-export const Header = ({ toggleSidebar }: Props) => {
+export const Header = () => {
 	const colorMode = useContext(ColorModeContext)
 	const [logout] = useLogoutMutation()
 
@@ -40,11 +34,9 @@ export const Header = ({ toggleSidebar }: Props) => {
 
 	return (
 		<AppBar color="secondary" position="static" sx={{zIndex: '10'}}>
-			<Toolbar >
-				<NavLink to={PATH.ROOT} style={{textDecoration: 'none', flexGrow: 1, display: 'flex', alignItems: 'center', gap:'20px'}} >
-					<span >
-						<img src={logo} alt="logo" style={{width:' 40px', height: '40px'}}/>
-					</span>
+			<Toolbar className={s.header}>
+				<NavLink to={PATH.ROOT} className={s.headerLogo}>
+						<img src={logo} alt="logo"/>
 					<Typography
 						variant="h4"
 						component="span"
@@ -54,26 +46,16 @@ export const Header = ({ toggleSidebar }: Props) => {
 					</Typography>
 				</NavLink>
 
-				<IconButton color="inherit" size="large">
-					<AccountCircle />
-				</IconButton>
 				<Button
 					variant="text"
-					sx={{
-						margin: "0 20px 0 0",
-						color: "#fff",
-					}}
 					onClick={onLogoutHandler}
-				>
+					className={s.logoutButton}>
 					Logout
 				</Button>
 
 				<FormControlLabel
 					control={
 						<MaterialUISwitch
-							sx={{
-								m: 1,
-							}}
 							defaultChecked
 						/>
 					}

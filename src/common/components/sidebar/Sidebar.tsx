@@ -6,6 +6,8 @@ import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import { ViewModeType } from "common/types/viewTypes"
+import { useNavigate } from "react-router-dom";
+import { PATH } from "routes/router";
 
 type Props = {
 	onChange: (mode: ViewModeType) => void
@@ -13,13 +15,19 @@ type Props = {
 }
 
 export const Sidebar = ({ onChange, currentMode }: Props) => {
+	const navigate = useNavigate()
+	const handleChangeView = (mode: ViewModeType) => {
+		onChange(mode)
+		navigate(PATH.ROOT)
+	}
+	
 	return (
 		<div className={s.sidebar}>
-			<Box display="flex" flexDirection="column" gap={3} >
+			<Box className={s.sidebarContent}>
 				<Tooltip title="List View" placement="right">
 					<IconButton size="large"
 						color={currentMode === "list" ? "secondary" : "default"}
-						onClick={() => onChange("list")}
+						onClick={() => handleChangeView("list")}
 					>
 						<ViewHeadlineIcon />
 					</IconButton>
@@ -28,7 +36,7 @@ export const Sidebar = ({ onChange, currentMode }: Props) => {
 				<Tooltip title="Column View" placement="right">
 					<IconButton size="large"
 						color={currentMode === "columns" ? "secondary" : "default"}
-						onClick={() => onChange("columns")}
+						onClick={() => handleChangeView("columns")}
 					>
 						<ViewModule />
 					</IconButton>
@@ -37,7 +45,7 @@ export const Sidebar = ({ onChange, currentMode }: Props) => {
 				<Tooltip title="Gallery View" placement="right">
 					<IconButton size="large"
 						color={currentMode === "gallery" ? "secondary" : "default"}
-						onClick={() => onChange("gallery")}
+						onClick={() => handleChangeView("gallery")}
 					>
 						<GridViewIcon />
 					</IconButton>

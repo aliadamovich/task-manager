@@ -1,56 +1,40 @@
 import {
-	SortableContext,
 	useSortable,
-	verticalListSortingStrategy,
-	rectSortingStrategy,
-	horizontalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { CSSProperties } from 'react'
-import { useNavigate } from 'react-router-dom'
+import s from './ViewModes.module.scss'
+export type DragParams = {
+	setNodeRef?: (el: HTMLElement | null) => void,
+	style?: CSSProperties,
+	isDragging?: boolean,
+	listeners?: ReturnType<typeof useSortable>['listeners'],
+	attributes?: ReturnType<typeof useSortable>['attributes'],
+}
 
-export const SortableTodolist = ({ item, children }: { item: { id: string }, children: React.ReactNode }) => {
-	const navigate = useNavigate()
+type Props = {
+	item: { id: string }
+	children: (params: DragParams) => React.ReactNode
+}
+
+export const SortableTodolist = ({ item, children }: Props) => {
 	const {
 		attributes,
 		listeners,
 		setNodeRef,
 		transform,
 		transition,
-		isDragging
+		isDragging,
 	} = useSortable({ id: item.id })
 
 	const style: CSSProperties = {
 		transform: CSS.Transform.toString(transform),
 		transition,
-		cursor: 'grab',
-		// position: 'relative',
-		// zIndex: isDragging ? 1000 : 'auto',
 	}
 
-	// let dragged = false
-
-	// const handleMouseDown = () => {
-	// 	dragged = false
-	// }
-
-	// const handleMouseMove = () => {
-	// 	dragged = true
-	// }
-
-	// const handleClick = () => {
-	// 	if (!dragged) {
-	// 		navigate(`/todolists/${item.id}`)
-	// 	}
-	// }
-
 	return (
-		<div ref={setNodeRef} {...attributes} {...listeners} style={style} 
-		// onMouseDown={handleMouseDown}
-			// onMouseMove={handleMouseMove}
-			// onClick={handleClick}
-			>
-			{children}
+		<div ref={setNodeRef} style={style} className={s.sortable}>
+			{children({ setNodeRef, style, isDragging, listeners, attributes })}
 		</div>
 	)
 }

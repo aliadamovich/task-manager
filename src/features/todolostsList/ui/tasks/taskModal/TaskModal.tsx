@@ -33,7 +33,6 @@ Quill.register('modules/emoji', Emoji);
 export const TaskModal = ({ task, todolistId, changeTaskTitle, openModal, setOpenModal, removeTask }: Props) => {
 	const { id: taskId, title, status, taskEntityStatus, description, priority } = task;
 
-
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [text, setText] = useState(description || '');
 	const [updateTask] = useUpdateTaskMutation()
@@ -79,9 +78,10 @@ export const TaskModal = ({ task, todolistId, changeTaskTitle, openModal, setOpe
 
 				<CardContent>
 					<EditableSpan
-					title={title}
+						title={title}
 						onChange={changeTaskTitle}
 						removeItemHandler={removeTask}
+						availableActions={['edit', "remove"]}
 					/>
 					<TaskSelects task={task} todolistId={todolistId} />
 					<Typography variant="body2" component="p" sx={{ margin: '15px 0 10px' }}>Description:</Typography>
@@ -99,7 +99,6 @@ export const TaskModal = ({ task, todolistId, changeTaskTitle, openModal, setOpe
 						></div>}
 					
 
-					
 				</CardContent>
 				<CardActions>
 					{isExpanded &&

@@ -9,7 +9,7 @@ import {
 	rectSortingStrategy,
 	SortableContext
 } from '@dnd-kit/sortable';
-import { closestCenter, DndContext } from '@dnd-kit/core'
+import { closestCenter, DndContext, DragOverlay } from '@dnd-kit/core'
 import { TodolistDomainType } from 'features/todolostsList/model/todolistSlice'
 
 type Props = {
@@ -19,7 +19,6 @@ type Props = {
 
 export const ViewModes = ({ mode, todolists }: Props) => {
 	const { items, sensors, handleDragEnd } = useDragAndDrop(todolists)
-
 	const strategy =
 		mode === 'list'
 			? verticalListSortingStrategy

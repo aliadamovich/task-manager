@@ -3,8 +3,7 @@ import {
 		PointerSensor,
 		useSensor,
 		useSensors,
-		DragEndEvent } from '@dnd-kit/core';
-
+		DragEndEvent} from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates} from '@dnd-kit/sortable';
 import { useEffect, useState } from 'react';
 
@@ -14,7 +13,7 @@ type ItemsWithId = {id: string}
 export const useDragAndDrop = <T extends ItemsWithId>(initialItems: T[] | undefined) => {
 
 	const [items, setItems] = useState<T[] | undefined>(initialItems);
-		
+
 			const handleDragEnd = (event: DragEndEvent) => {
 				const { active, over } = event;
 				if (over && active.id !== over.id) {
@@ -26,6 +25,7 @@ export const useDragAndDrop = <T extends ItemsWithId>(initialItems: T[] | undefi
 					})
 				}
 			}
+
 			const sensors = useSensors(
 				useSensor(PointerSensor),
 				useSensor(KeyboardSensor, {

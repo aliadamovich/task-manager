@@ -58,7 +58,7 @@ function App() {
 
 	return (
 			<div className={s.appWrapper}>
-				<Header toggleSidebar={toggleSidebar} />
+				<Header />
 				<Sidebar currentMode={mode} onChange={setMode} />
 	
 				<div className={s.linearProgress}>{appStatus === "loading" && <LinearProgress />}</div>

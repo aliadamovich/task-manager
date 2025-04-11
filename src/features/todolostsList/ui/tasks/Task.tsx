@@ -79,6 +79,7 @@ export const Task = React.memo(({ task, todolistId, page}: Props) => {
 		if (taskEntityStatus === 'loading') return
 		setOpenTaskModal(true)
  }
+ 
 	return (
 		<div ref={setNodeRef} style={style} >
 			<Box sx={TaskEditableSpanBoxSX(isTaskCompleted ? true : false)}>
@@ -98,8 +99,8 @@ export const Task = React.memo(({ task, todolistId, page}: Props) => {
 					onChange={changeTaskTitleHandler}
 					removeItemHandler={removeTaskHandler}
 					disabled={taskEntityStatus === "loading"}
-					isWithModal
-					unwrapModalHandler={unwrapModalHandler}
+					onOpen={unwrapModalHandler}
+					availableActions={['edit', 'open', "remove"]}
 				/>
 				{openTaskModal && 
 				<TaskModal 
