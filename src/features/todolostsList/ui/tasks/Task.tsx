@@ -75,8 +75,7 @@ export const Task = React.memo(({ task, todolistId, page}: Props) => {
 
 
 	const unwrapModalHandler = () => {
-		console.log(11112222);
-		
+
 		if (taskEntityStatus === 'loading') return
 		setOpenTaskModal(true)
  }

@@ -15,7 +15,7 @@ type Props = {
 export const Sidebar = ({ onChange, currentMode }: Props) => {
 	return (
 		<div className={s.sidebar}>
-			<Box display="flex" flexDirection="column" gap={2}>
+			<Box display="flex" flexDirection="column" gap={3} >
 				<Tooltip title="List View" placement="right">
 					<IconButton size="large"
 						color={currentMode === "list" ? "secondary" : "default"}
