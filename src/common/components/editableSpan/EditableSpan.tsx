@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react'
+import React, { MouseEvent, MouseEventHandler, useState } from 'react'
 import s from './EditableSpan.styles.module.scss'
 import { IconButton, ListItem, TextField, useTheme } from '@mui/material'
 import BorderColorIcon from "@mui/icons-material/BorderColor"
@@ -9,6 +9,9 @@ import { ResultCode } from 'common/enums/enum'
 import OpenInNew from '@mui/icons-material/OpenInNew'
 import { DraggableAttributes } from '@dnd-kit/core/dist/hooks/useDraggable'
 import DragHandleOutlinedIcon from '@mui/icons-material/DragHandleOutlined';
+import { Box, Menu, MenuItem, Paper } from "@mui/material"
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
+import MoreVertIcon from "@mui/icons-material/MoreVert"
 
 type Props = {
 	title: string
@@ -23,11 +26,14 @@ type Props = {
 
 
 export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isWithModal, attributes, listeners, unwrapModalHandler }: Props) => {
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+	const [hovered, setHovered] = useState(false)
 
 	const [editMode, setEditMode] = useState(false)
 	const [titleValue, setTitleValue] = useState<string>("")
 	const [error, setError] = useState<null | string>(null)
 	const [deleteModal, setDeleteModal] = React.useState(false);
+
 	const theme = useTheme()
 	const onInputBlur = () => {
 		if (titleValue.trim()) {
@@ -42,24 +48,41 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isW
 		}
 	}
 
-	const editButtonClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-		e.stopPropagation()
+	const editButtonClickHandler = () => {
+		// e.stopPropagation()
 		setEditMode(true)
 		setTitleValue(title)
 	}
 
-	const openTaskClickHandler = () => {
-		unwrapModalHandler?.()
-	}
+	// const openTaskClickHandler = () => {
+	// 	unwrapModalHandler?.()
+	// }
 
-	const spanClickHandler = () => {
-		if (!isWithModal) return;
-		unwrapModalHandler?.()
-	}
-
-	const deleteButtonClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+	const spanClickHandler = (e: MouseEvent<HTMLLIElement>) => {
 		e.stopPropagation()
+		console.log('hbj');
+		if (!isWithModal) return;
+		
+		unwrapModalHandler?.()
+	}
+
+	const deleteButtonClickHandler = () => {
+		// e.stopPropagation()
 		setDeleteModal(true)
+	}
+
+	const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+		event.stopPropagation()
+		setAnchorEl(event.currentTarget)
+	}
+
+	const handleMenuClose = () => {
+		setAnchorEl(null)
+	}
+
+	const handleItemClick = (callback?: () => void) => {
+		if (callback) callback()
+		handleMenuClose()
 	}
 
 	return (
@@ -98,21 +121,32 @@ export const EditableSpan = ({ title, disabled, onChange, removeItemHandler, isW
 					<>
 						<span className={s.spanText}>{title}</span>
 						<div className={s.buttonsContainer}>
-							{isWithModal ?
-								<IconButton onClick={openTaskClickHandler} disabled={disabled}>
-									<OpenInNew fontSize="small" />
-								</IconButton>
-								:
+							{/* {!isWithModal &&
 								<IconButton onClick={editButtonClickHandler} disabled={disabled}>
 									<BorderColorIcon fontSize="small" />
 								</IconButton>
-							}
-							<IconButton onClick={deleteButtonClickHandler} disabled={disabled}>
+							} */}
+							{/* <IconButton onClick={deleteButtonClickHandler} disabled={disabled}>
 								<DeleteOutlineIcon fontSize="small" />
-							</IconButton>
+							</IconButton> */}
 							{listeners && <IconButton {...listeners} {...attributes} style={{ cursor: 'move' }}>
 								<DragHandleOutlinedIcon fontSize="medium" />
 							</IconButton>}
+
+							<IconButton size="small" onClick={handleMenuOpen}>
+								<MoreVertIcon fontSize="small" />
+							</IconButton>
+
+							<Menu
+								anchorEl={anchorEl}
+								open={Boolean(anchorEl)}
+								onClose={handleMenuClose}
+								onClick={(e) => e.stopPropagation()}
+							>
+								<MenuItem onClick={() => {}}>Open</MenuItem>
+								<MenuItem onClick={() => handleItemClick(editButtonClickHandler)}>Edit</MenuItem>
+								<MenuItem onClick={() => handleItemClick(deleteButtonClickHandler)}>Remove</MenuItem>
+							</Menu>
 						</div>
 					</>
 			)}

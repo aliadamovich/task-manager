@@ -37,10 +37,9 @@ export const TodolistsList = () => {
 		return (
 			<div className={style.container}>
 				{isLoading && <TodolistPageSkeleton />}
-
-				<Grid container sx={{ mb: "2rem" }}>
+				<div className={style.addItem}>
 					<AddItemInput addItem={addTodoListHandler} label="Add new TODO list" disabled={appStatus === "loading"} />
-				</Grid>
+				</div>
 				<ViewModes mode={mode} todolists={todolists} />
 			</div>
 		);

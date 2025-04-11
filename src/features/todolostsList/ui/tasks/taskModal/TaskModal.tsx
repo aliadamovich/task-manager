@@ -80,7 +80,7 @@ export const TaskModal = ({ task, todolistId, changeTaskTitle, openModal, setOpe
 				<CardContent>
 					<EditableSpan
 					title={title}
-					onChange={changeTaskTitle}
+						onChange={changeTaskTitle}
 						removeItemHandler={removeTask}
 					/>
 					<TaskSelects task={task} todolistId={todolistId} />

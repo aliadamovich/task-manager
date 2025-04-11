@@ -6,6 +6,7 @@ import { ColorModeProvider } from "./styles/Theme"
 import { RouterProvider } from "react-router-dom"
 import { router } from "./routes/router"
 import { ViewModeProvider } from "app/providers/ViewModeContext.ts/ViewModeContext"
+import './styles/reset.scss'
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(

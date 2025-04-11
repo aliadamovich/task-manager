@@ -6,7 +6,7 @@ import {
 		DragEndEvent } from '@dnd-kit/core';
 
 import { arrayMove, sortableKeyboardCoordinates} from '@dnd-kit/sortable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 type ItemsWithId = {id: string}
@@ -32,6 +32,10 @@ export const useDragAndDrop = <T extends ItemsWithId>(initialItems: T[] | undefi
 					coordinateGetter: sortableKeyboardCoordinates,
 				})
 			);
+
+	useEffect(() => {
+		setItems(initialItems)
+	}, [initialItems])
 
 
 			return {

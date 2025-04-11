@@ -3,6 +3,7 @@ import { Box, Button, CircularProgress, Container, Typography } from "@mui/mater
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { TodoList } from "features/todolostsList/ui/TodoList"
 import { useGetTodolistsQuery } from "features/todolostsList/api/todolistApi"
+import style from './Todolist.module.scss'
 
 export const TodolistPage = () => {
 	const { id } = useParams()
@@ -26,18 +27,20 @@ export const TodolistPage = () => {
 	}
 
 	return (
-		<Container maxWidth="md" sx={{ py: 4 }}>
-			<Button
-				variant="outlined"
-				startIcon={<ArrowBackIcon />}
-				onClick={() => navigate(-1)}
-				sx={{ mb: 3 }}
-			>
-				Back
-			</Button>
-			<Box>
-				<TodoList todolist={todolist} fullScreen />
-			</Box>
-		</Container>
+		<div className={style.container}>
+			<Container maxWidth="md" sx={{ py: 4 }}>
+				<Button
+					variant="outlined"
+					startIcon={<ArrowBackIcon />}
+					onClick={() => navigate(-1)}
+					sx={{ mb: 3 }}
+				>
+					Back
+				</Button>
+				<Box>
+					<TodoList todolist={todolist} fullScreen />
+				</Box>
+				</Container>
+		</div>
 	)
 }

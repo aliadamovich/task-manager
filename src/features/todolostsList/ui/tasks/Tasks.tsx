@@ -13,12 +13,7 @@ import Chip from '@mui/material/Chip'
 import {
 		DndContext,
 		closestCenter,
-		KeyboardSensor,
-		PointerSensor,
-		useSensor,
-		useSensors,
-		DragEndEvent, 
-		useDraggable} from '@dnd-kit/core';
+		} from '@dnd-kit/core';
 import {
 	arrayMove,
 	SortableContext,
@@ -73,7 +68,7 @@ export const Tasks = ({todolist}: Props) => {
 					items={taskItems ?? []}
 					strategy={verticalListSortingStrategy}
 				>
-			{mappedTasks(TaskStatuses.New) }
+					{mappedTasks(TaskStatuses.New) }
 
 				</SortableContext>
 			</DndContext>

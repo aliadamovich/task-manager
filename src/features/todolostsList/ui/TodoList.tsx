@@ -12,6 +12,8 @@ import Paper from "@mui/material/Paper"
 import Grid from '@mui/material/Grid';
 import List from "@mui/material/List"
 import { NavLink } from "react-router-dom"
+import { PATH } from "routes/router"
+
 
 type Props = {
 	todolist: TodolistDomainType
@@ -44,30 +46,31 @@ export const TodoList = React.memo(({ todolist, fullScreen }: Props) => {
 		[id, dispatch],
 	)
 
+
 	return (
-			<Grid size={{ xs: 12, md: 4, sm: 12 }}>
-				<Paper elevation={3}
-					sx={{ padding: 2, display: "flex", flexDirection: "column", height: "100%", width: fullScreen ? "100%" : "auto"}}>
-	
-					<h2 style={todolistTitleStyle}>
-						<EditableSpan
-							title={title}
-							onChange={changeTodolistTitleHandler}
-							removeItemHandler={removeTodoListHandler}
-							disabled={entityStatus === "loading"}
-						/>
-					</h2>
-	
-					<List sx={{ flex: "1 1 auto", mt: "10px" }}>
-						<Tasks todolist={todolist}/>
-					</List>
-	
-					<div style={{ margin: "20px 0", display: "flex", gap: "8px" }}>
-						<FilterTasksButtons todolist={todolist} />
-					</div>
-	
-					<AddItemInput addItem={addTaskHandler} label="Add new task" disabled={entityStatus === "loading"} />
-				</Paper>
-			</Grid>
+		<Paper elevation={3}
+			sx={{ padding: 2, display: "flex", flexDirection: "column", height: "100%", width: fullScreen ? "100%" : "auto"}}>
+
+			<h2 style={todolistTitleStyle}>
+				{/* <NavLink to={id}> */}
+					<EditableSpan
+						title={title}
+						onChange={changeTodolistTitleHandler}
+						removeItemHandler={removeTodoListHandler}
+						disabled={entityStatus === "loading"}
+					/>
+				{/* </NavLink> */}
+			</h2>
+
+			<List sx={{ flex: "1 1 auto", mt: "10px" }}>
+				<Tasks todolist={todolist}/>
+			</List>
+
+			<div style={{ margin: "20px 0", display: "flex", gap: "8px" }}>
+				<FilterTasksButtons todolist={todolist} />
+			</div>
+
+			<AddItemInput addItem={addTaskHandler} label="Add new task" disabled={entityStatus === "loading"} />
+		</Paper>
 	)
 })
