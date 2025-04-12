@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/task-manager/static/css/main.9bdabd16.css",
-    "main.js": "/task-manager/static/js/main.90bd8b2d.js",
+    "main.css": "/task-manager/static/css/main.8f22a592.css",
+    "main.js": "/task-manager/static/js/main.551b640c.js",
     "static/media/png": "/task-manager/static/media/1e7b63404cd2fb8e6525b2fd4ee4d286.b0275d38b7b78d6dd461.png",
     "static/media/cover_login.jpg": "/task-manager/static/media/cover_login.72b8df2768c3a7e59b49.jpg",
     "static/media/back_task.jpg": "/task-manager/static/media/back_task.304b1c33ba1556e95b32.jpg",
+    "static/media/logoo.png": "/task-manager/static/media/logoo.dba6e719429d3e71f4c1.png",
     "index.html": "/task-manager/index.html",
-    "main.9bdabd16.css.map": "/task-manager/static/css/main.9bdabd16.css.map",
-    "main.90bd8b2d.js.map": "/task-manager/static/js/main.90bd8b2d.js.map"
+    "main.8f22a592.css.map": "/task-manager/static/css/main.8f22a592.css.map",
+    "main.551b640c.js.map": "/task-manager/static/js/main.551b640c.js.map"
   },
   "entrypoints": [
-    "static/css/main.9bdabd16.css",
-    "static/js/main.90bd8b2d.js"
+    "static/css/main.8f22a592.css",
+    "static/js/main.551b640c.js"
   ]
 }
