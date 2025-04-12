@@ -1,4 +1,4 @@
-import { TaskDomainType } from "../model/tasksSlice"
+import { RequestStatusType } from "app/appSlice"
 
 export type CreateTaskArgs = {
 	todolistId: string
@@ -41,6 +41,11 @@ export type TaskType = {
 	order: number
 	addedDate: string
 }
+
+export type TaskDomainType = TaskType & {
+	taskEntityStatus: RequestStatusType
+}
+
 
 export type GetTasksResponse = {
 	error: string | null

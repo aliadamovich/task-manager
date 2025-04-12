@@ -11,9 +11,9 @@ import Paper from "@mui/material/Paper"
 import List from "@mui/material/List"
 import { useNavigate } from "react-router-dom"
 import { PATH } from "routes/router"
-import { useSortable } from "@dnd-kit/sortable"
-import { DragParams } from "features/todolostsList/ui/tasks/modeView/SortableTodolist"
+import { DragParams } from "features/todolostsList/ui/todolistsModeView/SortableTodolist"
 import s from './Todolist.module.scss'
+import Typography from "@mui/material/Typography"
 
 type Props = {
 	todolist: TodolistDomainType
@@ -27,12 +27,12 @@ export const TodoList = React.memo(({ todolist, fullScreen, dragHandleProps }: P
 	const dispatch = useAppDispatch()
 	const [createTask] = useCreateTaskMutation()
 	const navigate = useNavigate()
-	//*tasks
+
 	const addTaskHandler = useCallback((title: string) => {
 		return createTask({todolistId: id, title}).unwrap()
 	}, [ id, dispatch])
 
-	//* todolists
+
 	const removeTodoListHandler = () => {
 		deleteTodolist(id)
 	}
@@ -55,24 +55,24 @@ export const TodoList = React.memo(({ todolist, fullScreen, dragHandleProps }: P
 		<Paper elevation={3}
 			sx={{ padding: 2, display: "flex", flexDirection: "column", height: "100%", width: fullScreen ? "100%" : "auto"}}>
 
-			<h2 className={s.todolistTitle}>
-					<EditableSpan
-						title={title}
-						onChange={changeTodolistTitleHandler}
-						onOpen={openTodolistHandler}
-						removeItemHandler={removeTodoListHandler}
-						availableActions={fullScreen ? ['edit', "remove"] : ['edit', 'open', "remove"] }
-						disabled={entityStatus === "loading"}
-						listeners={dragHandleProps?.listeners}
-						attributes={dragHandleProps?.attributes}
-					/>
-			</h2>
+			<Typography variant="h5" sx={{m: "10px 0 20px"}}>
+				<EditableSpan
+					title={title}
+					onChange={changeTodolistTitleHandler}
+					onOpen={openTodolistHandler}
+					removeItemHandler={removeTodoListHandler}
+					availableActions={fullScreen ? ['edit', "remove"] : ['edit', 'open', "remove"] }
+					disabled={entityStatus === "loading"}
+					listeners={dragHandleProps?.listeners}
+					attributes={dragHandleProps?.attributes}
+				/>
+			</Typography>
 
 			<List sx={{ flex: "1 1 auto", mt: "10px" }}>
 				<Tasks todolist={todolist}/>
 			</List>
 
-			<div style={{ margin: "20px 0", display: "flex", gap: "8px" }}>
+			<div className={s.filterButtonsContainer} >
 				<FilterTasksButtons todolist={todolist} />
 			</div>
 

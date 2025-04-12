@@ -13,45 +13,9 @@
 	margin: 30px 0;
 }
 
-// .link {
-// 	transition: all 0.3s ease 0s;
-// 	&:hover{
-// 		scale: 1.1;
-// 	}
-
-// 	&.customLink {
-// 		position: relative;
-// 		transition: all 0.3s ease 0s;
-
-// 		&::after{
-// 			content: '';
-// 			position: absolute;
-// 			width: 0%;
-// 			height: 1px;
-// 			bottom: 0;
-// 			left: 50%;
-// 			background-color: #4D465B;
-// 			transition: all 0.3s ease 0s;
-// 			}
-
-// 			&:hover {
-// 				&::after{
-// 				left: 0;
-// 				width: 100%;
-// 			}
-// 			}
-// 		}
-// }
-
-
-.todolistTitle {
-	margin: 10px 0 20px;
-	color: rgba(0, 0, 0, 0.87);
-	font-weight: 400;
-	li + span {
-		font-size: 24px;
-	}
+.filterButtonsContainer {
+	margin: 20px 0;
+	display: flex;
+	gap: 8px;
 }
-
-
 

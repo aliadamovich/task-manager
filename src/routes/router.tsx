@@ -1,10 +1,9 @@
 import { createHashRouter, Navigate } from "react-router-dom"
 import App from "../app/App"
-import { TodolistsList } from "features/todolostsList/ui/TodolistsList"
+import { AllTodolistsPage } from "features/todolostsList/ui/AllTodolistsPage"
 import { LoginPage } from "features/login/ui/LoginPage"
-import { ErrorPage } from "common/components/errorPage/ErrorPage"
-import { TodoList } from "features/todolostsList/ui/TodoList"
-import { TodolistPage } from "features/todolostsList/ui/TodolistPage"
+import {  NotFoundPage } from "common/components/notFoundPage/NotFoundPage"
+import { SingleTodolistPage } from "features/todolostsList/ui/SingleTodolistPage"
 
 export const PATH = {
 	ROOT: "/",
@@ -28,11 +27,11 @@ export const router = createHashRouter([
 
 			{
 				path: PATH.TODOLISTS,
-				element: <TodolistsList />,
+				element: <AllTodolistsPage />,
 			},
 			{
 				path: "todolists/:id",
-				element: <TodolistPage />,
+				element: <SingleTodolistPage />,
 			},
 		],
 	},
@@ -42,6 +41,6 @@ export const router = createHashRouter([
 	},
 	{
 		path: PATH.ERROR,
-		element: <ErrorPage />,
+		element: <NotFoundPage />,
 	},
 ])

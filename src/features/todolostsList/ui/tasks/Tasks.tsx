@@ -1,5 +1,4 @@
-import { FilterValueType, TodolistDomainType } from 'features/todolostsList/model/todolistSlice'
-import { selectFilteredTasks, TaskDomainType } from 'features/todolostsList/model/tasksSlice'
+import { TodolistDomainType } from 'features/todolostsList/model/todolistSlice'
 import { useAppDispatch, useAppSelector } from 'app/store'
 import { TaskStatuses } from 'features/todolostsList/lib/enums/enum'
 import { useGetTasksQuery } from 'features/todolostsList/api/tasksApi'

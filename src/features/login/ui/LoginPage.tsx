@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid"
 import Link from "@mui/material/Link"
 import Box from "@mui/material/Box"
+import Card from "@mui/material/Card"
 
 export const LoginPage = () => {
 	const theme = useTheme()
@@ -57,7 +58,13 @@ export const LoginPage = () => {
 						<Typography component="h1" variant="h5">
 							Sign in
 						</Typography>
-
+						<Card sx={{p: 5, m: 2}}>
+							To login use common test account credentials:
+							<div >
+								<br /><b>Email:</b> adamovich.dev@gmail.com
+								<br /><b>Password:</b> Pass123
+							</div>
+						</Card>
 						<LoginForm />
 						<Box mt={5}>
 							<Copyright />

@@ -1,8 +1,8 @@
 import { ViewModeType } from 'common/types/viewTypes'
 import { useDragAndDrop } from 'features/todolostsList/lib/hooks/useDragAndDrop'
-import { ColumnsView } from 'features/todolostsList/ui/tasks/modeView/ColumnsView'
-import { GalleryView } from 'features/todolostsList/ui/tasks/modeView/GalleryView'
-import {ListView} from 'features/todolostsList/ui/tasks/modeView/ListView'
+import { ColumnsView } from 'features/todolostsList/ui/todolistsModeView/ColumnsView'
+import { GalleryView } from 'features/todolostsList/ui/todolistsModeView/GalleryView'
+import {ListView} from 'features/todolostsList/ui/todolistsModeView/ListView'
 import {
 	verticalListSortingStrategy,
 	horizontalListSortingStrategy,

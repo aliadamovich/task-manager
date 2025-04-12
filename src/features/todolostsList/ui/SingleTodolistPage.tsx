@@ -4,9 +4,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { TodoList } from "features/todolostsList/ui/TodoList"
 import { useGetTodolistsQuery } from "features/todolostsList/api/todolistApi"
 import style from './Todolist.module.scss'
-import { ErrorPage } from "common/components"
+import { NotFoundPage } from "common/components"
 
-export const TodolistPage = () => {
+export const SingleTodolistPage = () => {
 	const { id } = useParams()
 	const { data: todolists, isLoading, error } = useGetTodolistsQuery()
 	const todolist = todolists?.find((t) => t.id === id)
@@ -14,7 +14,7 @@ export const TodolistPage = () => {
 
 	if (isLoading) return <CircularProgress />
 
-	if (error) return <ErrorPage />
+	if (error) return <NotFoundPage />
 
 	return (
 		<div className={style.container}>

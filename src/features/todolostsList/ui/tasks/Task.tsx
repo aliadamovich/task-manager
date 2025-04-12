@@ -1,6 +1,5 @@
 import { TaskEditableSpanBoxSX } from "styles/Todolost.styles"
 import React, { ChangeEvent, useCallback } from "react"
-import { TaskDomainType } from "features/todolostsList/model/tasksSlice"
 import { useAppDispatch } from "app/store"
 import { EditableSpan } from "common/components"
 import { TaskStatuses } from "features/todolostsList/lib/enums/enum"
@@ -13,6 +12,7 @@ import Box from "@mui/material/Box"
 import Checkbox from "@mui/material/Checkbox"
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { TaskDomainType } from "features/todolostsList/api/api.types"
 
 type Props = {
 	todolistId: string

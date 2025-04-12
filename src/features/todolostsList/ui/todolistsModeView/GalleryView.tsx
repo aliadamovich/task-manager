@@ -2,7 +2,7 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import { TodolistDomainType } from 'features/todolostsList/model/todolistSlice'
 import {  NavLink } from 'react-router-dom'
-import { SortableTodolist } from 'features/todolostsList/ui/tasks/modeView/SortableTodolist'
+import { SortableTodolist } from 'features/todolostsList/ui/todolistsModeView/SortableTodolist'
 import s from './ViewModes.module.scss'
 import clsx from 'clsx'
 

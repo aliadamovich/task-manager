@@ -15,7 +15,10 @@ import { useTheme } from "@mui/material/styles"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-type MenuAction = 'open' | 'edit' | 'remove'
+import { ActionsMenu, MenuAction } from 'common/components/actionsMenu/ActionsMenu'
+
+
+
 type Props = {
 	title: string
 	onChange: (newTitle: string) => Promise<any>
@@ -38,17 +41,16 @@ export const EditableSpan = (
 		attributes, 
 		listeners,
 	 }: Props) => {
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-	const [hovered, setHovered] = useState(false)
-	
+
 	const [editMode, setEditMode] = useState(false)
-	const [titleValue, setTitleValue] = useState<string>("")
+	const [titleValue, setTitleValue] = useState<string | null>(null)
 	const [error, setError] = useState<null | string>(null)
 	const [deleteModal, setDeleteModal] = React.useState(false);
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
 	const theme = useTheme()
 	const onInputBlur = () => {
-		if (titleValue.trim()) {
+		if (titleValue && titleValue.trim()) {
 			onChange(titleValue)
 				.then((res) => {
 					if (res.data.resultCode === ResultCode.Success) {
@@ -61,20 +63,13 @@ export const EditableSpan = (
 	}
 
 	const onEdit = () => {
-		// e.stopPropagation()
 		setEditMode(true)
 		setTitleValue(title)
 	}
 
-	// const openTaskClickHandler = () => {
-	// 	unwrapModalHandler?.()
-	// }
 
 	const spanClickHandler = (e: MouseEvent<HTMLLIElement>) => {
 		e.stopPropagation()
-		// console.log('hbj');
-		// if (!isWithModal) return;
-		
 		onOpen?.()
 	}
 
@@ -89,11 +84,6 @@ export const EditableSpan = (
 
 	const handleMenuClose = () => {
 		setAnchorEl(null)
-	}
-
-	const handleItemClick = (callback?: () => void) => {
-		if (callback) callback()
-		handleMenuClose()
 	}
 
 	return (
@@ -130,16 +120,8 @@ export const EditableSpan = (
 				</>
 			) : (
 					<>
-						<span className={s.spanText}>{title}</span>
+						<span className={s.spanText}>{titleValue ?? title}</span>
 						<div className={s.buttonsContainer}>
-							{/* {!isInModal &&
-								<IconButton onClick={editButtonClickHandler} disabled={disabled}>
-									<BorderColorIcon fontSize="small" />
-								</IconButton>
-							} */}
-							{/* <IconButton onClick={deleteButtonClickHandler} disabled={disabled}>
-								<DeleteOutlineIcon fontSize="small" />
-							</IconButton> */}
 							{listeners && <IconButton {...listeners} {...attributes} style={{ cursor: 'grab' }}>
 								<DragHandleOutlinedIcon fontSize="medium" />
 							</IconButton>}
@@ -148,16 +130,14 @@ export const EditableSpan = (
 								<MoreVertIcon fontSize="small" />
 							</IconButton>
 
-							<Menu
+							<ActionsMenu 
 								anchorEl={anchorEl}
-								open={Boolean(anchorEl)}
-								onClose={handleMenuClose}
-								onClick={(e) => e.stopPropagation()}
-							>
-								{availableActions.includes('open') && <MenuItem onClick={() => { handleItemClick(onOpen) }}>Open</MenuItem>}
-								{availableActions.includes('edit') && <MenuItem onClick={() => { handleItemClick(onEdit) }}>Edit</MenuItem>}
-								{availableActions.includes('remove') && <MenuItem onClick={() => { handleItemClick(onDelete) }}>Remove</MenuItem>}
-							</Menu>
+								availableActions={availableActions} 
+								onMenuClose={handleMenuClose}
+								onOpen={onOpen}
+								onDelete={onDelete}
+								onEdit={onEdit}
+								/>
 						</div>
 					</>
 			)}

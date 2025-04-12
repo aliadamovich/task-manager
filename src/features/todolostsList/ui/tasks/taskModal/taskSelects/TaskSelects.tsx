@@ -2,10 +2,10 @@ import React from 'react'
 import { TaskSelect } from './TaskSelect';
 import { TaskPriorities, TaskStatuses } from 'features/todolostsList/lib/enums/enum';
 import { useAppDispatch } from 'app/store';
-import { TaskDomainType } from 'features/todolostsList/model/tasksSlice';
 import { useUpdateTaskMutation } from 'features/todolostsList/api/tasksApi';
 import { updateTaskApiModel } from 'features/todolostsList/lib/utils/updateTaskModel';
 import Typography from '@mui/material/Typography';
+import { TaskDomainType } from 'features/todolostsList/api/api.types';
 
 type Props = {
 	task: TaskDomainType

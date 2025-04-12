@@ -10,7 +10,7 @@ export const PAGE_SIZE = 4;
 
 export const tasksAPI = baseApi.injectEndpoints({
 	endpoints: (build) => ({
-		getTasks: build.query<GetTasksRTKResponse, { todolistId: string; args: { page: number } }>({
+		getTasks: build.query<GetTasksRTKResponse, { todolistId: string; args?: { page: number } }>({
 			query: ({ todolistId, args }) => ({
 				url: `todo-lists/${todolistId}/tasks`,
 				params: { ...args, count: PAGE_SIZE },

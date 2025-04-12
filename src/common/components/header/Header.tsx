@@ -15,6 +15,7 @@ import { PATH } from "routes/router"
 import logo from '../../../assets/images/logoo.png'
 import { NavLink } from "react-router-dom"
 import s from './Header.module.scss'
+import { baseApi } from "app/baseApi"
 
 
 export const Header = () => {
@@ -28,6 +29,7 @@ export const Header = () => {
 			if (res.data?.resultCode === ResultCode.Success) {
 				dispatch(setIsLoggedIn({isLoggedIn: false}))
 				dispatch(clearData())
+				dispatch(baseApi.util.resetApiState())
 			}
 		})
 	}

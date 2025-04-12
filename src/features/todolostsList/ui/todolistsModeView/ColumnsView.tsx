@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import { TodolistDomainType } from 'features/todolostsList/model/todolistSlice'
-import { SortableTodolist } from 'features/todolostsList/ui/tasks/modeView/SortableTodolist'
+import { SortableTodolist } from 'features/todolostsList/ui/todolistsModeView/SortableTodolist'
 import { TodoList } from 'features/todolostsList/ui/TodoList'
 
 export const ColumnsView = ({todolists}: {todolists: TodolistDomainType[] | undefined}) => {

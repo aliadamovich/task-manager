@@ -1,5 +1,4 @@
-import { UpdateTaskType } from "features/todolostsList/api/api.types"
-import { TaskDomainType } from "features/todolostsList/model/tasksSlice"
+import { TaskDomainType, UpdateTaskType } from "features/todolostsList/api/api.types"
 
 type UpdateDomainTaskModelType = Partial<UpdateTaskType>
 

@@ -8,16 +8,17 @@ import { TodolistPageSkeleton } from "./skeletons/TodolistSkeleton"
 import style from './Todolist.module.scss'
 import Grid from "@mui/material/Grid"
 import { useViewMode } from "features/todolostsList/lib/hooks/useViewMode"
-import { ViewModes } from "features/todolostsList/ui/tasks/modeView/ViewModes"
+import { ViewModes } from "features/todolostsList/ui/todolistsModeView/ViewModes"
+import { useGetTasksQuery } from "features/todolostsList/api/tasksApi"
 
-export const TodolistsList = () => {
+export const AllTodolistsPage = () => {
 
 	const appStatus = useAppSelector(selectAppStatus)
 	const isLoggedIn = useSelector(selectIsLoggedIn)
-	const dispatch = useAppDispatch()
 	const { data: todolists, isLoading } = useGetTodolistsQuery(undefined, {
 		skip: !isLoggedIn
 	})
+	// const {data, } = useGetTasksQuery()
 	const [addTodolist] = useAddTodolistMutation()
 	const {mode} = useViewMode()
 	useEffect(() => {
@@ -26,13 +27,14 @@ export const TodolistsList = () => {
 		}
 	}, [])
 
+	// useEffect(() => {
+	// 	if (todolists) {
+	// 		todolists.forEach(td => fetchTasks(td.id))
+	// 	}
+	// })
 	const addTodoListHandler = (title: string) => {
 		return addTodolist(title)
 	}
-
-	// if (!isLoggedIn) {
-	// 	return <Navigate to={PATH.LOGIN} />
-	// }
 
 		return (
 			<div className={style.container}>
