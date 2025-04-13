@@ -44,6 +44,7 @@ export const useLogin = () => {
 				.then((res) => {
 					if (res.data?.resultCode === ResultCode.Success) {
 						dispatch(setIsLoggedIn({ isLoggedIn: true }))
+						localStorage.setItem('token', res.data.data.token)
 					}
 				})
 				.finally(() => {

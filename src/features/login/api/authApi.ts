@@ -5,7 +5,7 @@ import { LoginType, UserType } from "features/login/api/authApi.types"
 
 export const authAPI = baseApi.injectEndpoints({
 	endpoints: (build) => ({
-		login: build.mutation<BaseResponseType<{ userId: number }>, LoginType>({
+		login: build.mutation<BaseResponseType<{ userId: number, token: string }>, LoginType>({
 			query: (data) => {
 				return {
 					url: "auth/login",

@@ -29,6 +29,7 @@ export const Header = () => {
 			if (res.data?.resultCode === ResultCode.Success) {
 				dispatch(setIsLoggedIn({isLoggedIn: false}))
 				dispatch(clearData())
+				localStorage.clear()
 				dispatch(baseApi.util.resetApiState())
 			}
 		})
