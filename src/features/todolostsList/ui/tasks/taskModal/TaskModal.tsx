@@ -38,7 +38,6 @@ Quill.register('modules/emoji', Emoji);
 
 export const TaskModal = ({ task, todolistId, changeTaskTitle, openModal, setOpenModal, removeTask }: Props) => {
 	const { id: taskId, title, taskEntityStatus, description, startDate, deadline } = task;
-	console.log(startDate);
 	
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [text, setText] = useState(description || '');
