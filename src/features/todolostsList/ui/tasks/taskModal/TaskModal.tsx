@@ -55,8 +55,7 @@ export const TaskModal = ({ task, todolistId, changeTaskTitle, openModal, setOpe
 			[{ 'header': [1, 2, false] }],
 			['bold', 'italic', 'underline'],
 			[{ 'list': 'ordered' }, { 'list': 'bullet' }],
-			['link', 'image'],
-			['emoji'], 
+			['emoji'],
 		],
 		'emoji-toolbar': true,
 		'emoji-shortname': true,
@@ -89,7 +88,7 @@ export const TaskModal = ({ task, todolistId, changeTaskTitle, openModal, setOpe
 					image={bg}
 				/>
 
-				<CardContent>
+				<CardContent >
 					<div className={styles.taskTitle}>
 						<EditableSpan
 							title={title}

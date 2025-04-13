@@ -10,6 +10,7 @@ import { PATH } from 'routes/router'
 import s from './ViewModes.module.scss'
 import clsx from 'clsx'
 import { useGetTasksQuery } from 'features/todolostsList/api/tasksApi'
+import { TodolistIconPicker } from 'features/todolostsList/ui/TodolistIconPicker'
 
 export const ListView = ({todolists}: {todolists: TodolistDomainType[] | undefined}) => {
 	return (
@@ -34,9 +35,14 @@ const TodolistCard = ({ todolist }: { todolist: TodolistDomainType}) => {
 				{...listeners} {...attributes} style={{ cursor: 'grab' }}
 			>
 				<Box display="flex" justifyContent="space-between" alignItems="center" gap={2}>
-					<NavLink to={`${PATH.TODOLISTS}/${todolist.id}`} key={todolist.id} className={clsx(s.link, s.customLink)}>
-						<Typography variant="h6">{todolist.title}</Typography>
+					<Box display='flex' alignItems="center" gap={1}>
+						<NavLink to={`${PATH.TODOLISTS}/${todolist.id}`} key={todolist.id} className={clsx(s.link)}>
+							<div className={s.listContainer}>
+								<TodolistIconPicker todolistId={todolist.id} />
+								<Typography variant="h6">{todolist.title}</Typography>
+							</div>
 					</NavLink>
+					</Box>
 					<Badge color="primary" badgeContent={taskCount} showZero>
 						<Typography variant="body2">Tasks To Complete</Typography>
 					</Badge>

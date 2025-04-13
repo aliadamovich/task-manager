@@ -1,4 +1,4 @@
-import React, { CSSProperties, MouseEvent, MouseEventHandler, useState } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import s from './EditableSpan.styles.module.scss'
 import IconButton from '@mui/material/IconButton'
 import ListItem from '@mui/material/ListItem'
@@ -6,15 +6,11 @@ import TextField from '@mui/material/TextField'
 import BorderColorIcon from "@mui/icons-material/BorderColor"
 import { ItemWithHoverStyle } from "styles/Todolost.styles"
 import { DeleteConfirmationModal } from './DeleteConfirmationModal'
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import { ResultCode } from 'common/enums/enum'
-import OpenInNew from '@mui/icons-material/OpenInNew'
 import { DraggableAttributes } from '@dnd-kit/core/dist/hooks/useDraggable'
 import DragHandleOutlinedIcon from '@mui/icons-material/DragHandleOutlined';
 import { useTheme } from "@mui/material/styles"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
 import { ActionsMenu, MenuAction } from 'common/components/actionsMenu/ActionsMenu'
 
 

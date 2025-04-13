@@ -1,5 +1,5 @@
 import {TodolistDomainType} from "features/todolostsList/model/todolistSlice"
-import React, { useCallback } from "react"
+import React, { useCallback, useState } from "react"
 import { AddItemInput, EditableSpan } from "common/components"
 import { useAppDispatch } from "app/store"
 import { FilterTasksButtons } from "./filterButtons/FilterTasksButtons"
@@ -14,7 +14,9 @@ import { PATH } from "routes/router"
 import { DragParams } from "features/todolostsList/ui/todolistsModeView/SortableTodolist"
 import s from './Todolist.module.scss'
 import Typography from "@mui/material/Typography"
-
+import { TodolistIconPicker } from "features/todolostsList/ui/TodolistIconPicker"
+import AddReactionIcon from '@mui/icons-material/AddReaction';
+import { EmojiEmotions } from "@mui/icons-material"
 type Props = {
 	todolist: TodolistDomainType
 	fullScreen?: boolean
@@ -31,7 +33,7 @@ export const TodoList = React.memo(({ todolist, fullScreen, dragHandleProps }: P
 	const addTaskHandler = useCallback((title: string) => {
 		return createTask({todolistId: id, title}).unwrap()
 	}, [ id, dispatch])
-
+	
 
 	const removeTodoListHandler = () => {
 		deleteTodolist(id)
@@ -55,7 +57,8 @@ export const TodoList = React.memo(({ todolist, fullScreen, dragHandleProps }: P
 		<Paper elevation={3}
 			sx={{ padding: 2, display: "flex", flexDirection: "column", height: "100%", width: fullScreen ? "100%" : "auto"}}>
 
-			<Typography variant="h5" sx={{m: "10px 0 20px"}}>
+			<Typography className={s.todolistTitle} component={'h2'} variant="h5">
+				<TodolistIconPicker todolistId={id} />
 				<EditableSpan
 					title={title}
 					onChange={changeTodolistTitleHandler}

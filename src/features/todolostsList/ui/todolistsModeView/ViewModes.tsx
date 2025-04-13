@@ -22,8 +22,6 @@ export const ViewModes = ({ mode, todolists }: Props) => {
 	const strategy =
 		mode === 'list'
 			? verticalListSortingStrategy
-			: mode === 'columns'
-				? horizontalListSortingStrategy
 				: rectSortingStrategy;
 
 

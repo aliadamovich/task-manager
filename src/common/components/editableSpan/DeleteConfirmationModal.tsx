@@ -2,6 +2,7 @@ import React, { MouseEvent } from 'react'
 import { ModalContainer } from '../modal/Modal'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 
 type Props = {
 	openModal: boolean
@@ -24,11 +25,13 @@ export const DeleteConfirmationModal = (props: Props) => {
 
 	return (
 		<ModalContainer openModal={openModal} setOpenModal={setOpenModal}>
-			<Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 2 }}>
-				Delete this item?
-			</Typography>
-			<Button onClick={removeItemCallback}>Yes</Button>
-			<Button color="secondary" onClick={cancelRemoveItem}>No</Button>
+			<Box>
+				<Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 2 }}>
+					Delete this item?
+				</Typography>
+				<Button onClick={removeItemCallback}>Yes</Button>
+				<Button color="secondary" onClick={cancelRemoveItem}>No</Button>
+			</Box>
 		</ModalContainer>
 	)
 }

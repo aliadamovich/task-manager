@@ -39,7 +39,6 @@ export const ModalContainer = ({ openModal, children, setOpenModal }: Props) => 
 			aria-describedby="modal-modal-description"
 		>
 			<Box sx={style}>{children}</Box>
-			{/* <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display:'flex', maxWidth: '600px', width:'100%' }}>{children}</div> */}
 		</Modal>
 	)
 }
